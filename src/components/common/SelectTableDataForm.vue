@@ -1,6 +1,6 @@
 <template>
     <span>
-        <ul>
+        <!--<ul>
             <li
                     v-for="item in autoSelectData[dataType]"
                     :key="item.value"
@@ -10,7 +10,10 @@
             >
                 {{ item.label }}
             </li>
-        </ul>
+        </ul>-->
+        <div v-for="item in autoSelectData[dataType]" :key="item.value" v-show="String(value).split(',').includes(String(item.value))">
+            {{ item.label }}<br/>
+        </div>
     </span>
 </template>
 <script>

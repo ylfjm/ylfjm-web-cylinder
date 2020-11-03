@@ -3,7 +3,7 @@
         <div id="mainHeader">
             <div class="container">
                 <div id="heading">
-                    <h1 id="headerName">敏捷开发任务管理系统</h1>
+                    <h1 id="headerName">敏捷开发任务管理</h1>
                 </div>
                 <nav id="navBar">
                     <ul class="nav">
