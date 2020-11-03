@@ -7,16 +7,6 @@
                 </div>
                 <nav id="navBar">
                     <ul class="nav">
-                        <!--<li :class="activeIndex === 1 ? 'active' : ''"><a @click="doClick(1)">我的地盘</a></li>
-                        <li :class="activeIndex === 2 ? 'active' : ''"><a @click="doClick(2)">项目</a></li>
-                        <li :class="activeIndex === 3 ? 'active' : ''"><a @click="doClick(3)">冲刺</a></li>
-                        <li :class="activeIndex === 4 ? 'active' : ''"><a @click="doClick(4)">测试</a></li>
-                        <li class="divider"></li>
-                        <li :class="activeIndex === 5 ? 'active' : ''"><a @click="doClick(5)">文档</a></li>
-                        <li :class="activeIndex === 6 ? 'active' : ''"><a @click="doClick(6)">统计</a></li>
-                        <li class="divider"></li>
-                        <li :class="activeIndex === 7 ? 'active' : ''"><a @click="doClick(7)">组织</a></li>
-                        <li :class="activeIndex === 8 ? 'active' : ''"><a @click="doClick(8)">后台</a></li>-->
                         <li v-for="menu in menuList" :key="menu.id" :class="activeIndex === menu.id ? 'active' : ''">
                             <a @click="chooseSubMenu(menu.id)">{{menu.name}}</a>
                         </li>
@@ -40,16 +30,6 @@
                 <div id="pageNav" class="btn-toolbar"></div>
                 <div id="subNavBar">
                     <ul class="nav">
-                        <!--<li :class="activeIndex === 1 ? 'active' : ''"><a @click="doClick(1)">我的地盘</a></li>
-                        <li :class="activeIndex === 2 ? 'active' : ''"><a @click="doClick(2)">项目</a></li>
-                        <li :class="activeIndex === 3 ? 'active' : ''"><a @click="doClick(3)">冲刺</a></li>
-                        <li :class="activeIndex === 4 ? 'active' : ''"><a @click="doClick(4)">测试</a></li>
-                        <li class="divider"></li>
-                        <li :class="activeIndex === 5 ? 'active' : ''"><a @click="doClick(5)">文档</a></li>
-                        <li :class="activeIndex === 6 ? 'active' : ''"><a @click="doClick(6)">统计</a></li>
-                        <li class="divider"></li>
-                        <li :class="activeIndex === 7 ? 'active' : ''"><a @click="doClick(7)">组织</a></li>
-                        <li :class="activeIndex === 8 ? 'active' : ''"><a @click="doClick(8)">后台</a></li>-->
                         <li v-for="subMenu in subMenuList" :key="subMenu.id" :class="subActiveIndex === subMenu.id ? 'active' : ''">
                             <a @click="routerPage(subMenu.id)">{{subMenu.name}}</a>
                         </li>
@@ -97,19 +77,23 @@
             },
             //注销
             handleCommand(command) {
-                if (command === 'loginOut') {
-                    this.$confirm('是否确认退出当前账号?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(async () => {
-                        localStorage.removeItem('admin');
-                        localStorage.removeItem('admin_token');
-                        localStorage.removeItem('menuList');
-                        this.$router.push('/login.html')
-                    }).catch(() => {
-                    });
-                }
+                // if (command === 'loginOut') {
+                //     this.$confirm('是否确认退出当前账号?', '提示', {
+                //         confirmButtonText: '确定',
+                //         cancelButtonText: '取消',
+                //         type: 'warning'
+                //     }).then(async () => {
+                //         localStorage.removeItem('admin');
+                //         localStorage.removeItem('admin_token');
+                //         localStorage.removeItem('menuList');
+                //         this.$router.push('/login.html')
+                //     }).catch(() => {
+                //     });
+                // }
+                localStorage.removeItem('admin');
+                localStorage.removeItem('admin_token');
+                localStorage.removeItem('menuList');
+                this.$router.push('/login.html')
             },
         },
         created() {

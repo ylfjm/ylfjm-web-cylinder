@@ -1,64 +1,63 @@
 <template>
     <div>
         <div class="search_box">
-            <el-form :inline="true" :model="formSearch" ref="formSearch">
-                <el-form-item label="姓名" prop="realName" class="specialWidth50">
-                    <el-input
-                            v-model="formSearch.realName"
-                            size="small"
-                            placeholder="请输入姓名"
-                            clearable
-                            @clear="onSearch"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="角色" prop="roleId" class="specialWidth50">
-                    <AutoSelectForm
-                            @selectCb="selectCb"
-                            :defaultValue="formSearch.roleId"
-                            key="roleId"
-                            fieldName="roleId"
-                            dataType="role"
-                            :size="'small'"
-                    />
-                </el-form-item>
-                <el-form-item label="部门" prop="deptId" class="specialWidth50">
-                    <AutoSelectForm
-                            @selectCb="selectCb"
-                            :defaultValue="formSearch.deptId"
-                            key="deptId"
-                            fieldName="deptId"
-                            dataType="dept"
-                            :size="'small'"
-                    ></AutoSelectForm>
-                </el-form-item>
-                <el-form-item label="状态" prop="forbidden" class="specialWidth50">
-                    <el-select v-model="formSearch.forbidden" size="small" clearable @clear="onSearch">
-                        <el-option key="true" label="被禁用" value="true"></el-option>
-                        <el-option key="false" label="可用" value="false"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="submit_btn">
-                    <el-button
-                            @click="onSearch"
-                            icon="el-icon-search"
-                            size="small"
-                            type="primary"
-                            plain>
-                        查询
-                    </el-button>
-                    <el-button size="small" @click="refresh">
-                        <i class="el-icon-refresh"></i>
-                        重置
-                    </el-button>
-                    <el-button
-                            type="primary"
-                            icon="el-icon-plus"
-                            size="small"
-                            @click="showCreateDialog">
-                        新增用户
-                    </el-button>
-                </el-form-item>
-            </el-form>
+            <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab_active' : ''">
+                <i class="el-icon-search" style="font-weight: bold"></i> 搜索
+            </a>
+            <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+                新增用户
+            </el-button>
+        </div>
+        <div class="search_box_content">
+            <el-collapse-transition>
+                <div v-show="searchBoxVisible">
+                    <el-form :inline="true" :model="formSearch" ref="formSearch">
+                        <el-form-item label="姓名" prop="realName" class="specialWidth50">
+                            <el-input
+                                    v-model="formSearch.realName"
+                                    size="small"
+                                    placeholder="请输入姓名"
+                                    clearable
+                                    @clear="onSearch"
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item label="角色" prop="roleId" class="specialWidth50">
+                            <AutoSelectForm
+                                    @selectCb="selectCb"
+                                    :defaultValue="formSearch.roleId"
+                                    key="roleId"
+                                    fieldName="roleId"
+                                    dataType="role"
+                                    :size="'small'"
+                            />
+                        </el-form-item>
+                        <el-form-item label="部门" prop="deptId" class="specialWidth50">
+                            <AutoSelectForm
+                                    @selectCb="selectCb"
+                                    :defaultValue="formSearch.deptId"
+                                    key="deptId"
+                                    fieldName="deptId"
+                                    dataType="dept"
+                                    :size="'small'"
+                            ></AutoSelectForm>
+                        </el-form-item>
+                        <el-form-item label="状态" prop="forbidden" class="specialWidth50">
+                            <el-select v-model="formSearch.forbidden" size="small" clearable @clear="onSearch">
+                                <el-option key="true" label="被禁用" value="true"></el-option>
+                                <el-option key="false" label="可用" value="false"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="onSearch" type="primary" icon="el-icon-search" plain>
+                                查询
+                            </el-button>
+                            <el-button @click="refresh" icon="el-icon-refresh">
+                                重置
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-collapse-transition>
         </div>
         <div class="table_content">
             <el-table
@@ -67,7 +66,7 @@
                     tooltip-effect="dark"
                     v-loading="searchLoading"
                     style="width: 100%"
-                    :header-cell-style="{backgroundColor: '#B3BFD0', fontSize: '14px', color: '#333333'}"
+                    :header-cell-style="{fontSize: '14px', color: '#333333'}"
                     stripe
             >
                 <el-table-column
@@ -182,16 +181,14 @@
                 </el-table-column>
             </el-table>
             <div class="pagination_box">
-                <div class="pagination_box_content">
-                    <el-pagination
-                            @current-change="handleCurrentChange"
-                            class="pagination_content"
-                            :current-page="formSearch.pageNum"
-                            layout="total, prev, pager, next, jumper"
-                            :page-size="formSearch.pageSize"
-                            :total="total"
-                    ></el-pagination>
-                </div>
+                <el-pagination
+                        @current-change="handleCurrentChange"
+                        class="pagination_content"
+                        :current-page="formSearch.pageNum"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :page-size="formSearch.pageSize"
+                        :total="total"
+                ></el-pagination>
             </div>
         </div>
         <CreateDialogForm
@@ -245,6 +242,7 @@
                 pages: 0,
                 tableList: [],
                 error: false,
+                searchBoxVisible: false,
                 createDialogVisible: false,
                 createAdminLoading: false,
                 updateDialogVisible: false,

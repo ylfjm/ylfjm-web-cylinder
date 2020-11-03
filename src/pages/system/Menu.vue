@@ -159,16 +159,14 @@
                         </el-table-column>
                     </el-table>
                     <div class="pagination_box">
-                        <div class="pagination_box_content">
-                            <el-pagination
-                                    @current-change="handleCurrentChange"
-                                    class="pagination_content"
-                                    :current-page="formSearch.pageNum"
-                                    layout="total, prev, pager, next, jumper"
-                                    :page-size="formSearch.pageSize"
-                                    :total="total"
-                            ></el-pagination>
-                        </div>
+                        <el-pagination
+                                @current-change="handleCurrentChange"
+                                class="pagination_content"
+                                :current-page="formSearch.pageNum"
+                                layout="total, prev, pager, next, jumper"
+                                :page-size="formSearch.pageSize"
+                                :total="total"
+                        ></el-pagination>
                     </div>
                 </div>
             </el-container>
@@ -208,7 +206,6 @@
         name: 'menuPage',
         data() {
             return {
-                config,
                 formSearch: {
                     pageNum: 1,
                     pageSize: 10,
@@ -357,7 +354,7 @@
                 const res = await this.$service.addMenu({
                     ...data,
                     pid: data.pid[data.pid.length - 1],
-                    icon: this.getUploadUrl(data.icon)
+                    icon: data.icon
                 })
                 this.createMenuLoading = false
                 if (res.code === 20000) {
@@ -409,7 +406,8 @@
                 this.$nextTick(function () {
                     this.updateItem = {
                         ...row,
-                        icon: this.getDefaultUpload(row.icon),
+                        // icon: this.getDefaultUpload(row.icon),
+                        icon: row.icon,
                         pid: this.getPidArr(this.menuList, row.pid)
                     }
                 })
@@ -424,7 +422,8 @@
                 const res = await this.$service.updateMenu({
                     ...data,
                     pid: data.pid[data.pid.length - 1],
-                    icon: this.getUploadUrl(data.icon)
+                    // icon: this.getUploadUrl(data.icon)
+                    icon: data.icon
                 })
                 this.updateMenuLoading = false
                 if (res.code === 20000) {
@@ -468,7 +467,7 @@
                     this.menuList = [
                         {
                             id: 0,
-                            name: '管理系统',
+                            name: '根目录',
                             subMenus: res.data
                         }
                     ]

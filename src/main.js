@@ -10,7 +10,7 @@ import Service from './api/service'
 import './assets/css/common.css'
 import './common/stylus/common.styl'
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, {size: 'small'});
 Vue.prototype.$service = Service;
 Vue.config.productionTip = false;
 

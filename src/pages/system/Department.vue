@@ -1,38 +1,37 @@
 <template>
     <div>
         <div class="search_box">
-            <el-form :inline="true" :model="formSearch" ref="formSearch">
-                <el-form-item label="部门" prop="name" class="specialWidth50">
-                    <el-input
-                            v-model="formSearch.name"
-                            size="small"
-                            placeholder="请输入部门"
-                            clearable
-                            @clear="onSearch"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item class="submit_btn">
-                    <el-button
-                            @click="onSearch"
-                            icon="el-icon-search"
-                            size="small"
-                            type="primary"
-                            plain>
-                        查询
-                    </el-button>
-                    <el-button size="small" @click="refresh">
-                        <i class="el-icon-refresh"></i>
-                        重置
-                    </el-button>
-                    <el-button
-                            type="primary"
-                            icon="el-icon-plus"
-                            size="small"
-                            @click="showCreateDialog">
-                        新增部门
-                    </el-button>
-                </el-form-item>
-            </el-form>
+            <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab_active' : ''">
+                <i class="el-icon-search" style="font-weight: bold"></i> 搜索
+            </a>
+            <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+                新增部门
+            </el-button>
+        </div>
+        <div class="search_box_content">
+            <el-collapse-transition>
+                <div v-show="searchBoxVisible">
+                    <el-form :inline="true" :model="formSearch" ref="formSearch">
+                        <el-form-item label="部门" prop="name" class="specialWidth50">
+                            <el-input
+                                    v-model="formSearch.name"
+                                    size="small"
+                                    placeholder="请输入部门"
+                                    clearable
+                                    @clear="onSearch"
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="onSearch" type="primary" icon="el-icon-search" plain>
+                                查询
+                            </el-button>
+                            <el-button @click="refresh" icon="el-icon-refresh">
+                                重置
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-collapse-transition>
         </div>
         <div class="table_content">
             <el-table
@@ -100,16 +99,14 @@
                 </el-table-column>
             </el-table>
             <div class="pagination_box">
-                <div class="pagination_box_content">
-                    <el-pagination
-                            @current-change="handleCurrentChange"
-                            class="pagination_content"
-                            :current-page="formSearch.pageNum"
-                            layout="total, prev, pager, next, jumper"
-                            :page-size="formSearch.pageSize"
-                            :total="total"
-                    ></el-pagination>
-                </div>
+                <el-pagination
+                        @current-change="handleCurrentChange"
+                        class="pagination_content"
+                        :current-page="formSearch.pageNum"
+                        layout="total, prev, pager, next, jumper"
+                        :page-size="formSearch.pageSize"
+                        :total="total"
+                ></el-pagination>
             </div>
         </div>
         <CreateDialogForm
@@ -156,6 +153,7 @@
                 pages: 0,
                 tableList: [],
                 error: false,
+                searchBoxVisible: false,
                 createDialogVisible: false,
                 createDepartmentLoading: false,
                 updateDialogVisible: false,

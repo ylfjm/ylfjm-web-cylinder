@@ -43,7 +43,7 @@
                         const res = await this.$service.adminLogin({
                             userName: this.form.userName.trim(),
                             password: CryptoJS.MD5(this.form.password.trim()).toString(),
-                            sysType: 2
+                            sysType: 5
                         });
                         if (res.code === 20000) {
                             let admin = res.data;

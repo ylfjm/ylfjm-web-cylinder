@@ -136,16 +136,14 @@
                         </el-table-column>
                     </el-table>
                     <div class="pagination_box">
-                        <div class="pagination_box_content">
-                            <el-pagination
-                                    @current-change="handleCurrentChange"
-                                    class="pagination_content"
-                                    :current-page="formSearch.pageNum"
-                                    layout="total, prev, pager, next, jumper"
-                                    :page-size="formSearch.pageSize"
-                                    :total="total"
-                            ></el-pagination>
-                        </div>
+                        <el-pagination
+                                @current-change="handleCurrentChange"
+                                class="pagination_content"
+                                :current-page="formSearch.pageNum"
+                                layout="total, prev, pager, next, jumper"
+                                :page-size="formSearch.pageSize"
+                                :total="total"
+                        ></el-pagination>
                     </div>
                 </div>
             </el-container>
@@ -377,7 +375,7 @@
                 this.menuList = [
                     {
                         id: 0,
-                        name: '管理系统',
+                        name: '根目录',
                         subMenus: res.data
                     }
                 ]
