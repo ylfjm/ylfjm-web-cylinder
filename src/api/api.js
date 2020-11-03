@@ -180,7 +180,7 @@ service.interceptors.response.use(
                     data.message = err.response.data
                     data.code = 40401
                     setTimeout(() => {
-                        router.push('/login')
+                        router.push('/login.html')
                     }, 1000)
                     break
                 case 403:

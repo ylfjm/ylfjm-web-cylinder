@@ -45,27 +45,42 @@ const router = new VueRouter({
         {
             path: '/admin',
             name: 'admin',
-            component: Admin
+            component: Admin,
+            meta: {
+                title: '管理员'
+            }
         },
         {
             path: "/role",
             name: "role",
-            component: Role
+            component: Role,
+            meta: {
+                title: '角色'
+            }
         },
         {
             path: "/department",
             name: "department",
-            component: Department
+            component: Department,
+            meta: {
+                title: '部门'
+            }
         },
         {
             path: '/menu',
             name: 'menu',
-            component: Menu
+            component: Menu,
+            meta: {
+                title: '菜单'
+            }
         },
         {
             path: "/permission",
             name: "permission",
-            component: Permission
+            component: Permission,
+            meta: {
+                title: '权限'
+            }
         },
     ]
 });

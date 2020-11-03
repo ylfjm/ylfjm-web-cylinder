@@ -35,93 +35,86 @@
             </el-form>
         </div>
         <div class="table_content">
-            <el-table
-                    ref="multipleTable"
-                    :data="tableList"
-                    tooltip-effect="dark"
-                    v-loading="searchLoading"
-                    style="width: 100%"
-                    :header-cell-style="{backgroundColor: '#B3BFD0',fontSize: '14px',color: '#333333'}"
-                    stripe
-            >
-                <el-table-column
-                        type="index"
-                        :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
-                        label="序号"
-                        fixed="left"
-                        align="center"
-                        width="70"
-                ></el-table-column>
-                <el-table-column
-                        prop="name"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="部门"
-                ></el-table-column>
-                <el-table-column
-                        prop="accountCount"
-                        min-width="120"
-                        label="账号数量"
+            <el-card class="box-card">
+                <el-table
+                        ref="multipleTable"
+                        :data="tableList"
+                        tooltip-effect="dark"
+                        v-loading="searchLoading"
+                        style="width: 100%"
+                        :header-cell-style="{fontSize: '14px',color: '#333333'}"
+                        stripe
+                        size="mini"
                 >
-                    <template slot-scope="scope">
-                        <div v-show="scope.row.accountCount === 0">{{ scope.row.accountCount}}</div>
-                        <router-link
-                                v-show="scope.row.accountCount > 0"
-                                :to="{name:'admin', path:'/admin', params:{deptId: scope.row.id}}"
-                        >
-                            <span style="color: #409EFF">{{ scope.row.accountCount}}</span>
-                        </router-link>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        prop="createTime"
-                        min-width="150"
-                        label="创建时间"
-                ></el-table-column>
-                <el-table-column
-                        prop="creator"
-                        min-width="120"
-                        show-overflow-tooltip
-                        label="创建者"
-                ></el-table-column>
-                <el-table-column
-                        prop="updateTime"
-                        min-width="150"
-                        label="修改时间"
-                ></el-table-column>
-                <el-table-column
-                        prop="updater"
-                        min-width="120"
-                        show-overflow-tooltip
-                        label="修改者"
-                ></el-table-column>
-                <el-table-column
-                        fixed="right"
-                        width="150"
-                        label="操作"
-                        align="center"
-                >
-                    <template slot-scope="scope">
-                        <el-row type="flex" justify="center">
-                            <!--<el-button type="primary" size="mini" @click="showDepartmentDetail(scope.row)">查看</el-button>-->
-                            <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
-                            <el-button type="danger" size="mini" @click="deleteDepartment(scope.row)">删除</el-button>
-                        </el-row>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="pagination_box">
-                <div class="pagination_box_content">
-                    <el-pagination
-                            @current-change="handleCurrentChange"
-                            class="pagination_content"
-                            :current-page="formSearch.pageNum"
-                            layout="total, prev, pager, next, jumper"
-                            :page-size="formSearch.pageSize"
-                            :total="total"
-                    ></el-pagination>
+                    <el-table-column
+                            type="index"
+                            :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
+                            label="序号"
+                            fixed="left"
+                            align="center"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="name"
+                            label="部门"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="accountCount"
+                            label="账号数量"
+                    >
+                        <template slot-scope="scope">
+                            <div v-show="scope.row.accountCount === 0">{{ scope.row.accountCount}}</div>
+                            <router-link
+                                    v-show="scope.row.accountCount > 0"
+                                    :to="{name:'admin', path:'/admin', params:{deptId: scope.row.id}}"
+                            >
+                                <span style="color: #409EFF">{{ scope.row.accountCount}}</span>
+                            </router-link>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="createTime"
+                            label="创建时间"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="creator"
+                            label="创建者"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="updateTime"
+                            label="修改时间"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="updater"
+                            label="修改者"
+                    ></el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            width="150"
+                            label="操作"
+                            align="center"
+                    >
+                        <template slot-scope="scope">
+                            <el-row type="flex" justify="center">
+                                <!--<el-button type="primary" size="mini" @click="showDepartmentDetail(scope.row)">查看</el-button>-->
+                                <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
+                                <el-button type="danger" size="mini" @click="deleteDepartment(scope.row)">删除</el-button>
+                            </el-row>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="pagination_box">
+                    <div class="pagination_box_content">
+                        <el-pagination
+                                @current-change="handleCurrentChange"
+                                class="pagination_content"
+                                :current-page="formSearch.pageNum"
+                                layout="total, prev, pager, next, jumper"
+                                :page-size="formSearch.pageSize"
+                                :total="total"
+                        ></el-pagination>
+                    </div>
                 </div>
-            </div>
+            </el-card>
         </div>
         <CreateDialogForm
                 width="40%"

@@ -1,0 +1,29 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, Tahoma, 'Microsoft Yahei', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+    font-size: 13px;
+    line-height: 1.42857143;
+    margin: 0;
+    padding: 0;
+    background-color: #efefef;
+}
+
+img {
+    max-width: 100%;
+}
+
+.container {
+    max-width: 1800px !important;
+}
+
+.container, .container-fixed, .container-fluid {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ol, ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+
