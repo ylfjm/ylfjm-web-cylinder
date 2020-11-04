@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #efefef;
+    box-sizing: border-box;
 }
 
 img {
@@ -28,26 +29,46 @@ a {
     background: 0;
 }
 
-.container {
-    /*max-width: 1800px !important;*/
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    color: #2c3e50;
 }
 
-.container, .container-fixed, .container-fluid {
+.container-header {
+    margin: 0;
+    padding: 0;
+    height: 100px !important;
+    line-height: 100px !important;
+    box-shadow: 0 2px 2px 0 rgba(230, 230, 230, 1);
+}
+
+.container-main {
+    min-width: 1200px;
+}
+
+.container-body {
+    margin: 20px;
+    /*overflow: hidden;*/
+}
+
+.container-body-content {
+    margin: 0 60px;
+}
+
+.container {
+    /*max-width: 1800px !important;*/
     position: relative;
     margin-left: auto;
     margin-right: auto;
 }
 
-.search_box {
-}
-
-.search_box_content {
+.search-box-content {
     margin-top: 10px;
     background-color: #fff;
     border-radius: 4px;
 }
 
-.search_box_content .el-form {
+.search-box-content .el-form {
     padding: 18px 20px 0 20px;
 }
 
@@ -64,12 +85,12 @@ a {
     background: rgba(0, 0, 0, .1);
 }
 
-#searchTab.searchTab_active {
+#searchTab.searchTab-active {
     font-weight: 700;
     color: #0c64eb;
 }
 
-#searchTab.searchTab_active::before {
+#searchTab.searchTab-active::before {
     position: absolute;
     bottom: -14px;
     left: 40%;
@@ -81,7 +102,7 @@ a {
     border-width: 0 10px 10px 10px;
 }
 
-.dialog_form {
+.dialog-form {
     margin: 0 auto;
 }
 
@@ -89,17 +110,15 @@ a {
     text-align: center;
 }
 
-.left_right_structure .el-main {
+.left-right-structure .el-main {
     padding: 0 0 0 50px;
 }
 
-.left_right_structure .aside_box {
+.left-right-structure .aside-box {
     margin: 45px 0 0 0;
-    /*border: 1px solid #E6E6E6;*/
-    /*background-color: #fff;*/
-
 }
-.left_right_structure .aside_box .el-tree {
+
+.left-right-structure .aside-box .el-tree {
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
     border-radius: 4px;
     font-size: 14px;
@@ -107,4 +126,109 @@ a {
     line-height: 20px;
     letter-spacing: 1px;
     padding: 14px;
+}
+
+
+.dashboard {
+    display: table;
+    width: 100%;
+    margin: 0;
+}
+
+.dashboard .col-main {
+    display: table-cell;
+    float: none;
+    padding: 0 10px 0 0;
+    /*margin: 0 10px 0 0;*/
+    vertical-align: top;
+    height: 500px;
+    /*background-color: #0c64eb;*/
+}
+
+.dashboard .col-side {
+    display: table-cell;
+    float: none;
+    padding: 0 0 0 10px;
+    /*margin: 0 0 0 10px;*/
+    vertical-align: top;
+    width: 450px;
+    max-width: 450px;
+    height: 500px;
+    /*background-color: aquamarine;*/
+    box-sizing: border-box;
+}
+
+.dashboard .panel {
+    position: relative;
+    margin-bottom: 20px;
+    background-color: #fff;
+    /*border: 1px solid transparent;*/
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05), 0 2px 6px 0 rgba(0, 0, 0, .045);
+    box-sizing: border-box;
+}
+
+.dashboard .panel-heading {
+    cursor: move;
+    padding: 12px 75px 12px 20px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.dashboard .panel-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+}
+
+.dashboard .panel-body {
+    max-height: 400px;
+    overflow: auto;
+    padding: 20px;
+    /*margin: 20px;*/
+    box-sizing: border-box;
+}
+
+.dashboard .table-row {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.col-4 {
+    width: 33.33333333%;
+}
+
+.col-8 {
+    width: 66.66666667%;
+}
+
+.text-middle {
+    vertical-align: middle !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+.dashboard .panel-body .look-all {
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 12px;
+    text-align: left;
+    font-size: 12px;
+    line-height: 18px;
+    color: #fff;
+    background-color: #0c64eb;
+    display: inline-block;
+    margin-bottom: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: .4s;
+    padding: 3px 28px 3px 8px;
 }

@@ -13,6 +13,9 @@ import Department from "./pages/system/Department"
 import Menu from "./pages/system/Menu"
 import Permission from "./pages/system/Permission"
 
+//项目模块
+import ProjectIndex from "./pages/project/Project"
+
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -24,7 +27,7 @@ const router = new VueRouter({
         },
         {
             path: '/login.html',
-            name: 'login',
+            name: 'login.html',
             components: {
                 login: Login
             },
@@ -35,7 +38,7 @@ const router = new VueRouter({
         //主页
         {
             path: '/index.html',
-            name: 'home',
+            name: 'index.html',
             component: Home,
             meta: {
                 title: '主页'
@@ -80,6 +83,14 @@ const router = new VueRouter({
             component: Permission,
             meta: {
                 title: '系统 - 权限'
+            }
+        },
+        {
+            path: "/project-index.html",
+            name: "project-index.html",
+            component: ProjectIndex,
+            meta: {
+                title: '项目 - 首页'
             }
         },
     ]

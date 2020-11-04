@@ -7,7 +7,7 @@
             :append-to-body="true"
             :close-on-click-modal="false"
     >
-        <div class="dialog_form">
+        <div class="dialog-form">
             <el-form
                     :model="updateItem"
                     :label-width="formLabelWidth"

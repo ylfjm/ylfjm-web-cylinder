@@ -7,7 +7,7 @@
             :append-to-body="true"
             :close-on-click-modal="false"
     >
-        <div class="dialog_form">
+        <div class="dialog-form">
             <el-form :label-width="labelWidth" ref="form" :rules="rules" :model="form">
                 <el-form-item label="角色名" prop="name">
                     <el-input v-model="form.name"></el-input>

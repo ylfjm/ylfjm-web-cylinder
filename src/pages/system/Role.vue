@@ -1,14 +1,14 @@
 <template>
-    <div>
+    <div class="container-body-content">
         <div class="search_box">
-            <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab_active' : ''">
+            <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab-active' : ''">
                 <i class="el-icon-search" style="font-weight: bold"></i> 搜索
             </a>
             <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
                 新增角色
             </el-button>
         </div>
-        <div class="search_box_content" v-show="searchBoxVisible">
+        <div class="search-box-content" v-show="searchBoxVisible">
             <el-form :inline="true" :model="formSearch" ref="formSearch">
                 <el-form-item label="角色" prop="name" class="specialWidth50">
                     <el-input
@@ -28,7 +28,7 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div class="table_content">
+        <div class="table-content">
             <el-table
                     :data="tableList"
                     tooltip-effect="dark"

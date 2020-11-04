@@ -7,9 +7,12 @@
                 </div>
                 <nav id="navBar">
                     <ul class="nav">
-                        <li v-for="menu in menuList" :key="menu.id" :class="activeIndex === menu.id ? 'active' : ''">
-                            <a @click="chooseSubMenu(menu.id)">{{menu.name}}</a>
-                        </li>
+                        <template v-for="menu in menuList">
+                            <li v-if="menu.url === '/system'" class="divider"></li>
+                            <li :class="activeIndex === menu.id ? 'active' : ''">
+                                <a @click="chooseSubMenu(menu.id)">{{menu.name}}</a>
+                            </li>
+                        </template>
                     </ul>
                 </nav>
                 <div id="toolbar">
@@ -64,6 +67,8 @@
                 this.menuList.map(item => {
                     if (item.id === id) {
                         this.subMenuList = item.subMenus;
+                        this.subActiveIndex = '';
+                        this.$router.push(item.url);
                     }
                 })
             },
@@ -84,32 +89,23 @@
             },
         },
         created() {
-            // if (this.activeIndex === '' && this.subActiveIndex === '') {
-            //     for (let item of this.menuList) {
-            //         this.activeIndex = item.id;
-            //         this.subMenuList = item.subMenus;
-            //         break;
-            //     }
-            //     for (let item of this.subMenuList) {
-            //         this.subActiveIndex = item.id;
-            //         this.$router.push(item.url);
-            //         break;
-            //     }
-            // }
-        },
-        watch: {
-            '$route.path': function (n) {
-                console.log(n)
-                this.menuList.forEach(item => {
-                    item.subMenus && item.subMenus.forEach(current => {
-                        if (n === current.url) {
-                            this.activeIndex = item.id;
-                            this.subActiveIndex = current.id;
-                        }
-                    })
-                })
+            const url = this.$route.path;
+            // console.log(url)
+            for (let item of this.menuList) {
+                this.subMenuList = item.subMenus;
+                if (item.url && item.url === url) {
+                    this.activeIndex = item.id;
+                    break;
+                }
+                for (let item2 of this.subMenuList) {
+                    if (item2.url && item2.url === url) {
+                        this.activeIndex = item.id;
+                        this.subActiveIndex = item2.id;
+                        break;
+                    }
+                }
             }
-        }
+        },
     }
 </script>
 <style scoped>

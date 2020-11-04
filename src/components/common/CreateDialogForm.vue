@@ -10,7 +10,7 @@
         <!--<div slot="title">
             <div class="page_title">{{ title }}</div>
         </div>-->
-        <div class="dialog_form">
+        <div class="dialog-form">
             <el-form
                     :model="form"
                     :label-width="formLabelWidth"

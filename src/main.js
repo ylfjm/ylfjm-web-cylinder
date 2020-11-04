@@ -7,9 +7,9 @@ import router from './router'
 import store from './store'
 import Service from './api/service'
 
-import './assets/css/common.css'
-import './common/stylus/common.styl'
 import './common/stylus/reset.styl'
+import './common/stylus/common.styl'
+import './assets/css/common.css'
 
 Vue.use(ElementUI, {size: 'small'});
 Vue.prototype.$service = Service;

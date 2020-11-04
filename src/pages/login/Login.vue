@@ -1,16 +1,18 @@
 <template>
-    <el-form :model="form" :rules="rules" ref="form" class="login-container">
-        <div class="title">系统登录</div>
-        <el-form-item prop="userName">
-            <el-input type="text" v-model="form.userName" placeholder="请输入账号"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-            <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" class="login-button" @click="doSubmit">登 录</el-button>
-        </el-form-item>
-    </el-form>
+    <div>
+        <el-form :model="form" :rules="rules" ref="form" class="login-container">
+            <div class="title">系统登录</div>
+            <el-form-item prop="userName">
+                <el-input type="text" v-model="form.userName" placeholder="请输入账号"></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+                <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" class="login-button" @click="doSubmit">登 录</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
 </template>
 
 <script>
@@ -58,7 +60,7 @@
                             this.$store.commit('setMenuList', menus);
                             localStorage.setItem('admin', JSON.stringify(admin));
                             localStorage.setItem('menuList', JSON.stringify(menus));
-                            this.$router.push('/index.html')
+                            this.$router.push('/project-index.html')
                         } else {
                             this.$notify.error({
                                 title: '提示',
@@ -110,6 +112,8 @@
         line-height: 54px !important;
         padding: 0 24px !important;
         font-size: 16px !important;
+        /*background-color: #efefef;*/
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
     }
 
     .login-container .login-button {

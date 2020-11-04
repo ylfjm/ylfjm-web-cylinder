@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <el-container class="left_right_structure">
-            <el-aside width="200px" class="aside_box">
+    <div class="container-body-content">
+        <el-container class="left-right-structure">
+            <el-aside width="200px" class="aside-box">
                 <el-tree
                         :data="menuList"
                         :props="defaultProps"
@@ -15,14 +15,14 @@
             </el-aside>
             <el-main>
                 <div class="search_box">
-                    <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab_active' : ''">
+                    <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab-active' : ''">
                         <i class="el-icon-search" style="font-weight: bold"></i> 搜索
                     </a>
                     <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
                         添加菜单
                     </el-button>
                 </div>
-                <div class="search_box_content" v-show="searchBoxVisible">
+                <div class="search-box-content" v-show="searchBoxVisible">
                     <el-form :inline="true" :model="formSearch" ref="formSearch">
                         <el-form-item label="菜单层级" prop="name" class="specialWidth80">
                             <el-select
@@ -52,7 +52,7 @@
                         </el-form-item>
                     </el-form>
                 </div>
-                <div class="table_content">
+                <div class="table-content">
                     <el-table
                             :data="tableList"
                             tooltip-effect="dark"
