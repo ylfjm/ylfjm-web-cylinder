@@ -9,6 +9,7 @@ import Service from './api/service'
 
 import './assets/css/common.css'
 import './common/stylus/common.styl'
+import './common/stylus/reset.styl'
 
 Vue.use(ElementUI, {size: 'small'});
 Vue.prototype.$service = Service;

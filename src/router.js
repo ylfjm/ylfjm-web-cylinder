@@ -47,7 +47,7 @@ const router = new VueRouter({
             name: 'admin',
             component: Admin,
             meta: {
-                title: '管理员'
+                title: '系统 - 管理员'
             }
         },
         {
@@ -55,7 +55,7 @@ const router = new VueRouter({
             name: "role",
             component: Role,
             meta: {
-                title: '角色'
+                title: '系统 - 角色'
             }
         },
         {
@@ -63,7 +63,7 @@ const router = new VueRouter({
             name: "department",
             component: Department,
             meta: {
-                title: '部门'
+                title: '系统 - 部门'
             }
         },
         {
@@ -71,7 +71,7 @@ const router = new VueRouter({
             name: 'menu',
             component: Menu,
             meta: {
-                title: '菜单'
+                title: '系统 - 菜单'
             }
         },
         {
@@ -79,7 +79,7 @@ const router = new VueRouter({
             name: "permission",
             component: Permission,
             meta: {
-                title: '权限'
+                title: '系统 - 权限'
             }
         },
     ]

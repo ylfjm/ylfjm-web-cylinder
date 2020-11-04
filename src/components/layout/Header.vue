@@ -77,19 +77,6 @@
             },
             //注销
             handleCommand(command) {
-                // if (command === 'loginOut') {
-                //     this.$confirm('是否确认退出当前账号?', '提示', {
-                //         confirmButtonText: '确定',
-                //         cancelButtonText: '取消',
-                //         type: 'warning'
-                //     }).then(async () => {
-                //         localStorage.removeItem('admin');
-                //         localStorage.removeItem('admin_token');
-                //         localStorage.removeItem('menuList');
-                //         this.$router.push('/login.html')
-                //     }).catch(() => {
-                //     });
-                // }
                 localStorage.removeItem('admin');
                 localStorage.removeItem('admin_token');
                 localStorage.removeItem('menuList');
@@ -97,17 +84,32 @@
             },
         },
         created() {
-            for(let item of this.menuList) {
-                this.activeIndex = item.id;
-                this.subMenuList = item.subMenus;
-                break;
-            }
-            for(let item of this.subMenuList) {
-                this.subActiveIndex = item.id;
-                this.$router.push(item.url);
-                break;
-            }
+            // if (this.activeIndex === '' && this.subActiveIndex === '') {
+            //     for (let item of this.menuList) {
+            //         this.activeIndex = item.id;
+            //         this.subMenuList = item.subMenus;
+            //         break;
+            //     }
+            //     for (let item of this.subMenuList) {
+            //         this.subActiveIndex = item.id;
+            //         this.$router.push(item.url);
+            //         break;
+            //     }
+            // }
         },
+        watch: {
+            '$route.path': function (n) {
+                console.log(n)
+                this.menuList.forEach(item => {
+                    item.subMenus && item.subMenus.forEach(current => {
+                        if (n === current.url) {
+                            this.activeIndex = item.id;
+                            this.subActiveIndex = current.id;
+                        }
+                    })
+                })
+            }
+        }
     }
 </script>
 <style scoped>
@@ -256,11 +258,4 @@
         border-radius: 4px;
     }
 
-    a {
-        text-decoration: none;
-        cursor: pointer;
-        transition: .4s cubic-bezier(.175, .885, .32, 1);
-        transition-property: color, background, transform, opacity, left, top, right, bottom, -webkit-transform, -o-transform;
-        background: 0;
-    }
 </style>

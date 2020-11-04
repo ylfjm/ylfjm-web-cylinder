@@ -2,7 +2,7 @@
     <div id="app">
         <el-container v-if="!$route.path.includes('/login')" class="container-main">
             <el-header class="container-header">
-                <Header></Header>
+                <my_header></my_header>
             </el-header>
             <el-main class="container-body">
                 <router-view></router-view>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import Header from '@/components/layout/Header.vue'
+    import my_header from '@/components/layout/Header.vue'
 
     export default {
         name: 'App',
@@ -23,7 +23,7 @@
             }
         },
         components: {
-            Header
+            my_header
         }
     }
 </script>

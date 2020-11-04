@@ -1,52 +1,7 @@
 <template>
     <div>
-        <div class="search_box">
-            <el-form :inline="true" :model="formSearch" ref="formSearch">
-                <el-form-item label="权限名称" prop="name" class="specialWidth80">
-                    <el-input
-                            v-model="formSearch.name"
-                            size="small"
-                            placeholder="请输入权限名称"
-                            clearable
-                            @clear="onSearch"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="权限CODE" prop="code" class="specialWidth100">
-                    <el-input
-                            v-model="formSearch.code"
-                            size="small"
-                            placeholder="请输入权限CODE"
-                            clearable
-                            @clear="onSearch"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item class="submit_btn">
-                    <el-button
-                            @click="onSearch"
-                            icon="el-icon-search"
-                            size="small"
-                            type="primary"
-                            plain>
-                        查询
-                    </el-button>
-                    <el-button size="small" @click="refresh">
-                        <i class="el-icon-refresh"></i>
-                        重置
-                    </el-button>
-                    <el-button
-                            type="primary"
-                            :style="{visibility: formSearch.checkMenuId === '' ? 'hidden' : 'visible'}"
-                            icon="el-icon-plus"
-                            size="small"
-                            @click="showCreateDialog">
-                        添加权限
-                    </el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-        <el-container>
+        <el-container class="left_right_structure">
             <el-aside width="200px" class="aside_box">
-                <div class="aside_title">系统目录结构</div>
                 <el-tree
                         :data="menuList"
                         :props="defaultProps"
@@ -54,26 +9,61 @@
                         highlight-current
                         check-on-click-node
                         node-key="id"
-                        :default-expanded-keys="[0]"
+                        :default-expanded-keys="[0, firstMenuId]"
                         @node-click="handleCheckChange"
                 ></el-tree>
             </el-aside>
-            <el-container class="table_content">
-                <div style="width: 100%">
+            <el-main>
+                <div class="search_box">
+                    <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab_active' : ''">
+                        <i class="el-icon-search" style="font-weight: bold"></i> 搜索
+                    </a>
+                    <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+                        添加权限
+                    </el-button>
+                </div>
+                <div class="search_box_content" v-show="searchBoxVisible">
+                    <el-form :inline="true" :model="formSearch" ref="formSearch">
+                        <el-form-item label="权限名称" prop="name" class="specialWidth80">
+                            <el-input
+                                    v-model="formSearch.name"
+                                    placeholder="请输入权限名称"
+                                    clearable
+                                    @clear="onSearch"
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item label="权限CODE" prop="code" class="specialWidth100">
+                            <el-input
+                                    v-model="formSearch.code"
+                                    placeholder="请输入权限CODE"
+                                    clearable
+                                    @clear="onSearch"
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="onSearch" type="primary" icon="el-icon-search" plain>
+                                查询
+                            </el-button>
+                            <el-button @click="refresh" icon="el-icon-refresh">
+                                重置
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+                <div class="table_content">
                     <el-table
                             :data="tableList"
                             tooltip-effect="dark"
                             v-loading="searchLoading"
-                            style="width: 100%"
-                            :header-cell-style="{backgroundColor: '#B3BFD0',fontSize: '14px',color: '#333333'}"
+                            :header-cell-style="{fontSize: '14px', color: '#333333'}"
                             stripe
                     >
                         <el-table-column
                                 type="index"
                                 :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
-                                width="70"
-                                fixed="left"
                                 align="center"
+                                fixed="left"
+                                min-width="70"
                                 label="序号"
                         ></el-table-column>
                         <el-table-column
@@ -101,32 +91,11 @@
                                 label="菜单名称"
                         ></el-table-column>
                         <el-table-column
-                                prop="createTime"
-                                min-width="150"
-                                label="创建时间"
-                        ></el-table-column>
-                        <el-table-column
-                                prop="creator"
-                                min-width="120"
-                                show-overflow-tooltip
-                                label="创建者"
-                        ></el-table-column>
-                        <el-table-column
-                                prop="updateTime"
-                                min-width="150"
-                                label="修改时间"
-                        ></el-table-column>
-                        <el-table-column
-                                prop="updater"
-                                min-width="120"
-                                show-overflow-tooltip
-                                label="修改者"
-                        ></el-table-column>
-                        <el-table-column
+                                align="center"
                                 fixed="right"
-                                label="操作"
                                 width="150"
-                                align="center">
+                                label="操作"
+                        >
                             <template slot-scope="scope">
                                 <el-row type="flex" justify="center">
                                     <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
@@ -140,13 +109,13 @@
                                 @current-change="handleCurrentChange"
                                 class="pagination_content"
                                 :current-page="formSearch.pageNum"
-                                layout="total, prev, pager, next, jumper"
+                                layout="total, sizes, prev, pager, next"
                                 :page-size="formSearch.pageSize"
                                 :total="total"
                         ></el-pagination>
                     </div>
                 </div>
-            </el-container>
+            </el-main>
         </el-container>
         <CreateDialogForm
                 width="40%"
@@ -194,6 +163,7 @@
                 pages: 0,
                 tableList: [],
                 error: false,
+                searchBoxVisible: false,
                 createDialogVisible: false,
                 createPermissionLoading: false,
                 updateDialogVisible: false,
@@ -237,6 +207,7 @@
                     value: 'id'
                 },
                 menuList: [],
+                firstMenuId: '',
                 autoHeight: 500
             }
         },
@@ -378,7 +349,8 @@
                         name: '根目录',
                         subMenus: res.data
                     }
-                ]
+                ];
+                this.firstMenuId = res.data[0].id
             }
             this.searchCommon()
         },
@@ -400,28 +372,4 @@
     }
 </script>
 <style scoped>
-    .aside_box {
-        margin: 17px 17px 17px 0;
-        border: 1px solid #E6E6E6;
-        background-color: #fff;
-        border-radius: 4px;
-    }
-
-    .aside_title {
-        background-color: #fff;
-        line-height: 52px;
-        font-size: 16px;
-        font-weight: 500;
-        color: rgba(51, 51, 51, 1);
-        padding-left: 20px;
-        border-bottom: 1px solid #E6E6E6;
-    }
-
-    .terminal_tree {
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 20px;
-        letter-spacing: 1px;
-        padding: 14px;
-    }
 </style>

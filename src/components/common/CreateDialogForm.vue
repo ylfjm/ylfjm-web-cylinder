@@ -5,16 +5,16 @@
             :visible.sync="visible"
             :before-close="hideDialog"
             :append-to-body="true"
+            :close-on-click-modal="false"
     >
-        <div slot="title">
+        <!--<div slot="title">
             <div class="page_title">{{ title }}</div>
-        </div>
-        <div class="form_create">
+        </div>-->
+        <div class="dialog_form">
             <el-form
                     :model="form"
                     :label-width="formLabelWidth"
                     ref="createDialogForm"
-                    size="small"
                     :label-position="labelPosition"
             >
                 <CustomFormItem
@@ -32,10 +32,11 @@
                 ></CustomFormItem>
             </el-form>
         </div>
-        <div slot="footer" class="slot_footer">
-            <el-button @click="hideDialog">取 消</el-button>
+        <div slot="footer" class="dialog-footer">
+            <el-button size="medium" @click="hideDialog">取 消</el-button>
             <el-button
-                    class="slot_footer_submit_btn"
+                    style="margin-left: 30px;"
+                    size="medium"
                     type="primary"
                     @click="currentSubmit"
                     :loading="loading"

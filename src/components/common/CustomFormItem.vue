@@ -6,7 +6,6 @@
                     :maxlength="column.maxlength"
                     :disabled="column.disabled"
                     :type="column.textType || 'text'"
-                    size="small"
                     :opinput="column.focus"
                     v-model="value"
                     :placeholder="column.placeholder || ''"
@@ -21,7 +20,6 @@
                     :min="0"
                     :precision="0"
                     controls-position="right"
-                    size="small"
                     v-model="value"
             ></el-input-number>
         </el-form-item>
@@ -38,7 +36,6 @@
                     :maxlength="column.maxlength"
                     :disabled="column.disabled"
                     :type="column.textType || 'text'"
-                    size="small"
                     v-model.number="value"
                     @keydown.native="inputLimit"
                     :placeholder="column.placeholder || ''"
@@ -51,7 +48,6 @@
         <el-form-item :label="label" :prop="fieldName" :rules="rules">
             <el-input
                     type="textarea"
-                    size="small"
                     :rows="3"
                     :placeholder="column.placeholder || ''"
                     @change="changeValue"
@@ -64,7 +60,6 @@
             <el-select
                     @change="changeValue"
                     clearable
-                    size="small"
                     v-model="selectValue"
             >
                 <el-option
@@ -93,7 +88,6 @@
         <el-form-item :label="label" :prop="fieldName" :rules="rules">
             <AutoSelectForm
                     @selectCb="changeValueChild"
-                    size="small"
                     :multiple="column.multiple"
                     :defaultValue="value"
                     :key="fieldName"
@@ -106,7 +100,6 @@
         <el-form-item :label="label" :prop="fieldName" :rules="rules">
             <AutoCascaderForm
                     @selectCb="changeValueChild"
-                    size="small"
                     :defaultValue="value"
                     :key="fieldName"
                     :checkStrictly="column.checkStrictly"

@@ -8,53 +8,52 @@
                 新增部门
             </el-button>
         </div>
-        <div class="search_box_content">
-            <el-collapse-transition>
-                <div v-show="searchBoxVisible">
-                    <el-form :inline="true" :model="formSearch" ref="formSearch">
-                        <el-form-item label="部门" prop="name" class="specialWidth50">
-                            <el-input
-                                    v-model="formSearch.name"
-                                    size="small"
-                                    placeholder="请输入部门"
-                                    clearable
-                                    @clear="onSearch"
-                            ></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button @click="onSearch" type="primary" icon="el-icon-search" plain>
-                                查询
-                            </el-button>
-                            <el-button @click="refresh" icon="el-icon-refresh">
-                                重置
-                            </el-button>
-                        </el-form-item>
-                    </el-form>
-                </div>
-            </el-collapse-transition>
+        <div class="search_box_content" v-show="searchBoxVisible">
+            <el-form :inline="true" :model="formSearch" ref="formSearch">
+                <el-form-item label="部门" prop="name" class="specialWidth50">
+                    <el-input
+                            v-model="formSearch.name"
+                            placeholder="请输入部门"
+                            clearable
+                            @clear="onSearch"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="onSearch" type="primary" icon="el-icon-search" plain>
+                        查询
+                    </el-button>
+                    <el-button @click="refresh" icon="el-icon-refresh">
+                        重置
+                    </el-button>
+                </el-form-item>
+            </el-form>
         </div>
         <div class="table_content">
             <el-table
                     :data="tableList"
                     tooltip-effect="dark"
                     v-loading="searchLoading"
-                    :header-cell-style="{fontSize: '14px',color: '#333333'}"
+                    :header-cell-style="{fontSize: '14px', color: '#333333'}"
                     stripe
-                    size="mini"
             >
                 <el-table-column
                         type="index"
                         :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
-                        label="序号"
-                        fixed="left"
                         align="center"
+                        fixed="left"
+                        min-width="70"
+                        label="序号"
                 ></el-table-column>
                 <el-table-column
                         prop="name"
+                        min-width="130"
+                        show-overflow-tooltip
                         label="部门"
                 ></el-table-column>
                 <el-table-column
                         prop="accountCount"
+                        min-width="130"
+                        show-overflow-tooltip
                         label="账号数量"
                 >
                     <template slot-scope="scope">
@@ -67,7 +66,7 @@
                         </router-link>
                     </template>
                 </el-table-column>
-                <el-table-column
+                <!--<el-table-column
                         prop="createTime"
                         label="创建时间"
                 ></el-table-column>
@@ -82,16 +81,15 @@
                 <el-table-column
                         prop="updater"
                         label="修改者"
-                ></el-table-column>
+                ></el-table-column>-->
                 <el-table-column
+                        align="center"
                         fixed="right"
                         width="150"
                         label="操作"
-                        align="center"
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <!--<el-button type="primary" size="mini" @click="showDepartmentDetail(scope.row)">查看</el-button>-->
                             <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteDepartment(scope.row)">删除</el-button>
                         </el-row>
@@ -103,7 +101,7 @@
                         @current-change="handleCurrentChange"
                         class="pagination_content"
                         :current-page="formSearch.pageNum"
-                        layout="total, prev, pager, next, jumper"
+                        layout="total, sizes, prev, pager, next"
                         :page-size="formSearch.pageSize"
                         :total="total"
                 ></el-pagination>
@@ -139,6 +137,7 @@
     import CreateDialogForm from '@/components/common/CreateDialogForm'
     import UpdateDialogForm from '@/components/common/UpdateDialogForm'
     import {mapState} from 'vuex'
+    import my_pagination from '@/components/common/Pagination'
 
     export default {
         name: 'departmentPage',
@@ -318,6 +317,7 @@
         components: {
             CreateDialogForm,
             UpdateDialogForm,
+            my_pagination,
         }
     }
 </script>

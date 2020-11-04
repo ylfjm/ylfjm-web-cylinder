@@ -4,78 +4,72 @@
             <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab_active' : ''">
                 <i class="el-icon-search" style="font-weight: bold"></i> 搜索
             </a>
-            <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+            <el-button @click="showCreateDialog" type="primary" style="float: right;">
+                <i class="el-icon-plus" style="font-weight: bold"></i>
                 新增用户
             </el-button>
         </div>
-        <div class="search_box_content">
-            <el-collapse-transition>
-                <div v-show="searchBoxVisible">
-                    <el-form :inline="true" :model="formSearch" ref="formSearch">
-                        <el-form-item label="姓名" prop="realName" class="specialWidth50">
-                            <el-input
-                                    v-model="formSearch.realName"
-                                    size="small"
-                                    placeholder="请输入姓名"
-                                    clearable
-                                    @clear="onSearch"
-                            ></el-input>
-                        </el-form-item>
-                        <el-form-item label="角色" prop="roleId" class="specialWidth50">
-                            <AutoSelectForm
-                                    @selectCb="selectCb"
-                                    :defaultValue="formSearch.roleId"
-                                    key="roleId"
-                                    fieldName="roleId"
-                                    dataType="role"
-                                    :size="'small'"
-                            />
-                        </el-form-item>
-                        <el-form-item label="部门" prop="deptId" class="specialWidth50">
-                            <AutoSelectForm
-                                    @selectCb="selectCb"
-                                    :defaultValue="formSearch.deptId"
-                                    key="deptId"
-                                    fieldName="deptId"
-                                    dataType="dept"
-                                    :size="'small'"
-                            ></AutoSelectForm>
-                        </el-form-item>
-                        <el-form-item label="状态" prop="forbidden" class="specialWidth50">
-                            <el-select v-model="formSearch.forbidden" size="small" clearable @clear="onSearch">
-                                <el-option key="true" label="被禁用" value="true"></el-option>
-                                <el-option key="false" label="可用" value="false"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button @click="onSearch" type="primary" icon="el-icon-search" plain>
-                                查询
-                            </el-button>
-                            <el-button @click="refresh" icon="el-icon-refresh">
-                                重置
-                            </el-button>
-                        </el-form-item>
-                    </el-form>
-                </div>
-            </el-collapse-transition>
+        <div class="search_box_content" v-show="searchBoxVisible">
+            <el-form :inline="true" :model="formSearch" ref="formSearch">
+                <el-form-item label="姓名" prop="realName" class="specialWidth50">
+                    <el-input
+                            v-model="formSearch.realName"
+                            placeholder="请输入姓名"
+                            clearable
+                            @clear="onSearch"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="角色" prop="roleId" class="specialWidth50">
+                    <AutoSelectForm
+                            @selectCb="selectCb"
+                            :defaultValue="formSearch.roleId"
+                            key="roleId"
+                            fieldName="roleId"
+                            dataType="role"
+                            :size="'small'"
+                    />
+                </el-form-item>
+                <el-form-item label="部门" prop="deptId" class="specialWidth50">
+                    <AutoSelectForm
+                            @selectCb="selectCb"
+                            :defaultValue="formSearch.deptId"
+                            key="deptId"
+                            fieldName="deptId"
+                            dataType="dept"
+                            :size="'small'"
+                    ></AutoSelectForm>
+                </el-form-item>
+                <el-form-item label="状态" prop="forbidden" class="specialWidth50">
+                    <el-select v-model="formSearch.forbidden" clearable @clear="onSearch">
+                        <el-option key="true" label="被禁用" value="true"></el-option>
+                        <el-option key="false" label="可用" value="false"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="onSearch" type="primary" icon="el-icon-search" plain>
+                        查询
+                    </el-button>
+                    <el-button @click="refresh" icon="el-icon-refresh">
+                        重置
+                    </el-button>
+                </el-form-item>
+            </el-form>
         </div>
         <div class="table_content">
             <el-table
-                    ref="multipleTable"
                     :data="tableList"
                     tooltip-effect="dark"
                     v-loading="searchLoading"
-                    style="width: 100%"
                     :header-cell-style="{fontSize: '14px', color: '#333333'}"
                     stripe
             >
                 <el-table-column
                         type="index"
                         :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
-                        label="序号"
                         align="center"
                         fixed="left"
-                        width="70"
+                        min-width="70"
+                        label="序号"
                 ></el-table-column>
                 <el-table-column
                         prop="userName"
@@ -89,13 +83,12 @@
                         show-overflow-tooltip
                         label="姓名"
                 ></el-table-column>
-                <!--<el-table-column prop="sex" min-width="60" label="性别">
-                    <template slot-scope="scope">
-                        <div v-show="scope.row.sex === 1">男</div>
-                        <div v-show="scope.row.sex === 2">女</div>
-                    </template>
-                </el-table-column>-->
-                <el-table-column prop="phone" min-width="100" label="手机号">
+                <el-table-column
+                        prop="phone"
+                        min-width="100"
+                        show-overflow-tooltip
+                        label="手机号"
+                >
                     <template slot-scope="scope">
                         <div>
                             {{scope.row.phone? scope.row.phone.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2'): ''}}
@@ -128,28 +121,11 @@
                         label="邮箱"
                 ></el-table-column>
                 <el-table-column
-                        prop="createTime"
-                        min-width="150"
-                        label="创建时间"
-                ></el-table-column>
-                <el-table-column
-                        prop="creator"
-                        min-width="120"
+                        prop="enable"
+                        min-width="100"
                         show-overflow-tooltip
-                        label="创建者"
-                ></el-table-column>
-                <el-table-column
-                        prop="updateTime"
-                        min-width="150"
-                        label="修改时间"
-                ></el-table-column>
-                <el-table-column
-                        prop="updater"
-                        min-width="120"
-                        show-overflow-tooltip
-                        label="修改者"
-                ></el-table-column>
-                <el-table-column prop="enable" label="是否启用" min-width="100">
+                        label="是否启用"
+                >
                     <template slot-scope="scope">
                         <el-switch
                                 v-model="scope.row.forbidden"
@@ -166,14 +142,13 @@
                         label="备注"
                 ></el-table-column>
                 <el-table-column
+                        align="center"
                         fixed="right"
                         width="150"
                         label="操作"
-                        align="center"
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <!--<el-button type="primary" size="mini" @click="showUserDetail(scope.row)">查看</el-button>-->
                             <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteAdmin(scope.row)">删除</el-button>
                         </el-row>
@@ -183,9 +158,10 @@
             <div class="pagination_box">
                 <el-pagination
                         @current-change="handleCurrentChange"
+                        @size-change="handleSizeChange"
                         class="pagination_content"
                         :current-page="formSearch.pageNum"
-                        layout="total, sizes, prev, pager, next, jumper"
+                        layout="total, sizes, prev, pager, next"
                         :page-size="formSearch.pageSize"
                         :total="total"
                 ></el-pagination>
@@ -230,7 +206,6 @@
         data() {
             return {
                 formSearch: {
-                    sysType: 2,
                     realName: '',
                     deptId: '',
                     roleId: '',
@@ -467,9 +442,13 @@
                 this.formSearch.pageNum = pageNum
                 this.searchCommon()
             },
+            handleSizeChange(pageSize) {
+                this.formSearch.pageNum = 1;
+                this.formSearch.pageSize = pageSize
+                this.searchCommon()
+            },
             async searchCommon() {
                 let formData = {
-                    sysType: this.formSearch.sysType,
                     realName: this.formSearch.realName.trim(),
                     deptId: this.formSearch.deptId,
                     roleId: this.formSearch.roleId,

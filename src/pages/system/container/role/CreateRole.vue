@@ -4,45 +4,35 @@
             :title="title"
             :visible.sync="visible"
             :before-close="hideDialog"
+            :append-to-body="true"
             :close-on-click-modal="false"
     >
-        <div slot="title">
-            <div class="page_title">{{ title }}</div>
-        </div>
-        <div class="form_create">
-            <el-form
-                    :label-width="labelWidth"
-                    ref="form"
-                    :rules="rules"
-                    :model="form"
-            >
+        <div class="dialog_form">
+            <el-form :label-width="labelWidth" ref="form" :rules="rules" :model="form">
                 <el-form-item label="角色名" prop="name">
-                    <el-input size="mini" v-model="form.name"></el-input>
+                    <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="文字描述" prop="description">
-                    <el-input
-                            size="mini"
-                            type="textarea"
-                            v-model="form.description"
-                    ></el-input>
+                    <el-input type="textarea" v-model="form.description"></el-input>
                 </el-form-item>
                 <el-form-item label="添加权限" prop="permissionIds">
                     <el-tree
                             :data="permissions"
                             show-checkbox
                             node-key="key"
-                            default-expand-all
                             ref="permissions"
+                            default-expand-all
                             @check="changePublic"
                             :props="defaultProps"
                     ></el-tree>
                 </el-form-item>
             </el-form>
         </div>
-        <div slot="footer" class="slot_footer">
-            <el-button @click="hideDialog">取 消</el-button>
+        <div slot="footer" class="dialog-footer">
+            <el-button size="medium" @click="hideDialog">取 消</el-button>
             <el-button
-                    class="slot_footer_submit_btn"
+                    style="margin-left: 30px;"
+                    size="medium"
                     type="primary"
                     @click="currentSubmit('form')"
                     :loading="loading"

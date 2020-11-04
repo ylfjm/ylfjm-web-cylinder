@@ -1,56 +1,48 @@
 <template>
     <div>
         <div class="search_box">
+            <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab_active' : ''">
+                <i class="el-icon-search" style="font-weight: bold"></i> 搜索
+            </a>
+            <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+                新增角色
+            </el-button>
+        </div>
+        <div class="search_box_content" v-show="searchBoxVisible">
             <el-form :inline="true" :model="formSearch" ref="formSearch">
                 <el-form-item label="角色" prop="name" class="specialWidth50">
                     <el-input
                             v-model="formSearch.name"
-                            size="small"
                             placeholder="请输入角色"
                             clearable
                             @clear="onSearch"
                     ></el-input>
                 </el-form-item>
-                <el-form-item class="submit_btn">
-                    <el-button
-                            @click="onSearch"
-                            icon="el-icon-search"
-                            size="small"
-                            type="primary"
-                            plain>
+                <el-form-item>
+                    <el-button @click="onSearch" type="primary" icon="el-icon-search" plain>
                         查询
                     </el-button>
-                    <el-button size="small" @click="refresh">
-                        <i class="el-icon-refresh"></i>
+                    <el-button @click="refresh" icon="el-icon-refresh">
                         重置
-                    </el-button>
-                    <el-button
-                            type="primary"
-                            icon="el-icon-plus"
-                            size="small"
-                            @click="showCreateDialog">
-                        新增角色
                     </el-button>
                 </el-form-item>
             </el-form>
         </div>
         <div class="table_content">
             <el-table
-                    ref="multipleTable"
                     :data="tableList"
                     tooltip-effect="dark"
                     v-loading="searchLoading"
-                    style="width: 100%"
-                    :header-cell-style="{backgroundColor: '#B3BFD0',fontSize: '14px',color: '#333333'}"
+                    :header-cell-style="{fontSize: '14px', color: '#333333'}"
                     stripe
             >
                 <el-table-column
                         type="index"
                         :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
-                        label="序号"
                         align="center"
                         fixed="left"
-                        width="70"
+                        min-width="70"
+                        label="序号"
                 ></el-table-column>
                 <el-table-column
                         prop="name"
@@ -61,6 +53,7 @@
                 <el-table-column
                         prop="accountCount"
                         min-width="120"
+                        show-overflow-tooltip
                         label="账号数量"
                 >
                     <template slot-scope="scope">
@@ -74,36 +67,13 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                        prop="createTime"
-                        min-width="150"
-                        label="创建时间"
-                ></el-table-column>
-                <el-table-column
-                        prop="creator"
-                        min-width="120"
-                        show-overflow-tooltip
-                        label="创建者"
-                ></el-table-column>
-                <el-table-column
-                        prop="updateTime"
-                        min-width="150"
-                        label="修改时间"
-                ></el-table-column>
-                <el-table-column
-                        prop="updater"
-                        min-width="120"
-                        show-overflow-tooltip
-                        label="修改者"
-                ></el-table-column>
-                <el-table-column
+                        align="center"
                         fixed="right"
                         width="150"
                         label="操作"
-                        align="center"
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <!--<el-button type="primary" size="mini" @click="showRoleDetail(scope.row)">查看</el-button>-->
                             <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteRole(scope.row)">删除</el-button>
                         </el-row>
@@ -115,7 +85,7 @@
                         @current-change="handleCurrentChange"
                         class="pagination_content"
                         :current-page="formSearch.pageNum"
-                        layout="total, prev, pager, next, jumper"
+                        layout="total, sizes, prev, pager, next"
                         :page-size="formSearch.pageSize"
                         :total="total"
                 ></el-pagination>
@@ -160,6 +130,7 @@
                 pages: 0,
                 tableList: [],
                 error: false,
+                searchBoxVisible: false,
                 createDialogVisible: false,
                 createRoleLoading: false,
                 updateDialogVisible: false,
