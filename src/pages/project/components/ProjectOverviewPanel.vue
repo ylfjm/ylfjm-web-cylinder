@@ -58,17 +58,6 @@
 </script>
 
 <style scoped>
-    .panel-actions {
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: 7px 13px 7px 8px;
-        margin-bottom: 0;
-        list-style: none;
-        display: block;
-        box-sizing: border-box;
-    }
-
     .panel-body .col-4 {
         width: 33.33333333%;
         display: table-cell;

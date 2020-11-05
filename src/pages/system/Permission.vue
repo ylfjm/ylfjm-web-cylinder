@@ -15,9 +15,7 @@
             </el-aside>
             <el-main>
                 <div class="search_box">
-                    <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab-active' : ''">
-                        <i class="el-icon-search" style="font-weight: bold"></i> 搜索
-                    </a>
+                    <CustomLinkButton @backFunc="changeSearchBox" :btnText="'搜索'" :active="searchBoxVisible"></CustomLinkButton>
                     <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
                         添加权限
                     </el-button>
@@ -147,6 +145,7 @@
     import CreateDialogForm from '@/components/common/CreateDialogForm'
     import UpdateDialogForm from '@/components/common/UpdateDialogForm'
     import {mapState} from 'vuex'
+    import CustomLinkButton from '@/components/common/CustomLinkButton'
 
     export default {
         name: 'permissionPage',
@@ -212,6 +211,9 @@
             }
         },
         methods: {
+            changeSearchBox() {
+                this.searchBoxVisible = !this.searchBoxVisible
+            },
             onSearch() {
                 this.formSearch.checkMenuId = 0
                 this.formSearch.pageNum = 1
@@ -368,6 +370,7 @@
         components: {
             CreateDialogForm,
             UpdateDialogForm,
+            CustomLinkButton,
         }
     }
 </script>

@@ -1,9 +1,7 @@
 <template>
     <div class="container-body-content">
         <div class="search_box">
-            <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab-active' : ''">
-                <i class="el-icon-search" style="font-weight: bold"></i> 搜索
-            </a>
+            <CustomLinkButton @backFunc="changeSearchBox" :btnText="'搜索'" :active="searchBoxVisible"></CustomLinkButton>
             <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
                 新增部门
             </el-button>
@@ -66,22 +64,6 @@
                         </router-link>
                     </template>
                 </el-table-column>
-                <!--<el-table-column
-                        prop="createTime"
-                        label="创建时间"
-                ></el-table-column>
-                <el-table-column
-                        prop="creator"
-                        label="创建者"
-                ></el-table-column>
-                <el-table-column
-                        prop="updateTime"
-                        label="修改时间"
-                ></el-table-column>
-                <el-table-column
-                        prop="updater"
-                        label="修改者"
-                ></el-table-column>-->
                 <el-table-column
                         align="center"
                         fixed="right"
@@ -138,6 +120,7 @@
     import UpdateDialogForm from '@/components/common/UpdateDialogForm'
     import {mapState} from 'vuex'
     import my_pagination from '@/components/common/Pagination'
+    import CustomLinkButton from '@/components/common/CustomLinkButton'
 
     export default {
         name: 'departmentPage',
@@ -181,6 +164,9 @@
             }
         },
         methods: {
+            changeSearchBox() {
+                this.searchBoxVisible = !this.searchBoxVisible
+            },
             //新增修改弹窗回传值
             changeFieldValue(data) {
                 this[data.type][data.fieldName] = data.value
@@ -317,6 +303,7 @@
         components: {
             CreateDialogForm,
             UpdateDialogForm,
+            CustomLinkButton,
             my_pagination,
         }
     }

@@ -1,9 +1,7 @@
 <template>
     <div class="container-body-content">
         <div class="search_box">
-            <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab-active' : ''">
-                <i class="el-icon-search" style="font-weight: bold"></i> 搜索
-            </a>
+            <CustomLinkButton @backFunc="changeSearchBox" :btnText="'搜索'" :active="searchBoxVisible"></CustomLinkButton>
             <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
                 新增角色
             </el-button>
@@ -116,6 +114,7 @@
     import CreateRole from './container/role/CreateRole'
     import UpdateRole from './container/role/UpdateRole'
     import {mapState} from 'vuex'
+    import CustomLinkButton from '@/components/common/CustomLinkButton'
 
     export default {
         name: 'rolePage',
@@ -141,6 +140,9 @@
             }
         },
         methods: {
+            changeSearchBox() {
+                this.searchBoxVisible = !this.searchBoxVisible
+            },
             async onSearch() {
                 this.formSearch.pageNum = 1
                 this.searchCommon()
@@ -294,6 +296,7 @@
         components: {
             CreateRole,
             UpdateRole,
+            CustomLinkButton,
         }
     }
 </script>

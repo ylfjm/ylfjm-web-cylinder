@@ -1,9 +1,7 @@
 <template>
     <div class="container-body-content">
         <div class="search_box">
-            <a id="searchTab" @click="searchBoxVisible = !searchBoxVisible" :class="searchBoxVisible ? 'searchTab-active' : ''">
-                <i class="el-icon-search" style="font-weight: bold"></i> 搜索
-            </a>
+            <CustomLinkButton @backFunc="changeSearchBox" :btnText="'搜索'" :active="searchBoxVisible"></CustomLinkButton>
             <el-button @click="showCreateDialog" type="primary" style="float: right;">
                 <i class="el-icon-plus" style="font-weight: bold"></i>
                 新增用户
@@ -200,6 +198,7 @@
     import SelectTableDataForm from '@/components/common/SelectTableDataForm'
     import {mapState} from 'vuex'
     import CryptoJS from 'crypto-js'
+    import CustomLinkButton from '@/components/common/CustomLinkButton'
 
     export default {
         name: 'adminPage',
@@ -389,6 +388,9 @@
             })
         },
         methods: {
+            changeSearchBox() {
+                this.searchBoxVisible = !this.searchBoxVisible
+            },
             //密码校验
             checkPassword(rule, value, callback) {
                 const phoneReg = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-z]|[A-Z]|[0-9]){6,}$/
@@ -638,7 +640,8 @@
             AutoSelectForm,
             CreateDialogForm,
             UpdateDialogForm,
-            SelectTableDataForm
+            SelectTableDataForm,
+            CustomLinkButton,
         }
     }
 </script>
