@@ -174,9 +174,7 @@
                 form: {
                     name: '',
                     url: '',
-                    icon: 'menu.png',
                     pid: [],
-                    description: '',
                     sorts: 0
                 },
                 columns: [
