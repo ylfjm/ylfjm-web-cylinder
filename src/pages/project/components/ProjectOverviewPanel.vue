@@ -14,7 +14,7 @@
                 </el-dropdown>
             </nav>
         </div>
-        <div class="panel-body">
+        <div class="panel-body table-row">
             <div class="col-4">
                 <div style="text-align: center;">
                     <div style="line-height: 20px; color: #3c495c;">所有项目</div>

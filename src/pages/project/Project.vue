@@ -1,12 +1,14 @@
 <template>
-    <div class="container-body-content dashboard">
-        <div class="col-main">
-            <ProjectStatisticPanel></ProjectStatisticPanel>
-            <ProcessingProjectPanel></ProcessingProjectPanel>
-        </div>
-        <div class="col-side">
-            <ProjectOverviewPanel></ProjectOverviewPanel>
-            <ProjectOverviewPanel></ProjectOverviewPanel>
+    <div class="container-body-content">
+        <div class="dashboard">
+            <div class="col-main">
+                <ProjectStatisticPanel></ProjectStatisticPanel>
+                <ProcessingProjectPanel></ProcessingProjectPanel>
+            </div>
+            <div class="col-side">
+                <ProjectOverviewPanel></ProjectOverviewPanel>
+                <ProjectOverviewPanel></ProjectOverviewPanel>
+            </div>
         </div>
     </div>
 </template>

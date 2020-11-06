@@ -26,98 +26,96 @@
                 </ul>
             </div>
             <div class="tab-content">
-                <div class="tab-pane">
-                    <div class="table-row">
-                        <div class="col-5">
-                            <div class="progress-pie">
-                                <el-progress type="circle" :stroke-width="8" :width="108" :percentage="45"></el-progress>
-                                <div class="progress-info">
-                                    <small>已完成</small>
-                                    <strong>99
-                                        <small>%</small>
-                                    </strong>
-                                </div>
-                            </div>
-                            <div class="table-row text-muted">
-                                <div class="col-4 text-bottom">
-                                    <div>预计</div>
-                                    <div>0 <span class="muted">小时</span></div>
-                                </div>
-                                <div class="col-4">
-                                    <span class=""></span>
-                                    <div>消耗</div>
-                                    <div>0 <span class="muted">小时</span></div>
-                                </div>
-                                <div class="col-4">
-                                    <span class=""></span>
-                                    <div>剩余</div>
-                                    <div>0 <span class="muted">小时</span></div>
-                                </div>
+                <div class="table-row">
+                    <div class="col-5">
+                        <div class="progress-pie">
+                            <el-progress type="circle" :stroke-width="8" :width="108" :percentage="45"></el-progress>
+                            <div class="progress-info">
+                                <small>已完成</small>
+                                <strong>99
+                                    <small>%</small>
+                                </strong>
                             </div>
                         </div>
-                        <div class="col-7">
-                            <div class="product-info">
-                                <div class="progress-info"><i class="el-icon-success"></i>
-                                    <span class="text-muted">昨日完成</span>
-                                    <strong> 0</strong>
-                                </div>
-                                <el-progress type="line" :stroke-width="8" :percentage="85" class="progress"></el-progress>
-                                <div class="type-info">
-                                    <table class="status-count">
-                                        <tbody>
-                                        <tr>
-                                            <td class="text-right">总任务 :</td>
-                                            <td class="text-left">0</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-right">未完成 :</td>
-                                            <td class="text-left">0</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="table-row text-muted">
+                            <div class="col-4 text-bottom">
+                                <div>预计</div>
+                                <div>0 <span class="muted">小时</span></div>
                             </div>
-                            <div class="product-info">
-                                <div class="progress-info"><i class="el-icon-success"></i>
-                                    <span class="text-muted">已发布</span>
-                                    <strong> 0</strong>
-                                </div>
-                                <el-progress type="line" :stroke-width="8" :percentage="15" class="progress"></el-progress>
-                                <div class="type-info">
-                                    <table class="status-count">
-                                        <tbody>
-                                        <tr>
-                                            <td class="text-right">总需求 :</td>
-                                            <td class="text-left">0</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-right">未关闭 :</td>
-                                            <td class="text-left">0</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="col-4">
+                                <span class=""></span>
+                                <div>消耗</div>
+                                <div>0 <span class="muted">小时</span></div>
                             </div>
-                            <div class="product-info">
-                                <div class="progress-info"><i class="el-icon-success"></i>
-                                    <span class="text-muted">昨天解决</span>
-                                    <strong> 0</strong>
-                                </div>
-                                <el-progress type="line" :stroke-width="8" :percentage="45" class="progress"></el-progress>
-                                <div class="type-info">
-                                    <table>
-                                        <tbody>
-                                        <tr>
-                                            <td class="text-right">所有 Bug :</td>
-                                            <td class="text-left">0</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-right">未解决 :</td>
-                                            <td class="text-left">0</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="col-4">
+                                <span class=""></span>
+                                <div>剩余</div>
+                                <div>0 <span class="muted">小时</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="product-info">
+                            <div class="progress-info"><i class="el-icon-success"></i>
+                                <span class="text-muted">昨日完成</span>
+                                <strong> 0</strong>
+                            </div>
+                            <el-progress type="line" :stroke-width="8" :percentage="85" class="progress"></el-progress>
+                            <div class="type-info">
+                                <table class="status-count">
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-right">总任务 :</td>
+                                        <td class="text-left">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right">未完成 :</td>
+                                        <td class="text-left">0</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="progress-info"><i class="el-icon-success"></i>
+                                <span class="text-muted">已发布</span>
+                                <strong> 0</strong>
+                            </div>
+                            <el-progress type="line" :stroke-width="8" :percentage="15" class="progress"></el-progress>
+                            <div class="type-info">
+                                <table class="status-count">
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-right">总需求 :</td>
+                                        <td class="text-left">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right">未关闭 :</td>
+                                        <td class="text-left">0</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="progress-info"><i class="el-icon-success"></i>
+                                <span class="text-muted">昨天解决</span>
+                                <strong> 0</strong>
+                            </div>
+                            <el-progress type="line" :stroke-width="8" :percentage="45" class="progress"></el-progress>
+                            <div class="type-info">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-right">所有 Bug :</td>
+                                        <td class="text-left">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right">未解决 :</td>
+                                        <td class="text-left">0</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -190,12 +188,6 @@
 </script>
 
 <style scoped>
-    .table-row {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-        box-sizing: border-box;
-    }
 
     .col-nav {
         box-sizing: border-box;
@@ -309,7 +301,7 @@
         box-sizing: border-box;
     }
 
-    .tab-pane {
+    /*.tab-pane {
         display: block;
         opacity: 1;
         box-sizing: border-box;
@@ -317,7 +309,7 @@
         font-size: 13px;
         transition-delay: 0s;
         transition: opacity .15s linear;
-    }
+    }*/
 
     .panel-body .col-5 {
         width: 41.66666667%;
