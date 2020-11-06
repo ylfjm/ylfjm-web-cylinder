@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import moment from 'moment'
 
 import App from './App.vue'
 import router from './router'
@@ -12,6 +13,8 @@ import './common/stylus/common.styl'
 import './assets/css/common.css'
 
 Vue.use(ElementUI, {size: 'small'});
+Vue.use(moment);
+Vue.prototype.$moment = moment;
 Vue.prototype.$service = Service;
 Vue.config.productionTip = false;
 

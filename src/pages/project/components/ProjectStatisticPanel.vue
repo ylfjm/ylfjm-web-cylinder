@@ -33,7 +33,7 @@
                                 <el-progress type="circle" :stroke-width="8" :width="108" :percentage="45"></el-progress>
                                 <div class="progress-info">
                                     <small>已完成</small>
-                                    <strong>45
+                                    <strong>99
                                         <small>%</small>
                                     </strong>
                                 </div>
@@ -44,12 +44,12 @@
                                     <div>0 <span class="muted">小时</span></div>
                                 </div>
                                 <div class="col-4">
-                                    <span class="label label-dot label-primary"></span>
+                                    <span class=""></span>
                                     <div>消耗</div>
                                     <div>0 <span class="muted">小时</span></div>
                                 </div>
                                 <div class="col-4">
-                                    <span class="label label-dot label-pale"></span>
+                                    <span class=""></span>
                                     <div>剩余</div>
                                     <div>0 <span class="muted">小时</span></div>
                                 </div>
@@ -57,80 +57,66 @@
                         </div>
                         <div class="col-7">
                             <div class="product-info">
-                                <div class="progress-info"><i class="icon icon-check-circle text-success icon-sm"></i> <span
-                                        class="text-muted">昨日完成</span>
-                                    <strong>0</strong></div>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 0%">
-                                    </div>
+                                <div class="progress-info"><i class="el-icon-success"></i>
+                                    <span class="text-muted">昨日完成</span>
+                                    <strong> 0</strong>
                                 </div>
+                                <el-progress type="line" :stroke-width="8" :percentage="85" class="progress"></el-progress>
                                 <div class="type-info">
-                                    <div class="type-label">
-                                        <table class="status-count">
-                                            <tbody>
-                                            <tr>
-                                                <td class="text-right">总任务 :</td>
-                                                <td class="text-left">0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">未完成 :</td>
-                                                <td class="text-left">0</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <table class="status-count">
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-right">总任务 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">未完成 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="product-info">
-                                <div class="progress-info"><i class="icon icon-check-circle text-success icon-sm"></i> <span
-                                        class="text-muted">已发布</span>
-                                    <strong>0</strong></div>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 0%"></div>
+                                <div class="progress-info"><i class="el-icon-success"></i>
+                                    <span class="text-muted">已发布</span>
+                                    <strong> 0</strong>
                                 </div>
+                                <el-progress type="line" :stroke-width="8" :percentage="15" class="progress"></el-progress>
                                 <div class="type-info">
-                                    <div class="type-label">
-                                        <table class="status-count">
-                                            <tbody>
-                                            <tr>
-                                                <td class="text-right">总需求 :</td>
-                                                <td class="text-left">0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">未关闭 :</td>
-                                                <td class="text-left">0</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <table class="status-count">
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-right">总需求 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">未关闭 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="product-info">
-                                <div class="progress-info"><i class="icon icon-check-circle text-success icon-sm"></i> <span
-                                        class="text-muted">昨天解决</span>
-                                    <strong>0</strong></div>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 0%">
-                                    </div>
+                                <div class="progress-info"><i class="el-icon-success"></i>
+                                    <span class="text-muted">昨天解决</span>
+                                    <strong> 0</strong>
                                 </div>
+                                <el-progress type="line" :stroke-width="8" :percentage="45" class="progress"></el-progress>
                                 <div class="type-info">
-                                    <div class="type-label">
-                                        <table class="status-count">
-                                            <tbody>
-                                            <tr>
-                                                <td class="text-right">所有 Bug :</td>
-                                                <td class="text-left">0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right">未解决 :</td>
-                                                <td class="text-left">0</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-right">所有 Bug :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">未解决 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -225,13 +211,31 @@
 
     .col-nav > ul {
         box-sizing: border-box;
-        overflow: auto;
+        overflow: hidden;
         max-height: 220px;
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
         margin-top: 0;
     }
+
+    .col-nav > ul:hover {
+        overflow: auto;
+    }
+
+    /*.col-nav > ul::-webkit-scrollbar {
+        width: 8px;
+        visibility: collapse;
+    }
+
+    .col-nav > ul::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, .2);
+        border-radius: 5px;
+    }
+
+    .col-nav > ul::-webkit-scrollbar-thumb:hover {
+        background-color: #777;
+    }*/
 
     .col-nav > ul > li {
         box-sizing: border-box;
@@ -338,7 +342,7 @@
         box-sizing: border-box;
     }
 
-    .progress-info {
+    .progress-pie .progress-info {
         position: absolute;
         top: 0;
         left: 0;
@@ -349,7 +353,7 @@
         box-sizing: border-box;
     }
 
-    .progress-info > small {
+    .progress-pie .progress-info > small {
         line-height: 18px;
         display: block;
         color: #a6aab8;
@@ -358,7 +362,7 @@
         text-align: center;
     }
 
-    .progress-info > strong {
+    .progress-pie .progress-info > strong {
         display: block;
         font-size: 33px;
         line-height: 40px;
@@ -367,7 +371,7 @@
         text-align: center;
     }
 
-    .progress-info > strong > small {
+    .progress-pie .progress-info > strong > small {
         font-size: 20px;
         box-sizing: border-box;
     }
@@ -397,5 +401,60 @@
         vertical-align: top;
     }
 
+    .product-info {
+        position: relative;
+        height: 65px;
+        box-sizing: border-box;
+    }
+
+    .product-info .progress-info {
+        position: absolute;
+        left: 8px;
+        top: 10px;
+        width: 180px;
+        font-size: 12px;
+        box-sizing: border-box;
+    }
+
+    .product-info .progress-info > [class*=icon-] {
+        color: #00da88;
+    }
+
+    .product-info .progress-info .text-muted {
+        padding: 0 0 0 5px;
+    }
+
+    .product-info .progress {
+        position: absolute;
+        left: 10px;
+        top: 25px;
+        right: 50px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    .product-info .type-info {
+        color: #A6AAB8;
+        text-align: center;
+        position: absolute;
+        right: 0;
+        top: 6px;
+        width: 100px;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .product-info .type-info table {
+        margin: auto;
+        color: #3c4353;
+        max-width: 100%;
+        background-color: transparent;
+        border-spacing: 0;
+        border-collapse: collapse;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
 
 </style>

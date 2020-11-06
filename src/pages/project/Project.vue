@@ -2,14 +2,7 @@
     <div class="container-body-content dashboard">
         <div class="col-main">
             <ProjectStatisticPanel></ProjectStatisticPanel>
-            <div class="panel">
-                <div class="panel-heading">
-                    <div class="panel-title">项目统计</div>
-                </div>
-                <div class="panel-body">
-
-                </div>
-            </div>
+            <ProcessingProjectPanel></ProcessingProjectPanel>
         </div>
         <div class="col-side">
             <ProjectOverviewPanel></ProjectOverviewPanel>
@@ -18,8 +11,8 @@
     </div>
 </template>
 <script>
-    import {mapState} from 'vuex'
     import ProjectStatisticPanel from './components/ProjectStatisticPanel'
+    import ProcessingProjectPanel from './components/ProcessingProjectPanel'
     import ProjectOverviewPanel from './components/ProjectOverviewPanel'
 
     export default {
@@ -28,18 +21,13 @@
             return {}
         },
         methods: {},
-        created() {
-        },
-        mounted() {
-        },
         computed: {},
         components: {
             ProjectStatisticPanel,
+            ProcessingProjectPanel,
             ProjectOverviewPanel,
         }
     }
 </script>
-<style scoped lang="stylus">
-    .el-main
-        padding 10px 60px !important
+<style scoped>
 </style>

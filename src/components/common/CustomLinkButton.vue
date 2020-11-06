@@ -1,5 +1,5 @@
 <template>
-    <a @click="click" :class="active ? 'btn-link btn-link-active' : 'btn-link'">
+    <a @click="handleClick" :class="active ? 'btn-link btn-link-active' : 'btn-link'">
         <i class="el-icon-search"></i> {{btnText}}
     </a>
 </template>
@@ -21,7 +21,7 @@
             },
         },
         methods: {
-            click() {
+            handleClick() {
                 this.$emit('backFunc', {});
             }
         },

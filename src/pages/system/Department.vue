@@ -119,7 +119,6 @@
     import CreateDialogForm from '@/components/common/CreateDialogForm'
     import UpdateDialogForm from '@/components/common/UpdateDialogForm'
     import {mapState} from 'vuex'
-    import my_pagination from '@/components/common/Pagination'
     import CustomLinkButton from '@/components/common/CustomLinkButton'
 
     export default {
@@ -304,7 +303,6 @@
             CreateDialogForm,
             UpdateDialogForm,
             CustomLinkButton,
-            my_pagination,
         }
     }
 </script>

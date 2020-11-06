@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import my_header from '@/components/layout/Header.vue'
+    import my_header from './components/layout/Header.vue'
 
     export default {
         name: 'App',

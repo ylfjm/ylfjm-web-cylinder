@@ -22,7 +22,8 @@
                     </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item>个人资料</el-dropdown-item>
-                            <el-dropdown-item divided command="loginOut">退出</el-dropdown-item>
+                            <el-dropdown-item class="el-dropdown-menu-divided"> </el-dropdown-item>
+                            <el-dropdown-item command="loginOut">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -30,7 +31,7 @@
         </div>
         <div id="subHeader">
             <div class="container">
-                <div id="pageNav" class="btn-toolbar"></div>
+                <!--<div id="pageNav" class="btn-toolbar"></div>-->
                 <div id="subNavBar">
                     <ul class="nav">
                         <li v-for="subMenu in subMenuList" :key="subMenu.id" :class="subActiveIndex === subMenu.id ? 'active' : ''">
@@ -38,7 +39,7 @@
                         </li>
                     </ul>
                 </div>
-                <div id="pageActions"></div>
+                <!--<div id="pageActions"></div>-->
             </div>
         </div>
     </header>
@@ -47,6 +48,7 @@
     import {mapState} from 'vuex'
 
     export default {
+        name: "HeaderPage",
         data() {
             return {
                 activeIndex: '',

@@ -33,6 +33,8 @@ const Service = {
     updateRole: data => api.axiosPut(baseUrl + '/api/system/role', data, null),
     deleteRole: data => api.axiosDelete(baseUrl + '/api/system/role/' + data.id, null, null),
 
+    getProcessingProjectList: data => api.axiosGet(baseUrl + '/api/system/project/' + data.pageNum + '/' + data.pageSize, null, data),
+
 };
 
 export default Service
