@@ -1,8 +1,8 @@
 <template>
     <div class="panel">
-        <div class="panel-heading">
+        <div class="panel-header">
             <div class="panel-title">项目统计</div>
-            <nav class="panel-actions">
+            <nav class="panel-dropdown">
                 <el-dropdown trigger="click">
                     <span style="cursor: pointer; font-size: 18px;">
                         <i class="el-icon-more"></i>
@@ -14,108 +14,110 @@
                 </el-dropdown>
             </nav>
         </div>
-        <div class="panel-body table-row">
-            <div class="col-nav">
-                <ul>
-                    <template v-for="item in projectList">
-                        <li :class="projectId === item.id ? 'active' : ''" @mouseover="handleMouseover(item.id)" @mouseout="handleMouseout">
-                            <a @click="handleClick(item.id)">{{item.name}}</a>
-                            <a class="btn-view" title="任务列表" v-show="projectId2 === item.id"><i class="el-icon-right"></i></a>
-                        </li>
-                    </template>
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="table-row">
-                    <div class="col-5">
-                        <div class="progress-pie">
-                            <el-progress type="circle" :stroke-width="8" :width="108" :percentage="45"></el-progress>
-                            <div class="progress-info">
-                                <small>已完成</small>
-                                <strong>99
-                                    <small>%</small>
-                                </strong>
+        <div class="panel-body">
+            <div class="dp-table">
+                <div class="dp-table-cell vertical-nav">
+                    <ul>
+                        <template v-for="item in projectList">
+                            <li :class="projectId === item.id ? 'active' : ''" @mouseover="handleMouseover(item.id)" @mouseout="handleMouseout">
+                                <a @click="handleClick(item.id)">{{item.name}}</a>
+                                <a title="任务列表" v-show="projectId2 === item.id"><i class="el-icon-right"></i></a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+                <div class="dp-table-cell">
+                    <div class="dp-table">
+                        <div class="col-5 dp-table-cell vertical-middle text-center">
+                            <div class="progress">
+                                <el-progress type="circle" :stroke-width="8" :width="108" :percentage="45"></el-progress>
+                                <div class="progress-scale">
+                                    <small style="color: #a6aab8;">已完成</small>
+                                    <strong style="display: block; font-size: 33px;">99
+                                        <small style="font-size: 20px;">%</small>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="dp-table" style="color: #838a9d; padding: 20px 40px 0 40px; font-size: 10px;">
+                                <div class="col-4 dp-table-cell">
+                                    <div>预计</div>
+                                    <div>0 <span style="opacity: 0.5;">小时</span></div>
+                                </div>
+                                <div class="col-4 dp-table-cell">
+                                    <span class=""></span>
+                                    <div>消耗</div>
+                                    <div>0 <span style="opacity: 0.5;">小时</span></div>
+                                </div>
+                                <div class="col-4 dp-table-cell">
+                                    <span class=""></span>
+                                    <div>剩余</div>
+                                    <div>0 <span style="opacity: 0.5;">小时</span></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="table-row text-muted">
-                            <div class="col-4 text-bottom">
-                                <div>预计</div>
-                                <div>0 <span class="muted">小时</span></div>
+                        <div class="col-7 dp-table-cell">
+                            <div class="product-info">
+                                <div class="progress-info"><i class="el-icon-success" style="color: #00da88;"></i>
+                                    <span style="color: #838a9d;"> 昨日完成</span>
+                                    <strong> 0</strong>
+                                </div>
+                                <el-progress type="line" :stroke-width="8" :percentage="85" class="progress"></el-progress>
+                                <div class="type-info">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-right">总任务 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">未完成 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <span class=""></span>
-                                <div>消耗</div>
-                                <div>0 <span class="muted">小时</span></div>
+                            <div class="product-info">
+                                <div class="progress-info"><i class="el-icon-success" style="color: #00da88;"></i>
+                                    <span style="color: #838a9d;"> 已发布</span>
+                                    <strong> 0</strong>
+                                </div>
+                                <el-progress type="line" :stroke-width="8" :percentage="15" class="progress"></el-progress>
+                                <div class="type-info">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-right">总需求 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">未关闭 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <span class=""></span>
-                                <div>剩余</div>
-                                <div>0 <span class="muted">小时</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-7">
-                        <div class="product-info">
-                            <div class="progress-info"><i class="el-icon-success"></i>
-                                <span class="text-muted">昨日完成</span>
-                                <strong> 0</strong>
-                            </div>
-                            <el-progress type="line" :stroke-width="8" :percentage="85" class="progress"></el-progress>
-                            <div class="type-info">
-                                <table class="status-count">
-                                    <tbody>
-                                    <tr>
-                                        <td class="text-right">总任务 :</td>
-                                        <td class="text-left">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-right">未完成 :</td>
-                                        <td class="text-left">0</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <div class="progress-info"><i class="el-icon-success"></i>
-                                <span class="text-muted">已发布</span>
-                                <strong> 0</strong>
-                            </div>
-                            <el-progress type="line" :stroke-width="8" :percentage="15" class="progress"></el-progress>
-                            <div class="type-info">
-                                <table class="status-count">
-                                    <tbody>
-                                    <tr>
-                                        <td class="text-right">总需求 :</td>
-                                        <td class="text-left">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-right">未关闭 :</td>
-                                        <td class="text-left">0</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <div class="progress-info"><i class="el-icon-success"></i>
-                                <span class="text-muted">昨天解决</span>
-                                <strong> 0</strong>
-                            </div>
-                            <el-progress type="line" :stroke-width="8" :percentage="45" class="progress"></el-progress>
-                            <div class="type-info">
-                                <table>
-                                    <tbody>
-                                    <tr>
-                                        <td class="text-right">所有 Bug :</td>
-                                        <td class="text-left">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-right">未解决 :</td>
-                                        <td class="text-left">0</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="product-info">
+                                <div class="progress-info"><i class="el-icon-success" style="color: #00da88;"></i>
+                                    <span style="color: #838a9d;"> 昨天解决</span>
+                                    <strong> 0</strong>
+                                </div>
+                                <el-progress type="line" :stroke-width="8" :percentage="45" class="progress"></el-progress>
+                                <div class="type-info">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-right">所有 Bug :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">未解决 :</td>
+                                            <td class="text-left">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,67 +191,35 @@
 
 <style scoped>
 
-    .col-nav {
-        box-sizing: border-box;
+    .vertical-nav {
         position: relative;
         min-height: 1px;
         border-right: 1px solid #EBF2FB;
         width: 260px;
-        padding: 0;
-        display: table-cell;
-        float: none;
-        vertical-align: top;
     }
 
-    .col-nav > ul {
-        box-sizing: border-box;
-        overflow: hidden;
+    .vertical-nav > ul {
+        overflow: auto;
         max-height: 220px;
-        padding-left: 0;
-        margin-bottom: 0;
-        list-style: none;
-        margin-top: 0;
     }
 
-    .col-nav > ul:hover {
+    .vertical-nav > ul:hover {
         overflow: auto;
     }
 
-    /*.col-nav > ul::-webkit-scrollbar {
-        width: 8px;
-        visibility: collapse;
-    }
-
-    .col-nav > ul::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, .2);
-        border-radius: 5px;
-    }
-
-    .col-nav > ul::-webkit-scrollbar-thumb:hover {
-        background-color: #777;
-    }*/
-
-    .col-nav > ul > li {
-        box-sizing: border-box;
-        position: relative;
-        float: none;
-        list-style: none;
-    }
-
-    .col-nav > ul > li.active > a:first-child:before {
-        box-sizing: border-box;
+    .vertical-nav > ul > li.active > a:first-child:before {
         content: ' ';
         display: block;
-        left: -1px;
-        top: 10px;
-        bottom: 10px;
-        width: 4px;
         background: #006af1;
         position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 3px;
+        border-radius: 2px;
     }
 
-    .col-nav > ul > li > a {
-        box-sizing: border-box;
+    .vertical-nav > ul > li > a {
         font-size: 14px;
         color: #838A9D;
         position: relative;
@@ -260,14 +230,14 @@
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
         display: block;
-        padding: 8px 15px 8px 36px;
+        padding: 8px 15px;
     }
 
-    .col-nav > ul > li > a:first-child {
+    .vertical-nav > ul > li > a:first-child {
         padding-right: 36px;
     }
 
-    .col-nav > ul > li > a.btn-view {
+    .vertical-nav > ul > li > a:last-child {
         box-shadow: none;
         position: absolute;
         top: 0;
@@ -279,124 +249,31 @@
         background: rgba(0, 0, 0, .05);
     }
 
-    .col-nav > ul > li > a.btn-view > i {
-        display: inline;
+    .vertical-nav > ul > li > a:last-child > i {
         font-size: 18px;
         font-weight: bold;
         color: #0c64eb;
     }
 
-    .col-nav > ul > li > a:hover {
+    .vertical-nav > ul > li > a:hover {
         background-color: #f5f5f5;
     }
 
-    .tab-content {
-        display: table-cell;
-        float: none;
-        vertical-align: top;
+    .progress {
         position: relative;
-        min-height: 1px;
-        padding-right: 10px;
-        padding-left: 10px;
-        box-sizing: border-box;
     }
 
-    /*.tab-pane {
-        display: block;
-        opacity: 1;
-        box-sizing: border-box;
-        color: rgb(60, 67, 83);
-        font-size: 13px;
-        transition-delay: 0s;
-        transition: opacity .15s linear;
-    }*/
-
-    .panel-body .col-5 {
-        width: 41.66666667%;
-        display: table-cell;
-        float: none;
-        box-sizing: border-box;
-        vertical-align: middle;
-        text-align: center;
-    }
-
-    .panel-body .col-7 {
-        width: 58.33333333%;
-        display: table-cell;
-        float: none;
-        box-sizing: border-box;
-    }
-
-    .progress-pie {
-        position: relative;
-        margin-bottom: 20px;
-        display: inline-block;
-        box-sizing: border-box;
-    }
-
-    .progress-pie .progress-info {
+    .progress-scale {
         position: absolute;
-        top: 0;
+        top: 30px;
         left: 0;
         width: 100%;
         height: 100%;
-        text-align: center;
-        padding-top: 30px;
-        box-sizing: border-box;
-    }
-
-    .progress-pie .progress-info > small {
-        line-height: 18px;
-        display: block;
-        color: #a6aab8;
-        font-size: 85%;
-        box-sizing: border-box;
-        text-align: center;
-    }
-
-    .progress-pie .progress-info > strong {
-        display: block;
-        font-size: 33px;
-        line-height: 40px;
-        font-weight: 700;
-        box-sizing: border-box;
-        text-align: center;
-    }
-
-    .progress-pie .progress-info > strong > small {
-        font-size: 20px;
-        box-sizing: border-box;
-    }
-
-    .col-4 {
-        width: 33.33333333%;
-    }
-
-    .text-bottom {
-        vertical-align: bottom !important;
-    }
-
-    .text-muted {
-        text-align: center;
-        color: #838a9d;
-        font-size: 85%;
-        padding: 5px 12px;
-    }
-
-    .muted {
-        opacity: .5;
-    }
-
-    .table-row > .col, .table-row > [class*=col-], .table-row > [class*="-col"] {
-        display: table-cell;
-        float: none;
-        vertical-align: top;
     }
 
     .product-info {
         position: relative;
         height: 65px;
-        box-sizing: border-box;
     }
 
     .product-info .progress-info {
@@ -408,27 +285,18 @@
         box-sizing: border-box;
     }
 
-    .product-info .progress-info > [class*=icon-] {
-        color: #00da88;
-    }
-
-    .product-info .progress-info .text-muted {
-        padding: 0 0 0 5px;
-    }
-
     .product-info .progress {
         position: absolute;
         left: 10px;
         top: 25px;
         right: 50px;
         margin-bottom: 20px;
-        box-sizing: border-box;
     }
 
     .product-info .type-info {
+        position: absolute;
         color: #A6AAB8;
         text-align: center;
-        position: absolute;
         right: 0;
         top: 6px;
         width: 100px;

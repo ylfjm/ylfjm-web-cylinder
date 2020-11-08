@@ -15,6 +15,7 @@ import Permission from "./pages/system/Permission"
 
 //项目模块
 import ProjectIndex from "./pages/project/Project"
+import ProjectTask from "./pages/project/ProjectTask"
 
 Vue.use(VueRouter);
 
@@ -91,6 +92,14 @@ const router = new VueRouter({
             component: ProjectIndex,
             meta: {
                 title: '项目 - 首页'
+            }
+        },
+        {
+            path: "/project-task.html",
+            name: "project-task.html",
+            component: ProjectTask,
+            meta: {
+                title: '项目 - 任务'
             }
         },
     ]

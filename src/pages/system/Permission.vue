@@ -1,5 +1,5 @@
 <template>
-    <div class="container-body-content">
+    <div class="container">
         <el-container class="left-right-structure">
             <el-aside width="200px" class="aside-box">
                 <el-tree

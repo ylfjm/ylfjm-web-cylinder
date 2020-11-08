@@ -1,8 +1,8 @@
 <template>
     <div class="panel">
-        <div class="panel-heading">
+        <div class="panel-header">
             <div class="panel-title">项目总览</div>
-            <nav class="panel-actions">
+            <nav class="panel-dropdown">
                 <el-dropdown trigger="click">
                             <span class="el-dropdown-link" style="cursor: pointer; font-size: 18px;">
                                 <i class="el-icon-more"></i>
@@ -14,7 +14,7 @@
                 </el-dropdown>
             </nav>
         </div>
-        <div class="panel-body table-row">
+        <div class="panel-body dp-table">
             <div class="col-4">
                 <div style="text-align: center;">
                     <div style="line-height: 20px; color: #3c495c;">所有项目</div>
@@ -59,7 +59,6 @@
 
 <style scoped>
     .panel-body .col-4 {
-        width: 33.33333333%;
         display: table-cell;
         float: none;
         box-sizing: border-box;
@@ -68,7 +67,6 @@
     }
 
     .panel-body .col-8 {
-        width: 66.66666667%;
         display: table-cell;
         float: none;
         box-sizing: border-box;
@@ -126,7 +124,7 @@
         box-sizing: border-box;
     }
 
-    .panel-body ul.status-bars .bar::after {
+    .panel-body ul.status-bars .bar:after {
         position: absolute;
         right: -50px;
         bottom: 0;

@@ -1,5 +1,5 @@
 <template>
-    <div class="container-body-content">
+    <div class="container">
         <div class="search_box">
             <CustomLinkButton @backFunc="changeSearchBox" :btnText="'搜索'" :active="searchBoxVisible"></CustomLinkButton>
             <el-button @click="showCreateDialog" type="primary" style="float: right;">

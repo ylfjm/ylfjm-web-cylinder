@@ -1,5 +1,5 @@
 <template>
-    <div class="container-body-content">
+    <div class="container">
         <div class="dashboard">
             <div class="col-main">
                 <ProjectStatisticPanel></ProjectStatisticPanel>

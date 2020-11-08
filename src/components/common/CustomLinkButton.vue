@@ -51,7 +51,7 @@
         color: #0c64eb;
     }
 
-    .btn-link-active::before {
+    .btn-link-active:before {
         position: absolute;
         bottom: -14px;
         left: 40%;

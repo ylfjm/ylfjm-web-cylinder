@@ -1,8 +1,8 @@
 <template>
     <div class="panel">
-        <div class="panel-heading">
+        <div class="panel-header">
             <div class="panel-title">进行中的项目</div>
-            <nav class="panel-actions">
+            <nav class="panel-dropdown">
                 <el-dropdown trigger="click">
                     <span style="cursor: pointer; font-size: 18px;">
                         <i class="el-icon-more"></i>
@@ -99,8 +99,6 @@
         },
         methods: {
             async searchCommon() {
-                let a = moment('2018-12-05 11:30:36').format('YYYY-MM-DD');
-                console.log(a)
                 this.searchLoading = true;
                 const res = await this.$service.getProcessingProjectList({pageNum: 1, pageSize: 10000});
                 this.searchLoading = false;
@@ -110,6 +108,11 @@
                         if (item.end) {
                             item.end = moment(item.end).format('YYYY-MM-DD');
                         }
+                    })
+                } else {
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '加载数据失败',
                     })
                 }
             },
@@ -124,11 +127,6 @@
 </script>
 
 <style scoped>
-    .panel-body {
-        padding: 0 10px 10px 10px;
-        box-sizing: border-box;
-        width: 100%;
-    }
 
     .table-content {
         margin-top: 0 !important;
