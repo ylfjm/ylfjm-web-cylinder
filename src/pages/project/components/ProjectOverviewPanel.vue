@@ -15,7 +15,7 @@
             </nav>
         </div>
         <div class="panel-body dp-table">
-            <div class="col-4">
+            <div class="col-4 dp-table-cell vertical-middle">
                 <div style="text-align: center;">
                     <div style="line-height: 20px; color: #3c495c;">所有项目</div>
                     <div style="font-size: 46px; margin-bottom: 10px; font-weight: 700; line-height: 56px;">442</div>
@@ -27,7 +27,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-8 dp-table-cell vertical-middle">
                 <ul class="status-bars">
                     <li>
                         <span class="bar" style="height: 0%"><span class="value">0</span></span>
@@ -59,19 +59,9 @@
 
 <style scoped>
     .panel-body .col-4 {
-        display: table-cell;
-        float: none;
-        box-sizing: border-box;
-        vertical-align: middle;
-        text-align: center;
     }
 
     .panel-body .col-8 {
-        display: table-cell;
-        float: none;
-        box-sizing: border-box;
-        vertical-align: middle;
-        text-align: center;
     }
 
     .panel-body .look-all {

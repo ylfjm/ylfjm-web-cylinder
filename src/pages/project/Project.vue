@@ -7,7 +7,7 @@
             </div>
             <div class="col-side">
                 <ProjectOverviewPanel></ProjectOverviewPanel>
-                <ProjectOverviewPanel></ProjectOverviewPanel>
+                <ProjectTaskPanel></ProjectTaskPanel>
             </div>
         </div>
     </div>
@@ -16,6 +16,7 @@
     import ProjectStatisticPanel from './components/ProjectStatisticPanel'
     import ProcessingProjectPanel from './components/ProcessingProjectPanel'
     import ProjectOverviewPanel from './components/ProjectOverviewPanel'
+    import ProjectTaskPanel from './components/ProjectTaskPanel'
 
     export default {
         name: 'projectIndexPage',
@@ -28,6 +29,7 @@
             ProjectStatisticPanel,
             ProcessingProjectPanel,
             ProjectOverviewPanel,
+            ProjectTaskPanel,
         }
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">进行中的项目</div>
+            <div class="panel-title">指派给我的任务</div>
             <nav class="panel-dropdown">
                 <el-dropdown trigger="click">
                     <span style="cursor: pointer; font-size: 18px;">
@@ -19,33 +19,31 @@
                         :data="tableList"
                         tooltip-effect="dark"
                         v-loading="searchLoading"
-                        :header-cell-style="{fontSize: '14px', color: '#333333'}"
+                        :header-cell-style="{fontSize: '13px', color: '#333333'}"
                         stripe
                         height="380"
                 >
                     <el-table-column
-                            type="index"
-                            :index="index => index + 1"
-                            align="center"
-                            fixed="left"
-                            min-width="70"
-                            label="序号"
+                            prop="id"
+                            min-width="30"
+                            show-overflow-tooltip
+                            label="ID"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="aaa"
+                            min-width="50"
+                            show-overflow-tooltip
+                            label="等级"
                     ></el-table-column>
                     <el-table-column
                             prop="name"
-                            min-width="150"
+                            min-width="100"
                             show-overflow-tooltip
-                            label="项目名称"
-                    ></el-table-column>
-                    <el-table-column
-                            prop="end"
-                            min-width="130"
-                            show-overflow-tooltip
-                            label="截止日期"
+                            label="任务名称"
                     ></el-table-column>
                     <el-table-column
                             prop="status"
-                            min-width="130"
+                            min-width="50"
                             show-overflow-tooltip
                             label="状态"
                     >
@@ -55,30 +53,6 @@
                             <div v-if="scope.row.status === 'closed'" style="color: #FF0000;">已关闭</div>
                         </template>
                     </el-table-column>
-                    <el-table-column
-                            prop="aaa"
-                            min-width="130"
-                            show-overflow-tooltip
-                            label="预计"
-                    ></el-table-column>
-                    <el-table-column
-                            prop="aaa"
-                            min-width="130"
-                            show-overflow-tooltip
-                            label="消耗"
-                    ></el-table-column>
-                    <el-table-column
-                            prop="aaa"
-                            min-width="130"
-                            show-overflow-tooltip
-                            label="剩余"
-                    ></el-table-column>
-                    <el-table-column
-                            prop="status"
-                            min-width="130"
-                            show-overflow-tooltip
-                            label="进度"
-                    ></el-table-column>
                 </el-table>
         </div>
     </div>
