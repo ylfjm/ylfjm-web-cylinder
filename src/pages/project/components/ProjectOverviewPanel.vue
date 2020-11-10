@@ -58,12 +58,6 @@
 </script>
 
 <style scoped>
-    .panel-body .col-4 {
-    }
-
-    .panel-body .col-8 {
-    }
-
     .panel-body .look-all {
         position: relative;
         box-sizing: border-box;

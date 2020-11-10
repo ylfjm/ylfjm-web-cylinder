@@ -8,7 +8,7 @@
                         <template v-for="menu in menuList">
                             <li v-if="menu.url === '/system'" class="divider"></li>
                             <li :class="activeIndex === menu.id ? 'active' : ''">
-                                <a @click="chooseSubMenu(menu.id)">{{menu.name}}</a>
+                                <a @click="clickMainMenu(menu.id)" v-text="menu.name"></a>
                             </li>
                         </template>
                     </ul>
@@ -32,7 +32,7 @@
                 <div id="subMenuBar">
                     <ul>
                         <li v-for="subMenu in subMenuList" :key="subMenu.id" :class="subActiveIndex === subMenu.id ? 'active' : ''">
-                            <a @click="routerPage(subMenu.id)">{{subMenu.name}}</a>
+                            <a @click="clickSubMenu(subMenu.id)" v-text="subMenu.name"></a>
                         </li>
                     </ul>
                 </div>
@@ -59,7 +59,7 @@
             })
         },
         methods: {
-            chooseSubMenu(id) {
+            clickMainMenu(id) {
                 this.activeIndex = id;
                 this.subMenuList = [];
                 this.menuList.map(item => {
@@ -70,7 +70,7 @@
                     }
                 })
             },
-            routerPage(id) {
+            clickSubMenu(id) {
                 this.subActiveIndex = id;
                 this.subMenuList.map(item => {
                     if (item.id === id) {
@@ -93,13 +93,13 @@
                 this.subMenuList = item.subMenus;
                 if (item.url && item.url === url) {
                     this.activeIndex = item.id;
-                    break;
+                    return;
                 }
                 for (let item2 of this.subMenuList) {
                     if (item2.url && item2.url === url) {
                         this.activeIndex = item.id;
                         this.subActiveIndex = item2.id;
-                        break;
+                        return;
                     }
                 }
             }

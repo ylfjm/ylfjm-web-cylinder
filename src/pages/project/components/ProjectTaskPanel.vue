@@ -15,54 +15,42 @@
             </nav>
         </div>
         <div class="panel-body">
-                <el-table
-                        :data="tableList"
-                        tooltip-effect="dark"
-                        v-loading="searchLoading"
-                        :header-cell-style="{fontSize: '13px', color: '#333333'}"
-                        stripe
-                        height="380"
-                >
-                    <el-table-column
-                            prop="id"
-                            min-width="30"
-                            show-overflow-tooltip
-                            label="ID"
-                    ></el-table-column>
-                    <el-table-column
-                            prop="aaa"
-                            min-width="50"
-                            show-overflow-tooltip
-                            label="等级"
-                    ></el-table-column>
-                    <el-table-column
-                            prop="name"
-                            min-width="100"
-                            show-overflow-tooltip
-                            label="任务名称"
-                    ></el-table-column>
-                    <el-table-column
-                            prop="status"
-                            min-width="50"
-                            show-overflow-tooltip
-                            label="状态"
-                    >
-                        <template slot-scope="scope">
-                            <div v-if="scope.row.status === 'suspended'" style="color: #FF9900;">已挂起</div>
-                            <div v-if="scope.row.status === 'wait'" style="color: #FF3300;">进行中</div>
-                            <div v-if="scope.row.status === 'closed'" style="color: #FF0000;">已关闭</div>
-                        </template>
-                    </el-table-column>
-                </el-table>
+            <el-table
+                    :data="tableList"
+                    tooltip-effect="dark"
+                    v-loading="searchLoading"
+                    :header-cell-style="{fontSize: '13px', color: '#333333'}"
+                    stripe
+                    height="380"
+            >
+                <el-table-column
+                        prop="id"
+                        show-overflow-tooltip
+                        label="ID"
+                ></el-table-column>
+                <el-table-column
+                        prop="aaa"
+                        show-overflow-tooltip
+                        label="等级"
+                ></el-table-column>
+                <el-table-column
+                        prop="name"
+                        show-overflow-tooltip
+                        label="任务名称"
+                ></el-table-column>
+                <el-table-column
+                        prop="status"
+                        show-overflow-tooltip
+                        label="状态"
+                ></el-table-column>
+            </el-table>
         </div>
     </div>
 </template>
 
 <script>
-    import moment from 'moment'
-
     export default {
-        name: "ProcessingProjectPanel",
+        name: "ProjectTaskPanel",
         data() {
             return {
                 tableList: [],
@@ -76,11 +64,6 @@
                 this.searchLoading = false;
                 if (res.code === 20000) {
                     this.tableList = res.data.result || []
-                    this.tableList.map(item => {
-                        if (item.end) {
-                            item.end = moment(item.end).format('YYYY-MM-DD');
-                        }
-                    })
                 } else {
                     this.$notify.error({
                         title: '提示',
@@ -90,11 +73,9 @@
             },
         },
         created() {
-            this.searchCommon()
+            // this.searchCommon()
         },
-        components: {
-            moment
-        }
+        components: {}
     }
 </script>
 
