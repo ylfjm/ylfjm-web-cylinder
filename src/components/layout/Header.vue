@@ -6,7 +6,7 @@
                 <nav id="menuBar">
                     <ul>
                         <template v-for="menu in menuList">
-                            <li v-if="menu.url === '/system'" class="divider"></li>
+                            <li v-if="menu.url === '/system.html'" class="divider"></li>
                             <li :class="activeIndex === menu.id ? 'active' : ''">
                                 <a @click="clickMainMenu(menu.id)" v-text="menu.name"></a>
                             </li>
@@ -20,7 +20,7 @@
                     </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item>个人资料</el-dropdown-item>
-                            <!--<el-dropdown-item class="el-dropdown-menu-divided"></el-dropdown-item>-->
+                            <el-dropdown-item class="el-dropdown-menu-divided"></el-dropdown-item>
                             <el-dropdown-item command="loginOut">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>

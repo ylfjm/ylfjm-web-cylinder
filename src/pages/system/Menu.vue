@@ -85,6 +85,12 @@
                                 label="上级菜单"
                         ></el-table-column>
                         <el-table-column
+                                prop="sorts"
+                                min-width="150"
+                                show-overflow-tooltip
+                                label="排序"
+                        ></el-table-column>
+                        <el-table-column
                                 prop="description"
                                 min-width="150"
                                 show-overflow-tooltip

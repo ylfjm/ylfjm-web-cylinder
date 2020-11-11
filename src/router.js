@@ -14,8 +14,12 @@ import Menu from "./pages/system/Menu"
 import Permission from "./pages/system/Permission"
 
 //项目模块
-import ProjectIndex from "./pages/project/Project"
+import ProjectIndex from "./pages/project/ProjectIndex"
 import ProjectTask from "./pages/project/ProjectTask"
+
+//日报模块
+import DailyIndex from "./pages/daily/DailyIndex"
+import Daily from "./pages/daily/Daily"
 
 Vue.use(VueRouter);
 
@@ -47,40 +51,40 @@ const router = new VueRouter({
         },
         //系统管理
         {
-            path: '/admin',
-            name: 'admin',
+            path: '/admin.html',
+            name: 'admin.html',
             component: Admin,
             meta: {
                 title: '系统 - 管理员'
             }
         },
         {
-            path: "/role",
-            name: "role",
+            path: "/role.html",
+            name: "role.html",
             component: Role,
             meta: {
                 title: '系统 - 角色'
             }
         },
         {
-            path: "/department",
-            name: "department",
+            path: "/department.html",
+            name: "department.html",
             component: Department,
             meta: {
                 title: '系统 - 部门'
             }
         },
         {
-            path: '/menu',
-            name: 'menu',
+            path: '/menu.html',
+            name: 'menu.html',
             component: Menu,
             meta: {
                 title: '系统 - 菜单'
             }
         },
         {
-            path: "/permission",
-            name: "permission",
+            path: "/permission.html",
+            name: "permission.html",
             component: Permission,
             meta: {
                 title: '系统 - 权限'
@@ -100,6 +104,22 @@ const router = new VueRouter({
             component: ProjectTask,
             meta: {
                 title: '项目 - 任务'
+            }
+        },
+        {
+            path: "/daily-index.html",
+            name: "daily-index.html",
+            component: DailyIndex,
+            meta: {
+                title: '日报 - 首页'
+            }
+        },
+        {
+            path: "/daily.html",
+            name: "daily.html",
+            component: Daily,
+            meta: {
+                title: '日报 - 日报'
             }
         },
     ]
