@@ -15,6 +15,8 @@ import Permission from "./pages/system/Permission"
 
 //项目模块
 import ProjectIndex from "./pages/project/ProjectIndex"
+import ProjectList from "./pages/project/ProjectList"
+import CreateProject from "./pages/project/container/project/CreateProject"
 import ProjectTask from "./pages/project/ProjectTask"
 
 //日报模块
@@ -96,6 +98,22 @@ const router = new VueRouter({
             component: ProjectIndex,
             meta: {
                 title: '项目 - 首页'
+            }
+        },
+        {
+            path: "/project-list.html",
+            name: "project-list.html",
+            component: ProjectList,
+            meta: {
+                title: '项目 - 列表'
+            }
+        },
+        {
+            path: "/create-project.html",
+            name: "create-project.html",
+            component: CreateProject,
+            meta: {
+                title: '项目 - 添加'
             }
         },
         {

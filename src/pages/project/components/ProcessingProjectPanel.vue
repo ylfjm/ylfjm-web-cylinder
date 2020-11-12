@@ -45,8 +45,9 @@
                         label="状态"
                 >
                     <template slot-scope="scope">
+                        <div v-if="scope.row.status === 'wait'" style="color: #FF3300;">未开始</div>
+                        <div v-if="scope.row.status === 'doing'" style="color: #FF3300;">进行中</div>
                         <div v-if="scope.row.status === 'suspended'" style="color: #FF9900;">已挂起</div>
-                        <div v-if="scope.row.status === 'wait'" style="color: #FF3300;">进行中</div>
                         <div v-if="scope.row.status === 'closed'" style="color: #FF0000;">已关闭</div>
                     </template>
                 </el-table-column>

@@ -1,7 +1,9 @@
 <template>
     <div class="container">
         <div class="search_box">
-            <CustomLinkButton @backFunc="changeSearchBox" :btnText="'搜索'" :active="searchBoxVisible"></CustomLinkButton>
+            <a @click="changeSearchBox" :class="searchBoxVisible ? 'link-search-btn link-search-btn-active' : 'link-search-btn'">
+                <i class="el-icon-search"></i> 搜索
+            </a>
             <el-button @click="showCreateDialog" type="primary" style="float: right;">
                 <i class="el-icon-plus" style="font-weight: bold"></i>
                 新增用户
@@ -198,7 +200,6 @@
     import SelectTableDataForm from '@/components/common/SelectTableDataForm'
     import {mapState} from 'vuex'
     import CryptoJS from 'crypto-js'
-    import CustomLinkButton from '@/components/common/CustomLinkButton'
 
     export default {
         name: 'adminPage',
@@ -641,7 +642,6 @@
             CreateDialogForm,
             UpdateDialogForm,
             SelectTableDataForm,
-            CustomLinkButton,
         }
     }
 </script>

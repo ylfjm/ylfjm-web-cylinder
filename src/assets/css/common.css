@@ -47,6 +47,7 @@ a {
     transition: .4s cubic-bezier(.175, .885, .32, 1);
     transition-property: color, background, transform, opacity, left, top, right, bottom, -webkit-transform, -o-transform;
     background: 0;
+    color: #2c3e50;
 }
 
 *, :after, :before {
@@ -128,10 +129,6 @@ a {
 
 .dialog-form {
     margin: 0 auto;
-}
-
-.dialog-footer {
-    text-align: center;
 }
 
 .left-right-structure .el-main {
@@ -246,4 +243,67 @@ a {
     speak: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+
+.link-btn {
+    position: relative;
+    cursor: pointer;
+    box-shadow: none;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.link-btn:hover {
+    background: rgba(0, 0, 0, .1);
+}
+
+.link-btn-active {
+    font-weight: 700;
+    color: #0c64eb;
+}
+
+.link-btn-active:after {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: -1px;
+    display: block;
+    content: ' ';
+    border-bottom: 2px solid #0c64eb;
+}
+
+.el-icon-search {
+    font-weight: bold;
+}
+
+.link-search-btn {
+    position: relative;
+    cursor: pointer;
+    box-shadow: none;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.link-search-btn:hover {
+    background: rgba(0, 0, 0, .1);
+}
+
+.link-search-btn-active {
+    font-weight: 700;
+    color: #0c64eb;
+}
+
+.link-search-btn-active:before {
+    position: absolute;
+    bottom: -14px;
+    left: 40%;
+    width: 0;
+    height: 0;
+    content: ' ';
+    border-color: transparent transparent #fff transparent;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
 }

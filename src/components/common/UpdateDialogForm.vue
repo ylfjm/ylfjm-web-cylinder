@@ -27,7 +27,7 @@
                 ></CustomFormItem>
             </el-form>
         </div>
-        <div slot="footer" class="dialog-footer">
+        <div slot="footer" class="text-center">
             <el-button size="medium" @click="hideDialog">取 消</el-button>
             <el-button
                     style="margin-left: 30px;"

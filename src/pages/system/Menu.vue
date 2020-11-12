@@ -15,7 +15,9 @@
             </el-aside>
             <el-main>
                 <div class="search_box">
-                    <CustomLinkButton @backFunc="changeSearchBox" :btnText="'搜索'" :active="searchBoxVisible"></CustomLinkButton>
+                    <a @click="changeSearchBox" :class="searchBoxVisible ? 'link-search-btn link-search-btn-active' : 'link-search-btn'">
+                        <i class="el-icon-search"></i> 搜索
+                    </a>
                     <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
                         添加菜单
                     </el-button>
@@ -153,7 +155,6 @@
     import CreateDialogForm from '@/components/common/CreateDialogForm'
     import UpdateDialogForm from '@/components/common/UpdateDialogForm'
     import {mapState} from 'vuex'
-    import CustomLinkButton from '@/components/common/CustomLinkButton'
 
     export default {
         name: 'menuPage',
@@ -449,7 +450,6 @@
         components: {
             CreateDialogForm,
             UpdateDialogForm,
-            CustomLinkButton,
         }
     }
 </script>

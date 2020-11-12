@@ -4,9 +4,9 @@
             <div class="panel-title">项目总览</div>
             <nav class="panel-dropdown">
                 <el-dropdown trigger="click">
-                            <span class="el-dropdown-link" style="cursor: pointer; font-size: 18px;">
-                                <i class="el-icon-more"></i>
-                            </span>
+                    <span class="el-dropdown-link" style="cursor: pointer; font-size: 18px;">
+                        <i class="el-icon-more"></i>
+                    </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>刷新</el-dropdown-item>
                         <el-dropdown-item>永久关闭</el-dropdown-item>
@@ -18,7 +18,9 @@
             <div class="col-4 dp-table-cell vertical-middle">
                 <div style="text-align: center;">
                     <div style="line-height: 20px; color: #3c495c;">所有项目</div>
-                    <div style="font-size: 46px; margin-bottom: 10px; font-weight: 700; line-height: 56px;">442</div>
+                    <router-link :to="'/project-list.html'">
+                        <div class="allProjectNum">442</div>
+                    </router-link>
                     <a class="look-all" href="">
                         查看所有
                         <span class="label label-badge">
@@ -137,5 +139,16 @@
         font-weight: 400;
         color: #a6a8b6;
         box-sizing: border-box;
+    }
+
+    .allProjectNum {
+        font-size: 46px;
+        margin-bottom: 10px;
+        font-weight: 700;
+        line-height: 56px;
+    }
+
+    .allProjectNum:hover {
+        color: #0c64eb;
     }
 </style>
