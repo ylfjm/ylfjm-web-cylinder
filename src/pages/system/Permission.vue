@@ -118,7 +118,8 @@
             </el-main>
         </el-container>
         <CreateDialogForm
-                width="40%"
+                width="30%"
+                formLabelWidth="90px"
                 title="添加权限"
                 :visible="createDialogVisible"
                 :form="form"
@@ -131,6 +132,7 @@
         />
         <UpdateDialogForm
                 width="40%"
+                formLabelWidth="90px"
                 title="修改权限"
                 :visible="updateDialogVisible"
                 :hideDialog="hideUpdateDialog"

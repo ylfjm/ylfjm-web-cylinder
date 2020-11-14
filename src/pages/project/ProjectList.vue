@@ -6,11 +6,11 @@
             <a @click="onSearch('doing')" :class="formSearch.status === 'doing' ? 'link-btn link-btn-active' : 'link-btn'">进行中</a>
             <a @click="onSearch('suspended')" :class="formSearch.status === 'suspended' ? 'link-btn link-btn-active' : 'link-btn'">已挂起</a>
             <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
-            <router-link :to="'/create-project.html'">
-                <el-button @click="" type="primary" icon="el-icon-plus" style="float: right;">
+            <!--<router-link :to="'/create-project.html'">-->
+                <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
                     添加项目
                 </el-button>
-            </router-link>
+            <!--</router-link>-->
         </div>
         <div class="table-content">
             <el-table
@@ -36,7 +36,7 @@
                 ></el-table-column>
                 <el-table-column
                         prop="name"
-                        min-width="450"
+                        min-width="350"
                         show-overflow-tooltip
                         label="项目名称"
                 ></el-table-column>
@@ -91,7 +91,7 @@
                 ></el-table-column>
                 <el-table-column
                         prop="ddd"
-                        min-width="180"
+                        min-width="280"
                         show-overflow-tooltip
                         label="进度"
                 ></el-table-column>
@@ -121,10 +121,20 @@
                 ></el-pagination>
             </div>
         </div>
+
+        <CreateProjectDialog
+                width="50%"
+                title="添加项目"
+                :visible="createDialogVisible"
+                :hideDialog="hideCreateDialog"
+                :submit="createProject"
+                :loading="createLoading"
+        ></CreateProjectDialog>
     </div>
 </template>
 <script>
     import moment from 'moment'
+    import CreateProjectDialog from './container/project/CreateProjectDialog'
 
     export default {
         name: 'ProjectList',
@@ -139,6 +149,9 @@
                 pages: 0,
                 tableList: [],
                 searchLoading: false,
+
+                createDialogVisible: false,
+                createLoading: false,
             }
         },
         methods: {
@@ -187,6 +200,31 @@
                     })
                 }
             },
+            showCreateDialog() {
+                this.createDialogVisible = true
+            },
+            hideCreateDialog() {
+                this.createDialogVisible = false
+            },
+            async createProject(data) {
+                this.createLoading = true;
+                const res = await this.$service.addProject(data);
+                this.createLoading = false;
+                if (res.code === 20000) {
+                    this.createDialogVisible = false;
+                    this.$notify({
+                        title: '提示',
+                        type: 'success',
+                        message: '添加项目成功',
+                    });
+                    this.searchCommon()
+                } else {
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '添加项目失败',
+                    })
+                }
+            },
             //删除
             deleteProject(id) {
                 this.$confirm('您选择了1条数据，是否确认删除?', '提示', {
@@ -212,7 +250,7 @@
                     }
                 }).catch(() => {
                 });
-            }
+            },
         },
         created() {
             this.searchCommon()
@@ -220,7 +258,9 @@
         mounted() {
         },
         computed: {},
-        components: {}
+        components: {
+            CreateProjectDialog,
+        }
     }
 </script>
 <style scoped>
