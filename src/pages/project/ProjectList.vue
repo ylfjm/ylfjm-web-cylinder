@@ -20,14 +20,14 @@
                     :header-cell-style="{fontSize: '14px', color: '#333333'}"
                     stripe
             >
-                <el-table-column
+                <!--<el-table-column
                         type="index"
                         :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
                         align="center"
                         fixed="left"
                         min-width="70"
                         label="序号"
-                ></el-table-column>
+                ></el-table-column>-->
                 <el-table-column
                         prop="id"
                         min-width="50"
@@ -104,7 +104,7 @@
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
                             <el-button type="primary" size="mini" @click="">编辑</el-button>
-                            <el-button type="danger" size="mini" @click="">删除</el-button>
+                            <el-button type="danger" size="mini" @click="deleteProject(scope.row.id)">删除</el-button>
                         </el-row>
                     </template>
                 </el-table-column>
@@ -187,6 +187,32 @@
                     })
                 }
             },
+            //删除
+            deleteProject(id) {
+                this.$confirm('您选择了1条数据，是否确认删除?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(async () => {
+                    const res = await this.$service.deleteProject({
+                        id: id
+                    });
+                    if (res.code === 20000) {
+                        this.$notify({
+                            title: '提示',
+                            type: 'success',
+                            message: '删除成功',
+                        })
+                        this.searchCommon()
+                    } else {
+                        this.$notify.error({
+                            title: '提示',
+                            message: res.message ? res.message : '删除失败',
+                        })
+                    }
+                }).catch(() => {
+                });
+            }
         },
         created() {
             this.searchCommon()
@@ -194,8 +220,7 @@
         mounted() {
         },
         computed: {},
-        components: {
-        }
+        components: {}
     }
 </script>
 <style scoped>

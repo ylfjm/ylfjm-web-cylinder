@@ -34,6 +34,8 @@ const Service = {
     deleteRole: data => api.axiosDelete(baseUrl + '/api/system/role/' + data.id, null, null),
 
     getProcessingProjectList: data => api.axiosGet(baseUrl + '/api/system/project/' + data.pageNum + '/' + data.pageSize, null, data),
+    addProject: data => api.axiosPost(baseUrl + '/api/system/project', data, null),
+    deleteProject: data => api.axiosDelete(baseUrl + '/api/system/project/' + data.id, null, null),
 
 };
 

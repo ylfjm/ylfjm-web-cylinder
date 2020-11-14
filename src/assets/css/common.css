@@ -2,12 +2,15 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, Tahoma, 'Microsoft Yahei', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
     font-size: 13px;
     margin: 0;
-    padding: 0 0 20px 0;
+    padding: 0;
     color: #3c4353;
     background-color: #efefef;
 }
+html,body{
+    height: 100%;
+}
 
-/*全局滚动条样式*/
+    /*全局滚动条样式*/
 ::-webkit-scrollbar {
     width: 8px;
     visibility: collapse;

@@ -40,30 +40,30 @@
                     </el-option>
                 </el-select>
             </el-form-item>
+            <el-form-item label="访问控制" prop="acl">
+                <el-radio-group v-model="form.acl">
+                    <el-radio :label="'open'">默认设置(有项目视图权限，即可访问)</el-radio>
+                    <el-radio :label="'private'">私有项目(只有项目团队成员才能访问)</el-radio>
+                    <el-radio :label="'custom'">自定义白名单(团队成员和白名单的成员可以访问)</el-radio>
+                </el-radio-group>
+            </el-form-item>
         </el-form>
-        <div class="text-center">
+        <div class="text-center" style="margin-top: 50px;">
+            <el-button type="primary" @click="currentSubmit('form')" :loading="createLoading" style="width: 100px;">保 存</el-button>
             <router-link :to="'/project-list.html'">
-                <el-button size="medium">取 消</el-button>
+                <el-button style="margin-left: 30px; width: 100px;">取 消</el-button>
             </router-link>
-            <el-button
-                    style="margin-left: 30px;"
-                    size="medium"
-                    type="primary"
-                    @click="currentSubmit('form')"
-            >
-                确 定
-            </el-button>
         </div>
     </div>
 </template>
 
 <script>
+    import moment from 'moment'
+
     export default {
         name: "CreateProject",
         data() {
             const dateValidator = async (rule, value, callback) => {
-                console.log(this.form.begin)
-                console.log(this.form.end)
                 if (!this.form.begin) {
                     return callback(new Error('请选择项目开始日期'));
                 }
@@ -80,6 +80,7 @@
                     end: '',
                     days: '',
                     type: 'short',
+                    acl: 'open',
                 },
                 labelWidth: '90px',
                 rules: {
@@ -92,6 +93,7 @@
                     {label: "短期项目", value: "short"},
                     {label: "长期项目", value: "long"},
                 ],
+                createLoading: false,
             }
         },
         methods: {
@@ -116,12 +118,40 @@
                     this.form.days = '';
                 }
             },
-            currentSubmit(formName) {
+            async currentSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-
+                        this.addProject();
                     }
                 });
+            },
+            async addProject() {
+                let data = {
+                    name: this.form.name,
+                    code: this.form.code,
+                    begin: moment(this.form.begin).format('YYYY-MM-DD'),
+                    end: moment(this.form.end).format('YYYY-MM-DD'),
+                    days: this.form.days,
+                    type: this.form.type,
+                    acl: this.form.acl,
+                };
+                this.createLoading = true;
+                const res = await this.$service.addProject(data);
+                this.createLoading = false;
+                if (res.code === 20000) {
+                    this.createLoading = false;
+                    this.$notify({
+                        title: '提示',
+                        type: 'success',
+                        message: '添加项目成功',
+                    });
+                    this.$router.push('/project-list.html')
+                } else {
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '添加项目失败',
+                    })
+                }
             },
         },
     }

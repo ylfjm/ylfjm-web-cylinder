@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <el-form :model="form" :rules="rules" ref="form" class="login-container">
+    <div class="login-main">
+        <el-form :model="form" :rules="rules" ref="form" class="login-form">
             <div class="title">系统登录</div>
             <el-form-item prop="userName">
                 <el-input type="text" v-model="form.userName" placeholder="请输入账号"></el-input>
@@ -91,37 +91,40 @@
 </script>
 
 <style>
-    .login-container {
-        -webkit-border-radius: 5px;
-        border-radius: 5px;
-        -moz-border-radius: 5px;
-        margin: 180px auto;
-        width: 400px;
-        padding: 35px 35px 15px 35px;
+    .login-main {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: white;
     }
 
-    .login-container .title {
+    .login-form {
+        width: 400px;
+        margin: 0 auto;
+        padding-top: 260px;
+    }
+
+    .title {
         margin: 0 auto 40px auto;
         text-align: center;
         font-size: 24px;
         color: #9fa0a9;
     }
 
-    .login-container input {
+    .login-form input {
         height: 54px !important;
         line-height: 54px !important;
         padding: 0 24px !important;
         font-size: 16px !important;
-        /*background-color: #efefef;*/
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        /*box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);*/
     }
 
-    .login-container .login-button {
+    .login-button {
         width: 100% !important;
         font-size: 18px !important;
     }
 
-    .login-container .login-button span {
+    .login-button span {
         height: 28px !important;
         line-height: 28px !important;
     }
