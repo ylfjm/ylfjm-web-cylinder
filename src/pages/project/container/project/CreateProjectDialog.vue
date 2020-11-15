@@ -15,8 +15,8 @@
                 <el-form-item label="项目代号" prop="code">
                     <el-input v-model="form.code"></el-input>
                 </el-form-item>
-                <el-form-item label="起止日期" prop="end">
-                    <el-date-picker
+                <el-form-item label="起止日期" prop="dateRange">
+                    <!--<el-date-picker
                             v-model="form.begin"
                             type="date"
                             @change="endDatePickerOptions"
@@ -29,6 +29,17 @@
                             @change="countDays"
                             :picker-options="pickerOptions"
                             placeholder="结束日期">
+                    </el-date-picker>-->
+                    <el-date-picker
+                            v-model="form.dateRange"
+                            type="daterange"
+                            align="center"
+                            unlink-panels
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="pickerOptions"
+                            @change="countDays">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="可用工作日" prop="days">
@@ -64,16 +75,14 @@
 
 <script>
     import moment from 'moment'
+    import commonUtil from '@/common/js/commonUtil'
 
     export default {
         name: "CreateProjectDialog",
         data() {
             const dateValidator = async (rule, value, callback) => {
-                if (!this.form.begin) {
-                    return callback(new Error('请选择项目开始日期'));
-                }
-                if (!this.form.end) {
-                    return callback(new Error('请选择项目截止日期'));
+                if (!this.form.dateRange || this.form.dateRange.length === 0) {
+                    return callback(new Error('请选择项目起止日期'));
                 }
                 return callback();
             };
@@ -83,6 +92,7 @@
                     code: '',
                     begin: '',
                     end: '',
+                    dateRange: [],
                     days: '',
                     type: 'short',
                     acl: 'open',
@@ -91,9 +101,46 @@
                 rules: {
                     name: [{required: true, message: '请填写项目名称', trigger: 'blur'}],
                     code: [{required: true, message: '请填写项目代号', trigger: 'blur'}],
-                    end: [{validator: dateValidator, trigger: 'blur'}],
+                    dateRange: [{validator: dateValidator, trigger: 'blur'}],
                 },
-                pickerOptions: {},
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '一周',
+                        onClick(picker) {
+                            const start = new Date();
+                            const end = commonUtil.getDayAfter(6);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '两周',
+                        onClick(picker) {
+                            const start = new Date();
+                            const end = commonUtil.getDayAfter(13);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '一个月',
+                        onClick(picker) {
+                            const start = new Date();
+                            const end = commonUtil.getMonthAfter(1);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '两个月',
+                        onClick(picker) {
+                            const start = new Date();
+                            const end = commonUtil.getMonthAfter(2);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '三个月',
+                        onClick(picker) {
+                            const start = new Date();
+                            const end = commonUtil.getMonthAfter(26);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
                 typeOptions: [
                     {label: "短期项目", value: "short"},
                     {label: "长期项目", value: "long"},
@@ -108,23 +155,13 @@
             loading: Boolean,
         },
         methods: {
-            endDatePickerOptions(value) {
-                this.form.days = '';
-                this.form.end = '';
-                this.pickerOptions.disabledDate = function (time) {
-                    let y = value.getFullYear();
-                    let m = value.getMonth() + 1;
-                    let d = value.getDate();
-                    const time2 = `${y}-${m}-${d} 23:59:59`;
-                    return time.getTime() < new Date(time2);
-                }
-            },
             countDays() {
-                if (this.form.begin && this.form.end) {
-                    const d1 = this.form.begin;
-                    const d2 = this.form.end;
-                    const time = d2.getTime() - d1.getTime();
-                    this.form.days = parseInt(time / (1000 * 60 * 60 * 24));
+                if (this.form.dateRange) {
+                    // const d1 = this.form.dateRange[0];
+                    // const d2 = this.form.dateRange[1];
+                    // const time = d2.getTime() - d1.getTime();
+                    // this.form.days = parseInt(time / (1000 * 60 * 60 * 24));
+                    this.form.days = commonUtil.countWorkDays(this.form.dateRange[0], this.form.dateRange[1]);
                 } else {
                     this.form.days = '';
                 }
@@ -133,10 +170,10 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let data = {
-                            name: this.form.name,
-                            code: this.form.code,
-                            begin: moment(this.form.begin).format('YYYY-MM-DD'),
-                            end: moment(this.form.end).format('YYYY-MM-DD'),
+                            name: this.form.name.trim(),
+                            code: this.form.code.trim(),
+                            begin: moment(this.form.dateRange[0]).format('YYYY-MM-DD'),
+                            end: moment(this.form.dateRange[1]).format('YYYY-MM-DD'),
                             days: this.form.days,
                             type: this.form.type,
                             acl: this.form.acl,
@@ -145,6 +182,8 @@
                     }
                 });
             },
+        },
+        created() {
         },
     }
 </script>
