@@ -16,8 +16,8 @@ import Permission from "./pages/system/Permission"
 //项目模块
 import ProjectIndex from "./pages/project/ProjectIndex"
 import ProjectList from "./pages/project/ProjectList"
-import CreateProject from "./pages/project/container/project/CreateProject"
-import ProjectTask from "./pages/project/ProjectTask"
+import TaskList from "./pages/project/TaskList"
+import CreateTaskPage from "./pages/project/container/task/CreateTaskPage"
 
 //日报模块
 import DailyIndex from "./pages/daily/DailyIndex"
@@ -109,17 +109,17 @@ const router = new VueRouter({
             }
         },
         {
-            path: "/create-project.html",
-            name: "create-project.html",
-            component: CreateProject,
+            path: "/project-task-list.html",
+            name: "project-task-list.html",
+            component: TaskList,
             meta: {
-                title: '项目 - 添加'
+                title: '项目 - 任务'
             }
         },
         {
-            path: "/project-task.html",
-            name: "project-task.html",
-            component: ProjectTask,
+            path: "/create-task.html",
+            name: "create-task.html",
+            component: CreateTaskPage,
             meta: {
                 title: '项目 - 任务'
             }
