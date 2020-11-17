@@ -90,7 +90,7 @@
         methods: {
             async searchCommon() {
                 this.searchLoading = true;
-                const res = await this.$service.getProcessingProjectList({pageNum: 1, pageSize: 10000});
+                const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
                 this.searchLoading = false;
                 if (res.code === 20000) {
                     this.tableList = res.data.result || []

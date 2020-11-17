@@ -4,7 +4,9 @@
             <a @click="onSearch('')" :class="formSearch.status === '' ? 'link-btn link-btn-active' : 'link-btn'">所有</a>
             <a @click="onSearch('wait')" :class="formSearch.status === 'wait' ? 'link-btn link-btn-active' : 'link-btn'">未开始</a>
             <a @click="onSearch('doing')" :class="formSearch.status === 'doing' ? 'link-btn link-btn-active' : 'link-btn'">进行中</a>
-            <a @click="onSearch('suspended')" :class="formSearch.status === 'suspended' ? 'link-btn link-btn-active' : 'link-btn'">已挂起</a>
+            <a @click="onSearch('done')" :class="formSearch.status === 'done' ? 'link-btn link-btn-active' : 'link-btn'">已完成</a>
+            <a @click="onSearch('pause')" :class="formSearch.status === 'pause' ? 'link-btn link-btn-active' : 'link-btn'">已暂停</a>
+            <a @click="onSearch('cancel')" :class="formSearch.status === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
             <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
             <router-link :to="'/create-task.html'">
                 <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
@@ -22,71 +24,134 @@
             >
                 <el-table-column
                         prop="id"
-                        min-width="50"
+                        min-width="80"
                         show-overflow-tooltip
                         label="ID"
                 ></el-table-column>
                 <el-table-column
+                        align="center"
+                        prop="pri"
+                        min-width="80"
+                        show-overflow-tooltip
+                        label="优先级"
+                ></el-table-column>
+                <el-table-column
                         prop="name"
-                        min-width="350"
+                        min-width="450"
                         show-overflow-tooltip
-                        label="项目名称"
+                        label="任务名称"
                 ></el-table-column>
                 <el-table-column
-                        prop="code"
-                        min-width="130"
+                        prop="status"
+                        min-width="60"
                         show-overflow-tooltip
-                        label="项目代号"
-                ></el-table-column>
+                        label="状态"
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.status === 'wait'" style="color: #00AA55;">未开始</div>
+                        <div v-if="scope.row.status === 'doing'" style="color: #ff5d5d;">进行中</div>
+                        <div v-if="scope.row.status === 'done'" style="color: #ff9800;">已完成</div>
+                        <div v-if="scope.row.status === 'pause'" style="color: #ff9800;">已暂停</div>
+                        <div v-if="scope.row.status === 'cancel'" style="color: #ff9800;">已取消</div>
+                        <div v-if="scope.row.status === 'closed'" style="color: #AAAAAA;">已关闭</div>
+                    </template>
+                </el-table-column>
                 <el-table-column
-                        prop="begin"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="开始日期"
-                ></el-table-column>
-                <el-table-column
-                        prop="end"
+                        prop="deadline"
                         min-width="100"
                         show-overflow-tooltip
                         label="截止日期"
                 ></el-table-column>
                 <el-table-column
-                        prop="status"
+                        prop="uiDesigner"
                         min-width="80"
                         show-overflow-tooltip
-                        label="项目状态"
+                        label="UI设计师"
+                ></el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="uiEstimateDate"
+                        min-width="100"
+                        show-overflow-tooltip
+                        label="UI已逾期"
                 >
                     <template slot-scope="scope">
-                        <div v-if="scope.row.status === 'wait'" style="color: #00AA55;">未开始</div>
-                        <div v-if="scope.row.status === 'doing'" style="color: #ff5d5d;">进行中</div>
-                        <div v-if="scope.row.status === 'suspended'" style="color: #ff9800;">已挂起</div>
-                        <div v-if="scope.row.status === 'closed'" style="color: #AAAAAA;">已关闭</div>
+                        <div v-if="scope.row.uiOverdue === '是'" style="color: #FF0000;">{{scope.row.uiOverdue}}</div>
+                        <div v-else>{{scope.row.uiOverdue}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column
-                        prop="aaa"
+                        prop="webDeveloper"
                         min-width="80"
                         show-overflow-tooltip
-                        label="预计"
+                        label="web开发"
                 ></el-table-column>
                 <el-table-column
-                        prop="bbb"
+                        align="center"
+                        prop="webEstimateDate"
+                        min-width="100"
+                        show-overflow-tooltip
+                        label="web已逾期"
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.webOverdue === '是'" style="color: #FF0000;">{{scope.row.webOverdue}}</div>
+                        <div v-else>{{scope.row.webOverdue}}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        prop="androidDeveloper"
+                        min-width="100"
+                        show-overflow-tooltip
+                        label="android开发"
+                ></el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="androidEstimateDate"
+                        min-width="120"
+                        show-overflow-tooltip
+                        label="android已逾期"
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.androidOverdue === '是'" style="color: #FF0000;">{{scope.row.androidOverdue}}</div>
+                        <div v-else>{{scope.row.androidOverdue}}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        prop="iosDeveloper"
                         min-width="80"
                         show-overflow-tooltip
-                        label="消耗"
+                        label="ios开发"
                 ></el-table-column>
                 <el-table-column
-                        prop="ccc"
+                        align="center"
+                        prop="iosEstimateDate"
+                        min-width="100"
+                        show-overflow-tooltip
+                        label="ios已逾期"
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.iosOverdue === '是'" style="color: #FF0000;">{{scope.row.iosOverdue}}</div>
+                        <div v-else>{{scope.row.iosOverdue}}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        prop="serverDeveloper"
                         min-width="80"
                         show-overflow-tooltip
-                        label="剩余"
+                        label="后台开发"
                 ></el-table-column>
                 <el-table-column
-                        prop="ddd"
-                        min-width="280"
+                        align="center"
+                        prop="serverEstimateDate"
+                        min-width="100"
                         show-overflow-tooltip
-                        label="进度"
-                ></el-table-column>
+                        label="后台已逾期"
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.serverOverdue === '是'" style="color: #FF0000;">{{scope.row.serverOverdue}}</div>
+                        <div v-else>{{scope.row.serverOverdue}}</div>
+                    </template>
+                </el-table-column>
                 <el-table-column
                         align="center"
                         fixed="right"
@@ -113,20 +178,10 @@
                 ></el-pagination>
             </div>
         </div>
-
-        <CreateTaskDialog
-                width="50%"
-                title="创建任务"
-                :visible="createDialogVisible"
-                :hideDialog="hideCreateDialog"
-                :submit="createTask"
-                :loading="createLoading"
-        ></CreateTaskDialog>
     </div>
 </template>
 <script>
     import moment from 'moment'
-    import CreateTaskDialog from './container/task/CreateTaskDialog'
 
     export default {
         name: 'TaskList',
@@ -141,9 +196,6 @@
                 pages: 0,
                 tableList: [],
                 searchLoading: false,
-
-                createDialogVisible: false,
-                createLoading: false,
             }
         },
         methods: {
@@ -178,11 +230,23 @@
                     this.pages = res.data.pages;
                     this.tableList = res.data.result || [];
                     this.tableList.map(item => {
-                        if (item.end) {
-                            item.end = moment(item.end).format('YYYY-MM-DD');
+                        if (item.deadline) {
+                            item.deadline = moment(item.deadline).format('YYYY-MM-DD');
                         }
-                        if (item.begin) {
-                            item.begin = moment(item.begin).format('YYYY-MM-DD');
+                        if(item.uiEstimateDate && item.uiFinishedDate) {
+                            item.uiOverdue = new Date(item.uiFinishedDate).getTime() > new Date(item.uiEstimateDate).getTime() ? '是' : '否';
+                        }
+                        if(item.webEstimateDate && item.webFinishedDate) {
+                            item.webOverdue = new Date(item.webFinishedDate).getTime() > new Date(item.webEstimateDate).getTime() ? '是' : '否';
+                        }
+                        if(item.androidEstimateDate && item.androidFinishedDate) {
+                            item.androidOverdue = new Date(item.androidFinishedDate).getTime() > new Date(item.androidEstimateDate).getTime() ? '是' : '否';
+                        }
+                        if(item.iosEstimateDate && item.iosFinishedDate) {
+                            item.iosOverdue = new Date(item.iosFinishedDate).getTime() > new Date(item.iosEstimateDate).getTime() ? '是' : '否';
+                        }
+                        if(item.serverEstimateDate && item.serverFinishedDate) {
+                            item.serverOverdue = new Date(item.serverFinishedDate).getTime() > new Date(item.serverEstimateDate).getTime() ? '是' : '否';
                         }
                     })
                 } else {
@@ -191,14 +255,6 @@
                         message: res.message ? res.message : '搜索失败',
                     })
                 }
-            },
-            showCreateDialog() {
-                this.createDialogVisible = true
-            },
-            hideCreateDialog() {
-                this.createDialogVisible = false
-            },
-            async createTask(data) {
             },
             //删除
             deleteTask(id) {
@@ -215,7 +271,7 @@
                             title: '提示',
                             type: 'success',
                             message: '删除成功',
-                        })
+                        });
                         this.searchCommon()
                     } else {
                         this.$notify.error({
@@ -234,7 +290,6 @@
         },
         computed: {},
         components: {
-            CreateTaskDialog,
         }
     }
 </script>

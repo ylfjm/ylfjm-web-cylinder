@@ -9,6 +9,16 @@
                     <el-form-item label="任务名称" prop="name">
                         <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）" style="width: 500px"></el-input>
                     </el-form-item>
+                    <el-form-item label="所属项目" prop="projectId">
+                        <el-select v-model="form.projectId" placeholder="请选择" style="width: 500px">
+                            <el-option
+                                    v-for="item in projectList"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
                     <el-form-item label="优先级" prop="pri">
                         <el-select v-model="form.pri" placeholder="请选择" style="width: 500px">
                             <el-option
@@ -38,8 +48,8 @@
                                 style="width: 500px">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="任务描述" prop="desc">
-                        <el-input v-model="form.desc" type="textarea" rows="3"></el-input>
+                    <el-form-item label="任务描述" prop="content">
+                        <el-input v-model="form.content" type="textarea" rows="3"></el-input>
                     </el-form-item>
                     <el-form-item label="UI设计师">
                         <el-select v-model="form.uiDesigner" placeholder="请选择" style="width: 500px">
@@ -91,6 +101,12 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
+                    <el-form-item label="创建之后">
+                        <el-radio-group v-model="afterCreate">
+                            <el-radio :label="1">继续为该项目创建任务</el-radio>
+                            <el-radio :label="2">返回任务列表</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
                 </el-form>
                 <div class="text-center" style="margin-top: 50px;">
                     <el-button type="primary" @click="currentSubmit('form')" :loading="createLoading" size="medium" style="width: 100px;">保 存
@@ -113,19 +129,21 @@
             return {
                 form: {
                     name: '',
+                    projectId: '',
                     pri: '',
                     type: '',
                     deadline: '',
-                    desc: '',
-                    uiDesigner: '',
-                    webDeveloper: '',
-                    androidDeveloper: '',
-                    iosDeveloper: '',
-                    serverDeveloper: '',
+                    content: null,
+                    uiDesigner: null,
+                    webDeveloper: null,
+                    androidDeveloper: null,
+                    iosDeveloper: null,
+                    serverDeveloper: null,
                 },
                 labelWidth: '110px',
                 rules: {},
-                pickerOptions: {},
+                projectList: [],
+                afterCreate: 1,
                 priOptions: [
                     {label: "1", value: "1"},
                     {label: "2", value: "2"},
@@ -167,7 +185,17 @@
                         type: 'success',
                         message: '创建任务成功',
                     });
-                    this.$router.push('/project-task-list.html')
+                    if (this.afterCreate === 1) {
+                        this.form.name = '';
+                        this.form.content = '';
+                        this.form.uiDesigner = null;
+                        this.form.webDeveloper = null;
+                        this.form.androidDeveloper = null;
+                        this.form.iosDeveloper = null;
+                        this.form.serverDeveloper = null;
+                    } else if (this.afterCreate === 2) {
+                        this.$router.push('/project-task-list.html')
+                    }
                 } else {
                     this.$notify.error({
                         title: '提示',
@@ -176,13 +204,19 @@
                 }
             },
         },
+        async mounted() {
+            const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
+            if (res.code === 20000) {
+                this.projectList = res.data.result || [];
+            }
+        },
     }
 </script>
 
 <style scoped>
     .container {
         margin: 0 100px;
-        padding: 30px 200px;
+        padding: 20px 280px;
         background-color: white;
         border-radius: 4px;
     }
@@ -196,7 +230,7 @@
     }
 
     .container-box-header {
-        padding: 18px 20px;
+        padding: 15px 20px;
         border-bottom: 1px solid #EBEEF5;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
@@ -209,6 +243,6 @@
     }
 
     .task-form {
-        margin: 0 50px;
+        margin: 0 100px;
     }
 </style>
