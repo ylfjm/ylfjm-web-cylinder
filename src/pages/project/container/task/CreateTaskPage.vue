@@ -1,64 +1,106 @@
 <template>
     <div class="container">
-        <el-card class="box-card" shadow="never">
-            <div slot="header" class="box-card-header">
+        <div class="container-box">
+            <div class="container-box-header">
                 <span>创建任务</span>
             </div>
-            <el-form :label-width="labelWidth" ref="form" :rules="rules" :model="form" class="task-form">
-                <el-form-item label="项目名称" prop="name">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-                <el-form-item label="项目代号" prop="code">
-                    <el-input v-model="form.code"></el-input>
-                </el-form-item>
-                <el-form-item label="起止日期" prop="end">
-                    <el-date-picker
-                            v-model="form.begin"
-                            type="date"
-                            @change="endDatePickerOptions"
-                            style="width: 194px;"
-                            placeholder="开始日期">
-                    </el-date-picker>
-                    至
-                    <el-date-picker
-                            v-model="form.end"
-                            type="date"
-                            @change="countDays"
-                            :picker-options="pickerOptions"
-                            style="width: 194px;"
-                            placeholder="结束日期">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="可用工作日" prop="days">
-                    <el-input v-model="form.days" style="width: 410px;">
-                        <template slot="append">天</template>
-                    </el-input>
-                </el-form-item>
-                <el-form-item label="项目类型" prop="type">
-                    <el-select v-model="form.type" style="width: 410px;" placeholder="请选择">
-                        <el-option
-                                v-for="item in typeOptions"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="访问控制" prop="acl">
-                    <el-radio-group v-model="form.acl">
-                        <el-radio :label="'open'">默认设置(有项目视图权限，即可访问)</el-radio>
-                        <el-radio :label="'private'">私有项目(只有项目团队成员才能访问)</el-radio>
-                        <el-radio :label="'custom'">自定义白名单(团队成员和白名单的成员可以访问)</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-            </el-form>
-            <div class="text-center" style="margin-top: 50px;">
-                <el-button type="primary" @click="currentSubmit('form')" :loading="createLoading" size="medium" style="width: 100px;">保 存</el-button>
-                <router-link :to="'/project-task-list.html'">
-                    <el-button style="margin-left: 30px; width: 100px;" size="medium">取 消</el-button>
-                </router-link>
+            <div class="container-box-body">
+                <el-form :label-width="labelWidth" ref="form" :rules="rules" :model="form" class="task-form">
+                    <el-form-item label="任务名称" prop="name">
+                        <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）" style="width: 500px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="优先级" prop="pri">
+                        <el-select v-model="form.pri" placeholder="请选择" style="width: 500px">
+                            <el-option
+                                    v-for="item in priOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="任务类型" prop="type">
+                        <el-select v-model="form.type" placeholder="请选择" style="width: 500px">
+                            <el-option
+                                    v-for="item in typeOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="截止日期" prop="deadline">
+                        <el-date-picker
+                                v-model="form.deadline"
+                                type="date"
+                                :clearable="false"
+                                placeholder="选择日期"
+                                style="width: 500px">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="任务描述" prop="desc">
+                        <el-input v-model="form.desc" type="textarea" rows="3"></el-input>
+                    </el-form-item>
+                    <el-form-item label="UI设计师">
+                        <el-select v-model="form.uiDesigner" placeholder="请选择" style="width: 500px">
+                            <el-option
+                                    v-for="item in userList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="web开发者">
+                        <el-select v-model="form.webDeveloper" placeholder="请选择" style="width: 500px">
+                            <el-option
+                                    v-for="item in userList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Android开发者">
+                        <el-select v-model="form.androidDeveloper" placeholder="请选择" style="width: 500px">
+                            <el-option
+                                    v-for="item in userList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="IOS开发者">
+                        <el-select v-model="form.iosDeveloper" placeholder="请选择" style="width: 500px">
+                            <el-option
+                                    v-for="item in userList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="后端开发者">
+                        <el-select v-model="form.serverDeveloper" placeholder="请选择" style="width: 500px">
+                            <el-option
+                                    v-for="item in userList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+                <div class="text-center" style="margin-top: 50px;">
+                    <el-button type="primary" @click="currentSubmit('form')" :loading="createLoading" size="medium" style="width: 100px;">保 存
+                    </el-button>
+                    <router-link :to="'/project-task-list.html'">
+                        <el-button style="margin-left: 30px; width: 100px;" size="medium">取 消</el-button>
+                    </router-link>
+                </div>
             </div>
-        </el-card>
+        </div>
     </div>
 </template>
 
@@ -66,95 +108,70 @@
     import moment from 'moment'
 
     export default {
-        name: "CreateProject",
+        name: "CreateTaskPage",
         data() {
-            const dateValidator = async (rule, value, callback) => {
-                if (!this.form.begin) {
-                    return callback(new Error('请选择项目开始日期'));
-                }
-                if (!this.form.end) {
-                    return callback(new Error('请选择项目截止日期'));
-                }
-                return callback();
-            };
             return {
                 form: {
                     name: '',
-                    code: '',
-                    begin: '',
-                    end: '',
-                    days: '',
-                    type: 'short',
-                    acl: 'open',
+                    pri: '',
+                    type: '',
+                    deadline: '',
+                    desc: '',
+                    uiDesigner: '',
+                    webDeveloper: '',
+                    androidDeveloper: '',
+                    iosDeveloper: '',
+                    serverDeveloper: '',
                 },
-                labelWidth: '90px',
-                rules: {
-                    name: [{required: true, message: '请填写项目名称', trigger: 'blur'}],
-                    code: [{required: true, message: '请填写项目代号', trigger: 'blur'}],
-                    end: [{validator: dateValidator, trigger: 'blur'}],
-                },
+                labelWidth: '110px',
+                rules: {},
                 pickerOptions: {},
+                priOptions: [
+                    {label: "1", value: "1"},
+                    {label: "2", value: "2"},
+                    {label: "3", value: "3"},
+                    {label: "4", value: "4"},
+                ],
                 typeOptions: [
-                    {label: "短期项目", value: "short"},
-                    {label: "长期项目", value: "long"},
+                    {label: "产品", value: "design"},
+                    {label: "开发", value: "develop"},
+                    {label: "测试", value: "test"},
+                    {label: "其它", value: "other"},
+                ],
+                userList: [
+                    {label: "用户1", value: "user01"},
+                    {label: "用户2", value: "user02"},
+                    {label: "用户3", value: "user03"},
+                    {label: "用户4", value: "user04"},
                 ],
                 createLoading: false,
             }
         },
         methods: {
-            endDatePickerOptions(value) {
-                this.form.days = '';
-                this.form.end = '';
-                this.pickerOptions.disabledDate = function (time) {
-                    let y = value.getFullYear();
-                    let m = value.getMonth() + 1;
-                    let d = value.getDate() + 1;
-                    const time2 = `${y}-${m}-${d}`;
-                    return time.getTime() < new Date(time2);
-                }
-            },
-            countDays() {
-                if (this.form.begin && this.form.end) {
-                    const d1 = this.form.begin;
-                    const d2 = this.form.end;
-                    const time = d2.getTime() - d1.getTime();
-                    this.form.days = parseInt(time / (1000 * 60 * 60 * 24));
-                } else {
-                    this.form.days = '';
-                }
-            },
-            async currentSubmit(formName) {
+            currentSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.addProject();
+                        this.addTask();
                     }
                 });
             },
-            async addProject() {
-                let data = {
-                    name: this.form.name,
-                    code: this.form.code,
-                    begin: moment(this.form.begin).format('YYYY-MM-DD'),
-                    end: moment(this.form.end).format('YYYY-MM-DD'),
-                    days: this.form.days,
-                    type: this.form.type,
-                    acl: this.form.acl,
-                };
+            async addTask() {
                 this.createLoading = true;
-                const res = await this.$service.addProject(data);
+                this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
+                const res = await this.$service.addTask(this.form);
                 this.createLoading = false;
                 if (res.code === 20000) {
                     this.createLoading = false;
                     this.$notify({
                         title: '提示',
                         type: 'success',
-                        message: '添加项目成功',
+                        message: '创建任务成功',
                     });
-                    this.$router.push('/project-list.html')
+                    this.$router.push('/project-task-list.html')
                 } else {
                     this.$notify.error({
                         title: '提示',
-                        message: res.message ? res.message : '添加项目失败',
+                        message: res.message ? res.message : '创建任务失败',
                     })
                 }
             },
@@ -165,14 +182,33 @@
 <style scoped>
     .container {
         margin: 0 100px;
-        padding: 30px 150px;
+        padding: 30px 200px;
         background-color: white;
         border-radius: 4px;
     }
-    .box-card-header{
-        font-size: 15px;
+
+    .container-box {
+        border: 1px solid #EBEEF5;
+        background-color: #FFF;
+        color: #303133;
+        border-radius: 4px;
+        overflow: hidden;
     }
+
+    .container-box-header {
+        padding: 18px 20px;
+        border-bottom: 1px solid #EBEEF5;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        font-size: 15px;
+        background-color: #efefef;
+    }
+
+    .container-box-body {
+        padding: 20px;
+    }
+
     .task-form {
-        margin: 0 30px;
+        margin: 0 50px;
     }
 </style>

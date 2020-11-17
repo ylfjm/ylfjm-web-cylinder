@@ -169,7 +169,7 @@
                     pageSize: this.formSearch.pageSize
                 };
                 this.searchLoading = true;
-                const res = await this.$service.getProcessingProjectList(searchParam);
+                const res = await this.$service.getTaskList(searchParam);
                 this.searchLoading = false;
                 if (res.code === 20000) {
                     this.formSearch.pageNum = res.data.pageNum;

@@ -37,6 +37,9 @@ const Service = {
     addProject: data => api.axiosPost(baseUrl + '/api/system/project', data, null),
     deleteProject: data => api.axiosDelete(baseUrl + '/api/system/project/' + data.id, null, null),
 
+    getTaskList: data => api.axiosGet(baseUrl + '/api/system/task/' + data.pageNum + '/' + data.pageSize, null, data),
+    addTask: data => api.axiosPost(baseUrl + '/api/system/task', data, null),
+
 };
 
 export default Service
