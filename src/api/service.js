@@ -38,6 +38,7 @@ const Service = {
     deleteProject: data => api.axiosDelete(baseUrl + '/api/system/project/' + data.id, null, null),
 
     getTaskList: data => api.axiosGet(baseUrl + '/api/system/task/' + data.pageNum + '/' + data.pageSize, null, data),
+    getTaskById: data => api.axiosGet(baseUrl + '/api/system/task/' + data.id, null, null),
     addTask: data => api.axiosPost(baseUrl + '/api/system/task', data, null),
 
 };

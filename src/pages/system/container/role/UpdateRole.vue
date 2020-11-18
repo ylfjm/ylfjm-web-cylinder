@@ -8,7 +8,7 @@
             :close-on-click-modal="false"
     >
         <div class="dialog-form">
-            <el-form :label-width="labelWidth" ref="form" :rules="rules" :model="form">
+            <el-form :label-width="formLabelWidth" ref="form" :rules="rules" :model="form">
                 <el-form-item label="角色名" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
@@ -52,7 +52,7 @@
                     description: this.updateItem.description,
                     permissionIds: this.updateItem.permissionIds
                 },
-                labelWidth: '120px',
+                formLabelWidth: '120px',
                 rules: {
                     name: [{required: true, message: '请填写角色名', trigger: 'blur'}],
                     description: [],

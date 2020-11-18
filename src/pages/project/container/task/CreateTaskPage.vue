@@ -5,7 +5,7 @@
                 <span>创建任务</span>
             </div>
             <div class="container-box-body">
-                <el-form :label-width="labelWidth" ref="form" :rules="rules" :model="form" class="task-form">
+                <el-form :label-width="formLabelWidth" ref="form" :rules="rules" :model="form" class="task-form">
                     <el-form-item label="任务名称" prop="name">
                         <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）" style="width: 500px"></el-input>
                     </el-form-item>
@@ -49,7 +49,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="任务描述" prop="content">
-                        <el-input v-model="form.content" type="textarea" rows="3"></el-input>
+                        <QuillEditor @change="changeContent" :defalultContent="form.content"></QuillEditor>
                     </el-form-item>
                     <el-form-item label="UI设计师">
                         <el-select v-model="form.uiDesigner" placeholder="请选择" style="width: 500px">
@@ -122,6 +122,7 @@
 
 <script>
     import moment from 'moment'
+    import QuillEditor from '@/components/common/QuillEditor'
 
     export default {
         name: "CreateTaskPage",
@@ -140,7 +141,7 @@
                     iosDeveloper: null,
                     serverDeveloper: null,
                 },
-                labelWidth: '110px',
+                formLabelWidth: '110px',
                 rules: {},
                 projectList: [],
                 afterCreate: 1,
@@ -166,6 +167,10 @@
             }
         },
         methods: {
+            changeContent(data) {
+                console.log("data=" + data);
+                this.form.content = data;
+            },
             currentSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -210,13 +215,16 @@
                 this.projectList = res.data.result || [];
             }
         },
+        components: {
+            QuillEditor
+        },
     }
 </script>
 
 <style scoped>
     .container {
         margin: 0 100px;
-        padding: 20px 280px;
+        padding: 20px 180px;
         background-color: white;
         border-radius: 4px;
     }
@@ -243,6 +251,6 @@
     }
 
     .task-form {
-        margin: 0 100px;
+        margin: 0 50px;
     }
 </style>

@@ -9,7 +9,7 @@
             <a @click="onSearch('cancel')" :class="formSearch.status === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
             <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
             <router-link :to="'/create-task.html'">
-                <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+                <el-button type="primary" icon="el-icon-plus" style="float: right;">
                     创建任务
                 </el-button>
             </router-link>
@@ -160,7 +160,7 @@
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="">编辑</el-button>
+                            <el-button type="primary" size="mini" @click="jumpPage(scope.row.id)">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteTask(scope.row.id)">删除</el-button>
                         </el-row>
                     </template>
@@ -233,19 +233,19 @@
                         if (item.deadline) {
                             item.deadline = moment(item.deadline).format('YYYY-MM-DD');
                         }
-                        if(item.uiEstimateDate && item.uiFinishedDate) {
+                        if (item.uiEstimateDate && item.uiFinishedDate) {
                             item.uiOverdue = new Date(item.uiFinishedDate).getTime() > new Date(item.uiEstimateDate).getTime() ? '是' : '否';
                         }
-                        if(item.webEstimateDate && item.webFinishedDate) {
+                        if (item.webEstimateDate && item.webFinishedDate) {
                             item.webOverdue = new Date(item.webFinishedDate).getTime() > new Date(item.webEstimateDate).getTime() ? '是' : '否';
                         }
-                        if(item.androidEstimateDate && item.androidFinishedDate) {
+                        if (item.androidEstimateDate && item.androidFinishedDate) {
                             item.androidOverdue = new Date(item.androidFinishedDate).getTime() > new Date(item.androidEstimateDate).getTime() ? '是' : '否';
                         }
-                        if(item.iosEstimateDate && item.iosFinishedDate) {
+                        if (item.iosEstimateDate && item.iosFinishedDate) {
                             item.iosOverdue = new Date(item.iosFinishedDate).getTime() > new Date(item.iosEstimateDate).getTime() ? '是' : '否';
                         }
-                        if(item.serverEstimateDate && item.serverFinishedDate) {
+                        if (item.serverEstimateDate && item.serverFinishedDate) {
                             item.serverOverdue = new Date(item.serverFinishedDate).getTime() > new Date(item.serverEstimateDate).getTime() ? '是' : '否';
                         }
                     })
@@ -255,6 +255,14 @@
                         message: res.message ? res.message : '搜索失败',
                     })
                 }
+            },
+            jumpPage(id) {
+                this.$router.push({
+                    name: 'edit-task.html',
+                    params: {
+                        id: id
+                    }
+                })
             },
             //删除
             deleteTask(id) {
@@ -289,8 +297,7 @@
         mounted() {
         },
         computed: {},
-        components: {
-        }
+        components: {}
     }
 </script>
 <style scoped>

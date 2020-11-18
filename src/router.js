@@ -18,6 +18,7 @@ import ProjectIndex from "./pages/project/ProjectIndex"
 import ProjectList from "./pages/project/ProjectList"
 import TaskList from "./pages/project/TaskList"
 import CreateTaskPage from "./pages/project/container/task/CreateTaskPage"
+import EditTaskPage from "./pages/project/container/task/EditTaskPage"
 
 //日报模块
 import DailyIndex from "./pages/daily/DailyIndex"
@@ -121,7 +122,15 @@ const router = new VueRouter({
             name: "create-task.html",
             component: CreateTaskPage,
             meta: {
-                title: '项目 - 任务'
+                title: '项目 - 创建任务'
+            }
+        },
+        {
+            path: "/edit-task.html",
+            name: "edit-task.html",
+            component: EditTaskPage,
+            meta: {
+                title: '项目 - 编辑任务'
             }
         },
         {
