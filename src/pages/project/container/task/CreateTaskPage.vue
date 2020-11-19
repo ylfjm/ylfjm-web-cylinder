@@ -49,7 +49,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="任务描述" prop="content">
-                        <QuillEditor @change="changeContent" :defalultContent="form.content"></QuillEditor>
+                        <QuillEditor @change="changeContent" :editorContent="form.content"></QuillEditor>
                     </el-form-item>
                     <el-form-item label="UI设计师">
                         <el-select v-model="form.uiDesigner" placeholder="请选择" style="width: 500px">
@@ -224,7 +224,7 @@
 <style scoped>
     .container {
         margin: 0 100px;
-        padding: 20px 180px;
+        padding: 20px 150px;
         background-color: white;
         border-radius: 4px;
     }

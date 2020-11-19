@@ -12,7 +12,7 @@
                                 <el-input v-model="leftForm.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
                             </el-form-item>
                             <el-form-item label="任务描述" prop="content">
-                                <QuillEditor @change="changeContent" :defalultContent="leftForm.content"></QuillEditor>
+                                <QuillEditor @change="changeContent" :editorContent="leftForm.content"></QuillEditor>
                             </el-form-item>
                         </el-form>
                         <div class="text-center" style="margin-top: 50px;">
@@ -170,7 +170,6 @@
         },
         methods: {
             changeContent(data) {
-                console.log("data=" + data);
                 this.leftForm.content = data;
             },
             currentSubmit(formName) {
