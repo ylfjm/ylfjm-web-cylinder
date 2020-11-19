@@ -102,7 +102,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="创建之后">
-                        <el-radio-group v-model="afterCreate">
+                        <el-radio-group v-model="afterCreateAction">
                             <el-radio :label="1">继续为该项目创建任务</el-radio>
                             <el-radio :label="2">返回任务列表</el-radio>
                         </el-radio-group>
@@ -144,7 +144,7 @@
                 formLabelWidth: '110px',
                 rules: {},
                 projectList: [],
-                afterCreate: 1,
+                afterCreateAction: 1,
                 priOptions: [
                     {label: "1", value: "1"},
                     {label: "2", value: "2"},
@@ -190,7 +190,7 @@
                         type: 'success',
                         message: '创建任务成功',
                     });
-                    if (this.afterCreate === 1) {
+                    if (this.afterCreateAction === 1) {
                         this.form.name = '';
                         this.form.content = '';
                         this.form.uiDesigner = null;
@@ -198,7 +198,7 @@
                         this.form.androidDeveloper = null;
                         this.form.iosDeveloper = null;
                         this.form.serverDeveloper = null;
-                    } else if (this.afterCreate === 2) {
+                    } else if (this.afterCreateAction === 2) {
                         this.$router.push('/project-task-list.html')
                     }
                 } else {
