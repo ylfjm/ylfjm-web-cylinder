@@ -9,7 +9,7 @@
                 <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" class="login-button" @click="doSubmit">登 录</el-button>
+                <el-button type="primary" class="login-button" @click="loginSubmit">登 录</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -19,12 +19,12 @@
     import CryptoJS from 'crypto-js'
 
     export default {
-        name: 'login',
+        name: 'Login',
         data() {
             return {
                 form: {
-                    userName: '',
-                    password: ''
+                    userName: 'zhangbo',
+                    password: '123456'
                 },
                 rules: {
                     userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
@@ -33,7 +33,7 @@
             }
         },
         methods: {
-            doSubmit() {
+            loginSubmit() {
                 this.$refs['form'].validate(async valid => {
                     if (valid) {
                         const loading = this.$loading({
@@ -41,7 +41,7 @@
                             text: '努力加载中...',
                             spinner: 'el-icon-loading',
                             background: 'rgba(0, 0, 0, 0.4)'
-                        })
+                        });
                         const res = await this.$service.adminLogin({
                             userName: this.form.userName.trim(),
                             password: CryptoJS.MD5(this.form.password.trim()).toString(),
@@ -76,16 +76,30 @@
                         return false
                     }
                 })
-            }
-        },
-        created() {
-            let lett = this;
-            document.onkeydown = function (e) {
-                var key = window.event.keyCode;
-                if (key === 13) {
-                    lett.doSubmit();
+            },
+            enterKey(event) {
+                const componentName = this.$options.name;
+                if (componentName === "Login") {
+                    const code = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+                    if (code === 13) {
+                        this.loginSubmit();
+                    }
                 }
-            }
+            },
+            enterKeyupDestroyed() {
+                document.body.removeEventListener("keyup", this.enterKey, false);
+            },
+            enterKeyup() {
+                document.body.addEventListener("keyup", this.enterKey, false);
+            },
+        },
+        mounted() {
+            // 绑定enter事件
+            this.enterKeyup();
+        },
+        destroyed() {
+            // 销毁enter事件
+            this.enterKeyupDestroyed();
         },
     }
 </script>

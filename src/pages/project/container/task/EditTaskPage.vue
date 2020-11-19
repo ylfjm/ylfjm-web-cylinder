@@ -19,7 +19,7 @@
                             <el-button type="primary" @click="currentSubmit('form')" :loading="updateLoading" size="medium" style="width: 100px;">保 存
                             </el-button>
                             <router-link :to="'/project-task-list.html'">
-                                <el-button style="margin-left: 30px; width: 100px;" size="medium">取 消</el-button>
+                                <el-button style="margin-left: 30px; width: 100px;" size="medium">返 回</el-button>
                             </router-link>
                         </div>
                     </div>
