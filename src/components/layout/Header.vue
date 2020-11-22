@@ -7,8 +7,8 @@
                     <ul>
                         <template v-for="menu in menuList">
                             <li v-if="menu.url === '/system.html'" class="divider"></li>
-                            <li :class="activeIndex === menu.id ? 'active' : ''">
-                                <a @click="clickMainMenu(menu.id)" v-text="menu.name"></a>
+                            <li :class="activeMenuId === menu.id ? 'active' : ''">
+                                <a @click="clickMenu(menu.id)" v-text="menu.name"></a>
                             </li>
                         </template>
                     </ul>
@@ -31,7 +31,7 @@
             <div class="container">
                 <div id="subMenuBar">
                     <ul>
-                        <li v-for="subMenu in subMenuList" :key="subMenu.id" :class="subActiveIndex === subMenu.id ? 'active' : ''">
+                        <li v-for="subMenu in subMenuList" :key="subMenu.id" :class="activeSubMenuId === subMenu.id ? 'active' : ''">
                             <a @click="clickSubMenu(subMenu.id)" v-text="subMenu.name"></a>
                         </li>
                     </ul>
@@ -47,8 +47,8 @@
         name: "HeaderPage",
         data() {
             return {
-                activeIndex: '',
-                subActiveIndex: '',
+                activeMenuId: localStorage.getItem('activeMenuId'),
+                activeSubMenuId: localStorage.getItem('activeSubMenuId'),
                 subMenuList: [],
             }
         },
@@ -59,21 +59,25 @@
             })
         },
         methods: {
-            clickMainMenu(id) {
-                this.activeIndex = id;
+            clickMenu(id) {
+                this.activeMenuId = id;
                 this.subMenuList = [];
                 this.menuList.map(item => {
                     if (item.id === id) {
                         this.subMenuList = item.subMenus;
-                        this.subActiveIndex = '';
+                        this.activeSubMenuId = '';
+                        localStorage.setItem('activeMenuId', this.activeMenuId);
+                        localStorage.setItem('activeSubMenuId', this.activeSubMenuId);
                         this.$router.push(item.url);
                     }
                 })
             },
             clickSubMenu(id) {
-                this.subActiveIndex = id;
+                this.activeSubMenuId = id;
                 this.subMenuList.map(item => {
                     if (item.id === id) {
+                        localStorage.setItem('activeMenuId', this.activeMenuId);
+                        localStorage.setItem('activeSubMenuId', this.activeSubMenuId);
                         this.$router.push(item.url);
                     }
                 })
@@ -87,19 +91,21 @@
             },
         },
         created() {
-            const url = this.$route.path;
-            // console.log(url)
+            this.activeMenuId = Number.parseInt(localStorage.getItem('activeMenuId'));
+            this.activeSubMenuId = Number.parseInt(localStorage.getItem('activeSubMenuId'));
             for (let item of this.menuList) {
                 this.subMenuList = item.subMenus;
-                if (item.url && item.url === url) {
-                    this.activeIndex = item.id;
+                if (item.id === this.activeMenuId) {
+                    this.activeMenuId = item.id;
                     return;
                 }
-                for (let item2 of this.subMenuList) {
-                    if (item2.url && item2.url === url) {
-                        this.activeIndex = item.id;
-                        this.subActiveIndex = item2.id;
-                        return;
+                if (this.subMenuList) {
+                    for (let item2 of this.subMenuList) {
+                        if (item2.id === this.activeSubMenuId) {
+                            this.activeMenuId = item.id;
+                            this.activeSubMenuId = item2.id;
+                            return;
+                        }
                     }
                 }
             }

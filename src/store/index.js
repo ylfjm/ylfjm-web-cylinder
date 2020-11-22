@@ -10,7 +10,10 @@ export default new Vuex.Store({
         menuList: localStorage.getItem('menuList') ? JSON.parse(localStorage.getItem('menuList')) : [],
         activeMenuList: sessionStorage.getItem('activeMenuList') ? JSON.parse(sessionStorage.getItem('activeMenuList')) : [],
         admin: localStorage.getItem('admin') ? JSON.parse(localStorage.getItem('admin')) : {},
-        mainHeight: 900
+        // admin: {},
+        mainHeight: 900,
+        activeMenuIndex: '',
+        activeSubMenuIndex: '',
     },
     getters: {},
     mutations: {
@@ -27,7 +30,15 @@ export default new Vuex.Store({
         },
         saveMainHeight(state, payload) {
             state.mainHeight = payload - 122
-        }
+        },
+        setActiveMenuIndex(state, payload) {
+            console.log(111111);
+            state.activeMenuIndex = payload
+        },
+        setActiveSubMenuIndex(state, payload) {
+            console.log(222222);
+            state.activeSubMenuIndex = payload
+        },
     },
     actions: {},
     modules: {common}

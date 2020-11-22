@@ -197,9 +197,10 @@ a {
     max-width: 450px;
 }
 
-.dashboard .panel {
+.panel {
     position: relative;
     margin-bottom: 20px;
+    padding: 0 20px;
     background-color: #fff;
     border: 1px solid transparent;
     border-radius: 4px;
@@ -208,7 +209,7 @@ a {
 
 .dashboard .panel-header {
     cursor: move;
-    padding: 12px 75px 12px 20px;
+    padding: 12px 75px 12px 0;
     border-bottom: 1px solid transparent;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;

@@ -50,7 +50,7 @@
         data() {
             return {
                 config,
-                activeIndex: '/console'
+                activeMenuIndex: '/console'
             }
         },
         computed: {

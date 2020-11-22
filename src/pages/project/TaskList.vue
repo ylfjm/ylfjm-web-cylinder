@@ -40,7 +40,11 @@
                         min-width="450"
                         show-overflow-tooltip
                         label="任务名称"
-                ></el-table-column>
+                >
+                    <template slot-scope="scope">
+                        <el-link :underline="false" @click="jumpPage(scope.row.id, 'TaskDetailPage')">{{scope.row.name}}</el-link>
+                    </template>
+                </el-table-column>
                 <el-table-column
                         prop="status"
                         min-width="60"
@@ -196,7 +200,7 @@
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="jumpPage(scope.row.id)">编辑</el-button>
+                            <el-button type="primary" size="mini" @click="jumpPage(scope.row.id, 'EditTaskPage')">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteTask(scope.row.id)">删除</el-button>
                         </el-row>
                     </template>
@@ -298,13 +302,22 @@
                     })
                 }
             },
-            jumpPage(id) {
-                this.$router.push({
-                    name: 'edit-task.html',
-                    params: {
-                        id: id
-                    }
-                })
+            jumpPage(id, pageName) {
+                if (pageName === 'EditTaskPage') {
+                    this.$router.push({
+                        name: 'edit-task.html',
+                        params: {
+                            id: id
+                        }
+                    })
+                } else if (pageName === 'TaskDetailPage') {
+                    this.$router.push({
+                        name: 'task-detail.html',
+                        params: {
+                            id: id
+                        }
+                    })
+                }
             },
             //删除
             deleteTask(id) {

@@ -28,7 +28,7 @@
         name: 'App',
         data() {
             return {
-                activeIndex: '1'
+                activeMenuIndex: '1'
             }
         },
         components: {

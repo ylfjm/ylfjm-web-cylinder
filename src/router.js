@@ -19,6 +19,7 @@ import ProjectList from "./pages/project/ProjectList"
 import TaskList from "./pages/project/TaskList"
 import CreateTaskPage from "./pages/project/container/task/CreateTaskPage"
 import EditTaskPage from "./pages/project/container/task/EditTaskPage"
+import TaskDetailPage from "./pages/project/container/task/TaskDetailPage";
 
 //日报模块
 import DailyIndex from "./pages/daily/DailyIndex"
@@ -114,7 +115,7 @@ const router = new VueRouter({
             name: "task-list.html",
             component: TaskList,
             meta: {
-                title: '项目 - 任务'
+                title: '任务列表'
             }
         },
         {
@@ -122,7 +123,7 @@ const router = new VueRouter({
             name: "create-task.html",
             component: CreateTaskPage,
             meta: {
-                title: '项目 - 创建任务'
+                title: '创建任务'
             }
         },
         {
@@ -130,7 +131,15 @@ const router = new VueRouter({
             name: "edit-task.html",
             component: EditTaskPage,
             meta: {
-                title: '项目 - 编辑任务'
+                title: '编辑任务'
+            }
+        },
+        {
+            path: "/task-detail.html",
+            name: "task-detail.html",
+            component: TaskDetailPage,
+            meta: {
+                title: '任务详情'
             }
         },
         {
