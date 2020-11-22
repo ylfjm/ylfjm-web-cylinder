@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div id="subHeader">
+        <div id="subHeader" v-show="subMenuList && subMenuList.length > 0">
             <div class="container">
                 <div id="subMenuBar">
                     <ul>
@@ -107,7 +107,6 @@
     }
 </script>
 <style scoped>
-
     #mainHeader {
         height: 50px;
         line-height: 50px;
@@ -226,6 +225,5 @@
     #subMenuBar > ul > li > a:hover {
         background: rgba(0, 0, 0, .1);
     }
-
 
 </style>

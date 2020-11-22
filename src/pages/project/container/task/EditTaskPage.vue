@@ -5,28 +5,11 @@
                 <span>编辑任务</span>
             </div>
             <div class="container-box-body">
-                <div class="dp-table">
-                    <div class="dp-table-cell col-8">
-                        <el-form :label-width="'80px'" ref="leftForm" :model="leftForm">
-                            <el-form-item label="任务名称" prop="name">
-                                <el-input v-model="leftForm.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
-                            </el-form-item>
-                            <el-form-item label="任务描述" prop="content">
-                                <QuillEditor @change="changeContent" :editorContent="leftForm.content"></QuillEditor>
-                            </el-form-item>
-                        </el-form>
-                        <div class="text-center" style="margin-top: 50px;">
-                            <el-button type="primary" @click="currentSubmit('form')" :loading="updateLoading" size="medium" style="width: 100px;">保 存
-                            </el-button>
-                            <router-link :to="'/project-task-list.html'">
-                                <el-button style="margin-left: 30px; width: 100px;" size="medium">返 回</el-button>
-                            </router-link>
-                        </div>
-                    </div>
-                    <div class="dp-table-cell col-4">
-                        <el-form :label-width="'115px'" ref="rightForm" :model="rightForm">
+                <el-form :label-width="'110px'" ref="form" :model="form">
+                    <div class="dp-table">
+                        <div class="dp-table-cell col-6">
                             <el-form-item label="所属项目" prop="projectId">
-                                <el-select v-model="rightForm.projectId" placeholder="请选择" style="width: 360px">
+                                <el-select v-model="form.projectId" placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in projectList"
                                             :key="item.id"
@@ -35,18 +18,8 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="优先级" prop="pri">
-                                <el-select v-model="rightForm.pri" placeholder="请选择" style="width: 360px">
-                                    <el-option
-                                            v-for="item in priOptions"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
                             <el-form-item label="任务类型" prop="type">
-                                <el-select v-model="rightForm.type" placeholder="请选择" style="width: 360px">
+                                <el-select v-model="form.type" placeholder="请选择" style="width: 150px;">
                                     <el-option
                                             v-for="item in typeOptions"
                                             :key="item.value"
@@ -55,17 +28,25 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
+                            <el-form-item label="优先级" prop="pri">
+                                <el-input-number
+                                        v-model="form.pri"
+                                        :min="1"
+                                        :max="3"
+                                        style="width: 150px;">
+                                </el-input-number>
+                            </el-form-item>
                             <el-form-item label="截止日期" prop="deadline">
                                 <el-date-picker
-                                        v-model="rightForm.deadline"
+                                        v-model="form.deadline"
                                         type="date"
                                         :clearable="false"
-                                        placeholder="选择日期"
-                                        style="width: 360px">
+                                        style="width: 150px;"
+                                        placeholder="选择日期">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="UI设计师">
-                                <el-select v-model="rightForm.uiDesigner" placeholder="请选择" style="width: 360px">
+                            <el-form-item label="产品设计">
+                                <el-select v-model="form.pdDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
                                             :key="item.value"
@@ -74,8 +55,20 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
+                            <el-form-item label="UI设计师">
+                                <el-select v-model="form.uiDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
+                                    <el-option
+                                            v-for="item in userList"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                        <div class="dp-table-cell col-6">
                             <el-form-item label="web开发者">
-                                <el-select v-model="rightForm.webDeveloper" placeholder="请选择" style="width: 360px">
+                                <el-select v-model="form.webDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
                                             :key="item.value"
@@ -85,7 +78,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="Android开发者">
-                                <el-select v-model="rightForm.androidDeveloper" placeholder="请选择" style="width: 360px">
+                                <el-select v-model="form.androidDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
                                             :key="item.value"
@@ -95,7 +88,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="IOS开发者">
-                                <el-select v-model="rightForm.iosDeveloper" placeholder="请选择" style="width: 360px">
+                                <el-select v-model="form.iosDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
                                             :key="item.value"
@@ -105,7 +98,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="后端开发者">
-                                <el-select v-model="rightForm.serverDeveloper" placeholder="请选择" style="width: 360px">
+                                <el-select v-model="form.serverDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
                                             :key="item.value"
@@ -114,9 +107,33 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                        </el-form>
+                            <el-form-item label="测试人员">
+                                <el-select v-model="form.tester" clearable multiple placeholder="请选择" style="width: 90%;">
+                                    <el-option
+                                            v-for="item in userList"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
                     </div>
-                </div>
+                    <el-form-item label="任务名称" prop="name" style="width: 96%;">
+                        <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
+                    </el-form-item>
+                    <el-form-item label="任务描述" prop="content" style="width: 96%;">
+                        <QuillEditor @change="changeContent" :editorContent="form.content"></QuillEditor>
+                    </el-form-item>
+
+                    <div class="text-center" style="margin-top: 20px;">
+                        <el-button type="primary" @click="currentSubmit('form')" :loading="updateLoading" size="medium" style="width: 100px;">保 存
+                        </el-button>
+                        <router-link :to="'/task-list.html'">
+                            <el-button style="margin-left: 30px; width: 100px;" size="medium">返 回</el-button>
+                        </router-link>
+                    </div>
+                </el-form>
             </div>
         </div>
     </div>
@@ -130,21 +147,28 @@
         name: "EditTaskPage",
         data() {
             return {
-                leftForm: {
+                form: {
                     id: '',
                     name: '',
                     content: null,
-                },
-                rightForm: {
                     projectId: '',
                     pri: '',
                     type: '',
                     deadline: '',
+                    pdDesigner: null,
                     uiDesigner: null,
                     webDeveloper: null,
                     androidDeveloper: null,
                     iosDeveloper: null,
                     serverDeveloper: null,
+                    tester: null,
+                },
+                rules: {
+                    projectId: [{required: true, message: '请选择任务所属项目', trigger: 'blur'}],
+                    type: [{required: true, message: '请选择任务类型', trigger: 'blur'}],
+                    pri: [{required: true, message: '请选择任务优先级', trigger: 'blur'}],
+                    deadline: [{required: true, message: '请选择任务截止日期', trigger: 'blur'}],
+                    name: [{required: true, message: '请填写任务名称', trigger: 'blur'}],
                 },
                 projectList: [],
                 priOptions: [
@@ -170,10 +194,40 @@
         },
         methods: {
             changeContent(data) {
-                this.leftForm.content = data;
+                this.form.content = data;
             },
             currentSubmit(formName) {
-                this.initData();
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.updateTask();
+                    }
+                });
+            },
+            async updateTask() {
+                this.updateLoading = true;
+                this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
+                this.form.pdDesigner = this.form.pdDesigner.join(",");
+                this.form.uiDesigner = this.form.uiDesigner.join(",");
+                this.form.webDeveloper = this.form.webDeveloper.join(",");
+                this.form.androidDeveloper = this.form.androidDeveloper.join(",");
+                this.form.iosDeveloper = this.form.iosDeveloper.join(",");
+                this.form.serverDeveloper = this.form.serverDeveloper.join(",");
+                this.form.tester = this.form.tester.join(",");
+                const res = await this.$service.updateTask(this.form);
+                this.updateLoading = false;
+                if (res.code === 20000) {
+                    this.$notify({
+                        title: '提示',
+                        type: 'success',
+                        message: '修改任务成功',
+                    });
+                    this.$router.push('/task-list.html')
+                } else {
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '修改任务失败',
+                    })
+                }
             },
             async initData() {
                 const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
@@ -181,25 +235,27 @@
                     this.projectList = res.data.result || [];
                 }
                 if (this.$route.params.id) {
-                    this.leftForm.id = this.$route.params.id;
-                    const res = await this.$service.getTaskById({id: this.leftForm.id});
+                    this.form.id = this.$route.params.id;
+                    const res = await this.$service.getTaskById({id: this.form.id});
                     if (res.code === 20000) {
-                        this.leftForm.name = res.data.name;
-                        this.leftForm.content = res.data.content;
-                        this.rightForm.projectId = res.data.projectId;
-                        this.rightForm.pri = res.data.pri;
-                        this.rightForm.type = res.data.type;
-                        this.rightForm.deadline = moment(res.data.deadline);
-                        this.rightForm.uiDesigner = res.data.uiDesigner;
-                        this.rightForm.webDeveloper = res.data.webDeveloper;
-                        this.rightForm.androidDeveloper = res.data.androidDeveloper;
-                        this.rightForm.iosDeveloper = res.data.iosDeveloper;
-                        this.rightForm.serverDeveloper = res.data.serverDeveloper;
+                        this.form.name = res.data.name;
+                        this.form.content = res.data.content;
+                        this.form.projectId = res.data.projectId;
+                        this.form.pri = res.data.pri;
+                        this.form.type = res.data.type;
+                        this.form.deadline = moment(res.data.deadline);
+                        this.form.pdDesigner = res.data.pdDesigner ? res.data.pdDesigner.split(',') : null;
+                        this.form.uiDesigner = res.data.uiDesigner ? res.data.uiDesigner.split(',') : null;
+                        this.form.webDeveloper = res.data.webDeveloper ? res.data.webDeveloper.split(',') : null;
+                        this.form.androidDeveloper = res.data.androidDeveloper ? res.data.androidDeveloper.split(',') : null;
+                        this.form.iosDeveloper = res.data.iosDeveloper ? res.data.iosDeveloper.split(',') : null;
+                        this.form.serverDeveloper = res.data.serverDeveloper ? res.data.serverDeveloper.split(',') : null;
+                        this.form.tester = res.data.tester ? res.data.tester.split(',') : null;
                     }
                 }
             },
         },
-        async created() {
+        async mounted() {
             this.initData();
         },
         components: {
@@ -236,5 +292,4 @@
     .container-box-body {
         padding: 20px;
     }
-
 </style>

@@ -9,7 +9,7 @@
                 <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" class="login-button" @click="loginSubmit">登 录</el-button>
+                <el-button type="primary" class="login-button" :loading="loginLoading" @click="loginSubmit">登 录</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -26,6 +26,7 @@
                     userName: 'zhangbo',
                     password: '123456'
                 },
+                loginLoading: false,
                 rules: {
                     userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
                     password: [{required: true, message: '请输入密码', trigger: 'blur'}]
@@ -36,12 +37,14 @@
             loginSubmit() {
                 this.$refs['form'].validate(async valid => {
                     if (valid) {
-                        const loading = this.$loading({
-                            lock: true,
-                            text: '努力加载中...',
-                            spinner: 'el-icon-loading',
-                            background: 'rgba(0, 0, 0, 0.4)'
-                        });
+                        // const loading = this.$loading({
+                        //     lock: true,
+                        //     text: '努力加载中...',
+                        //     spinner: 'el-icon-loading',
+                        //     background: 'rgba(0, 0, 0, 0.4)',
+                        //     customClass: 'loginLoading'
+                        // });
+                        this.loginLoading = true;
                         const res = await this.$service.adminLogin({
                             userName: this.form.userName.trim(),
                             password: CryptoJS.MD5(this.form.password.trim()).toString(),
@@ -67,7 +70,8 @@
                                 message: res.message ? res.message : '登录失败',
                             })
                         }
-                        loading.close()
+                        // loading.close()
+                        this.loginLoading = false;
                     } else {
                         this.$notify.error({
                             title: '提示',
@@ -141,5 +145,9 @@
     .login-button span {
         height: 28px !important;
         line-height: 28px !important;
+    }
+
+    .loginLoading {
+        background-color: aquamarine;
     }
 </style>

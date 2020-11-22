@@ -22,7 +22,7 @@ import EditTaskPage from "./pages/project/container/task/EditTaskPage"
 
 //日报模块
 import DailyIndex from "./pages/daily/DailyIndex"
-import Daily from "./pages/daily/Daily"
+import DailyList from "./pages/daily/DailyList"
 
 Vue.use(VueRouter);
 
@@ -110,8 +110,8 @@ const router = new VueRouter({
             }
         },
         {
-            path: "/project-task-list.html",
-            name: "project-task-list.html",
+            path: "/task-list.html",
+            name: "task-list.html",
             component: TaskList,
             meta: {
                 title: '项目 - 任务'
@@ -142,9 +142,9 @@ const router = new VueRouter({
             }
         },
         {
-            path: "/daily.html",
-            name: "daily.html",
-            component: Daily,
+            path: "/daily-list.html",
+            name: "daily-list.html",
+            component: DailyList,
             meta: {
                 title: '日报 - 日报'
             }

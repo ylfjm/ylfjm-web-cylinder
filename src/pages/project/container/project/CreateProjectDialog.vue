@@ -8,7 +8,7 @@
             :close-on-click-modal="false"
     >
         <div class="dialog-form">
-            <el-form :label-width="formLabelWidth" ref="form" :rules="rules" :model="form">
+            <el-form :label-width="'90px'" ref="form" :rules="rules" :model="form">
                 <el-form-item label="项目名称" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
@@ -97,7 +97,6 @@
                     type: 'short',
                     acl: 'open',
                 },
-                formLabelWidth: '90px',
                 rules: {
                     name: [{required: true, message: '请填写项目名称', trigger: 'blur'}],
                     code: [{required: true, message: '请填写项目代号', trigger: 'blur'}],

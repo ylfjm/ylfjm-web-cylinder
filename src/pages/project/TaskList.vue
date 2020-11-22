@@ -63,6 +63,24 @@
                         label="截止日期"
                 ></el-table-column>
                 <el-table-column
+                        prop="pdDesigner"
+                        min-width="80"
+                        show-overflow-tooltip
+                        label="产品设计"
+                ></el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="pdEstimateDate"
+                        min-width="100"
+                        show-overflow-tooltip
+                        label="产品已逾期"
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.pdOverdue === '是'" style="color: #FF0000;">{{scope.row.pdOverdue}}</div>
+                        <div v-else>{{scope.row.pdOverdue}}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column
                         prop="uiDesigner"
                         min-width="80"
                         show-overflow-tooltip
@@ -153,6 +171,24 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        prop="tester"
+                        min-width="80"
+                        show-overflow-tooltip
+                        label="测试人员"
+                ></el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="testEstimateDate"
+                        min-width="100"
+                        show-overflow-tooltip
+                        label="测试已逾期"
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.testOverdue === '是'" style="color: #FF0000;">{{scope.row.testOverdue}}</div>
+                        <div v-else>{{scope.row.testOverdue}}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column
                         align="center"
                         fixed="right"
                         width="150"
@@ -190,7 +226,7 @@
                 formSearch: {
                     status: '',
                     pageNum: 1,
-                    pageSize: 10
+                    pageSize: 20
                 },
                 total: 0,
                 pages: 0,
@@ -233,6 +269,9 @@
                         if (item.deadline) {
                             item.deadline = moment(item.deadline).format('YYYY-MM-DD');
                         }
+                        if (item.pdEstimateDate && item.pdFinishedDate) {
+                            item.pdOverdue = new Date(item.pdFinishedDate).getTime() > new Date(item.pdEstimateDate).getTime() ? '是' : '否';
+                        }
                         if (item.uiEstimateDate && item.uiFinishedDate) {
                             item.uiOverdue = new Date(item.uiFinishedDate).getTime() > new Date(item.uiEstimateDate).getTime() ? '是' : '否';
                         }
@@ -247,6 +286,9 @@
                         }
                         if (item.serverEstimateDate && item.serverFinishedDate) {
                             item.serverOverdue = new Date(item.serverFinishedDate).getTime() > new Date(item.serverEstimateDate).getTime() ? '是' : '否';
+                        }
+                        if (item.testEstimateDate && item.testFinishedDate) {
+                            item.testOverdue = new Date(item.testFinishedDate).getTime() > new Date(item.testEstimateDate).getTime() ? '是' : '否';
                         }
                     })
                 } else {
