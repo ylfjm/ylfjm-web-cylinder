@@ -63,6 +63,12 @@
                             this.$store.commit('setMenuList', menus);
                             localStorage.setItem('admin', JSON.stringify(admin));
                             localStorage.setItem('menuList', JSON.stringify(menus));
+                            menus.map(item => {
+                                if (item.url && item.url === '/project-index.html') {
+                                    localStorage.setItem('activeMenuId', item.id);
+                                    localStorage.removeItem('activeSubMenuId');
+                                }
+                            });
                             this.$router.push('/project-index.html')
                         } else {
                             this.$notify.error({

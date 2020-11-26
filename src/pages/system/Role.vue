@@ -41,16 +41,15 @@
                         :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
                         align="center"
                         fixed="left"
-                        min-width="70"
                         label="序号"
                 ></el-table-column>
                 <el-table-column
                         prop="name"
-                        min-width="100"
+                        min-width="150"
                         show-overflow-tooltip
                         label="角色名"
                 ></el-table-column>
-                <el-table-column
+                <!--<el-table-column
                         prop="accountCount"
                         min-width="120"
                         show-overflow-tooltip
@@ -64,6 +63,20 @@
                         >
                             <span style="color: #409EFF">{{ scope.row.accountCount}}</span>
                         </router-link>
+                    </template>
+                </el-table-column>-->
+                <el-table-column
+                        prop="userList"
+                        min-width="500"
+                        show-overflow-tooltip
+                        label="用户列表"
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.userList && scope.row.userList.length > 0">
+                            <span v-for="(item, index) in scope.row.userList" :key="item.id">
+                                {{item.realName}}<span v-if="index < scope.row.userList.length - 1">,</span>
+                            </span>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column

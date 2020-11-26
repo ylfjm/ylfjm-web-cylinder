@@ -87,6 +87,8 @@
                 localStorage.removeItem('admin');
                 localStorage.removeItem('admin_token');
                 localStorage.removeItem('menuList');
+                localStorage.removeItem('activeMenuId');
+                localStorage.removeItem('activeSubMenuId');
                 this.$router.push('/login.html')
             },
         },
