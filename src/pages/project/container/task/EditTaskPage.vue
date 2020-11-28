@@ -255,7 +255,7 @@
                 }
             },
         },
-        async mounted() {
+        mounted() {
             this.initData();
         },
         components: {

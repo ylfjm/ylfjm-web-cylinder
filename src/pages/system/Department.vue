@@ -60,7 +60,7 @@
                         <div v-show="scope.row.accountCount === 0">{{ scope.row.accountCount}}</div>
                         <router-link
                                 v-show="scope.row.accountCount > 0"
-                                :to="{name:'admin', path:'/admin', params:{deptId: scope.row.id}}"
+                                :to="{name:'admin.html', path:'/admin.html', params:{deptId: scope.row.id}}"
                         >
                             <span style="color: #409EFF">{{ scope.row.accountCount}}</span>
                         </router-link>

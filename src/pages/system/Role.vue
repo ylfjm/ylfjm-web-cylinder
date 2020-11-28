@@ -82,12 +82,13 @@
                 <el-table-column
                         align="center"
                         fixed="right"
-                        width="150"
+                        width="230"
                         label="操作"
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
+                            <el-button type="primary" size="mini" @click="jumpPage(scope.row)">权限维护</el-button>
+                            <!--<el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>-->
                             <el-button type="danger" size="mini" @click="deleteRole(scope.row)">删除</el-button>
                         </el-row>
                     </template>
@@ -158,17 +159,17 @@
                 this.searchBoxVisible = !this.searchBoxVisible
             },
             async onSearch() {
-                this.formSearch.pageNum = 1
+                this.formSearch.pageNum = 1;
                 this.searchCommon()
             },
             //重置
             refresh() {
-                this.$refs['formSearch'].resetFields()
+                this.$refs['formSearch'].resetFields();
                 this.onSearch()
             },
             //分页
             handleCurrentChange(pageNum) {
-                this.formSearch.pageNum = pageNum
+                this.formSearch.pageNum = pageNum;
                 this.searchCommon()
             },
             async searchCommon() {
@@ -176,15 +177,15 @@
                     name: this.formSearch.name.trim(),
                     pageNum: this.formSearch.pageNum,
                     pageSize: this.formSearch.pageSize
-                }
-                this.searchLoading = true
-                const res = await this.$service.getRoleList(formData)
-                this.searchLoading = false
+                };
+                this.searchLoading = true;
+                const res = await this.$service.getRoleList(formData);
+                this.searchLoading = false;
                 if (res.code === 20000) {
-                    this.formSearch.pageNum = res.data.pageNum
-                    this.formSearch.pageSize = res.data.pageSize
-                    this.total = res.data.total
-                    this.pages = res.data.pages
+                    this.formSearch.pageNum = res.data.pageNum;
+                    this.formSearch.pageSize = res.data.pageSize;
+                    this.total = res.data.total;
+                    this.pages = res.data.pages;
                     this.tableList = res.data.result || []
                 } else {
                     this.$notify.error({
@@ -195,27 +196,27 @@
             },
             //新增
             showCreateDialog() {
-                this.createDialogVisible = true
+                this.createDialogVisible = true;
                 this.error = false
             },
             hideCreateDialog() {
-                this.createDialogVisible = false
+                this.createDialogVisible = false;
                 this.error = false
             },
             async createRole(data) {
-                this.createRoleLoading = true
-                const res = await this.$service.addRole(data)
-                this.createRoleLoading = false
+                this.createRoleLoading = true;
+                const res = await this.$service.addRole(data);
+                this.createRoleLoading = false;
                 if (res.code === 20000) {
-                    this.createDialogVisible = false
-                    this.error = false
+                    this.createDialogVisible = false;
+                    this.error = false;
                     this.searchCommon()
                 } else {
                     this.error = res.message || true
                 }
             },
             getCheckedPermissions(list) {
-                let arr = []
+                let arr = [];
                 let map = l => {
                     l.forEach(item => {
                         if (item.subMenus && item.subMenus.length !== 0) {
@@ -229,18 +230,18 @@
                         }
                         return
                     })
-                }
-                map(list)
+                };
+                map(list);
                 return arr
             },
             //修改
             showUpdateDialog(row) {
-                this.updateDialogVisible = true
-                this.error = false
+                this.updateDialogVisible = true;
+                this.error = false;
                 this.$nextTick(async function () {
                     const res = await this.$service.getMenuWithPermissionByRoleId({
                         roleId: row.id
-                    })
+                    });
                     if (res.code === 20000) {
                         this.updateItem = {
                             ...row,
@@ -250,17 +251,17 @@
                 })
             },
             hideUpdateDialog() {
-                this.updateDialogVisible = false
-                this.error = false
+                this.updateDialogVisible = false;
+                this.error = false;
                 this.updateItem = {}
             },
             async updateRole(data) {
-                this.updateRoleLoading = true
-                const res = await this.$service.updateRole(data)
-                this.updateRoleLoading = false
+                this.updateRoleLoading = true;
+                const res = await this.$service.updateRole(data);
+                this.updateRoleLoading = false;
                 if (res.code === 20000) {
-                    this.searchCommon()
-                    this.updateDialogVisible = false
+                    this.searchCommon();
+                    this.updateDialogVisible = false;
                     this.error = false
                 } else {
                     this.error = res.message || true
@@ -275,13 +276,13 @@
                 }).then(async () => {
                     const res = await this.$service.deleteRole({
                         id: row.id
-                    })
+                    });
                     if (res.code === 20000) {
                         this.$notify({
                             title: '提示',
                             type: 'success',
                             message: '删除成功',
-                        })
+                        });
                         this.searchCommon()
                     } else {
                         this.$notify.error({
@@ -291,7 +292,16 @@
                     }
                 }).catch(() => {
                 });
-            }
+            },
+            jumpPage(data) {
+                this.$router.push({
+                    name: 'permission-manage.html',
+                    params: {
+                        id: data.id,
+                        name: data.name,
+                    }
+                })
+            },
         },
         created() {
             this.searchCommon()
