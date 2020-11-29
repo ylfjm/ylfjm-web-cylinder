@@ -74,7 +74,7 @@
                     <template slot-scope="scope">
                         <div v-if="scope.row.userList && scope.row.userList.length > 0">
                             <span v-for="(item, index) in scope.row.userList" :key="item.id">
-                                {{item.realName}}<span v-if="index < scope.row.userList.length - 1">,</span>
+                                {{item.realName}}<span v-if="index < scope.row.userList.length - 1">、</span>
                             </span>
                         </div>
                     </template>
@@ -82,13 +82,14 @@
                 <el-table-column
                         align="center"
                         fixed="right"
-                        width="230"
+                        width="330"
                         label="操作"
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="jumpPage(scope.row)">权限维护</el-button>
-                            <!--<el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>-->
+                            <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'menu')">菜单维护</el-button>
+                            <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'permission')">权限维护</el-button>
+                            <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteRole(scope.row)">删除</el-button>
                         </el-row>
                     </template>
@@ -293,14 +294,22 @@
                 }).catch(() => {
                 });
             },
-            jumpPage(data) {
-                this.$router.push({
-                    name: 'permission-manage.html',
-                    params: {
-                        id: data.id,
-                        name: data.name,
-                    }
-                })
+            jumpPage(data, page) {
+                if (page === 'menu') {
+                    this.$router.push({
+                        name: 'role-menu.html',
+                        params: {
+                            id: data.id
+                        }
+                    })
+                } else if (page === 'permission') {
+                    this.$router.push({
+                        name: 'role-permission.html',
+                        params: {
+                            id: data.id
+                        }
+                    })
+                }
             },
         },
         created() {

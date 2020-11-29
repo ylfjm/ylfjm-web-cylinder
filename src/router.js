@@ -9,7 +9,8 @@ import Home from "./pages/home/Home"
 //系统管理
 import Admin from "./pages/system/Admin"
 import Role from "./pages/system/Role"
-import PermissionManagePage from "./pages/system/container/role/PermissionManage"
+import RolePermissionPage from "./pages/system/container/role/RolePermissionManage"
+import RoleMenuPage from "./pages/system/container/role/RoleMenuManage"
 import Department from "./pages/system/Department"
 import Menu from "./pages/system/Menu"
 import Permission from "./pages/system/Permission"
@@ -72,11 +73,19 @@ const router = new VueRouter({
             }
         },
         {
-            path: "/permission-manage.html",
-            name: "permission-manage.html",
-            component: PermissionManagePage,
+            path: "/role-permission.html",
+            name: "role-permission.html",
+            component: RolePermissionPage,
             meta: {
                 title: '系统-角色-权限维护'
+            }
+        },
+        {
+            path: "/role-menu.html",
+            name: "role-menu.html",
+            component: RoleMenuPage,
+            meta: {
+                title: '系统-角色-菜单维护'
             }
         },
         {

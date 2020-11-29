@@ -15,7 +15,7 @@
                 <el-form-item label="文字描述" prop="description">
                     <el-input type="textarea" v-model="form.description"></el-input>
                 </el-form-item>
-                <el-form-item label="添加权限" prop="permissionIds">
+                <!--<el-form-item label="添加权限" prop="permissionIds">
                     <el-tree
                             :data="permissions"
                             show-checkbox
@@ -25,7 +25,7 @@
                             @check="changePublic"
                             :props="defaultProps"
                     ></el-tree>
-                </el-form-item>
+                </el-form-item>-->
             </el-form>
         </div>
         <div slot="footer" class="text-center">

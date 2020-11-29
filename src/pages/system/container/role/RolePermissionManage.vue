@@ -16,7 +16,7 @@
                             <div>{{menu.name}}</div>
                         </div>
                         <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
-                            <el-checkbox-group v-model="checkedPermission" @change="handleChecked">
+                            <el-checkbox-group v-model="checkedBox" @change="handleChecked">
                                 <el-checkbox v-for="perm in menu.permissions" :label="perm.id" :key="perm.id" style="width: 110px;">{{perm.name}}
                                 </el-checkbox>
                             </el-checkbox-group>
@@ -30,7 +30,7 @@
                                 <div>{{menu.name + ' > ' + subMenu.name}}</div>
                             </div>
                             <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
-                                <el-checkbox-group v-model="checkedPermission" @change="handleChecked">
+                                <el-checkbox-group v-model="checkedBox" @change="handleChecked">
                                     <el-checkbox v-for="perm in subMenu.permissions" :label="perm.id" :key="perm.id" style="width: 110px;">
                                         {{perm.name}}
                                     </el-checkbox>
@@ -58,13 +58,13 @@
 
 <script>
     export default {
-        name: "PermissionManagePage",
+        name: "RolePermissionManagePage",
         data() {
             return {
                 roleId: '',
                 roleName: '',
                 menuList: [],
-                checkedPermission: [],
+                checkedBox: [],
                 submitLoading: false,
             }
         },
@@ -74,16 +74,15 @@
             async initData() {
                 if (this.$route.params.id) {
                     this.roleId = this.$route.params.id;
-                    this.roleName = this.$route.params.name;
                     const res = await this.$service.getMenuWithPermissionByRoleId({roleId: this.roleId});
                     if (res.code === 20000) {
                         this.menuList = res.data;
-                        this.checkedPermission = [];
+                        this.checkedBox = [];
                         this.menuList.map(menu => {
                             if (menu.permissions && menu.permissions.length > 0) {
                                 menu.permissions.map(p => {
                                     if (p.have && p.have === true) {
-                                        this.checkedPermission.push(p.id);
+                                        this.checkedBox.push(p.id);
                                     }
                                 });
                             }
@@ -92,7 +91,7 @@
                                     if (subMenu.permissions && subMenu.permissions.length > 0) {
                                         subMenu.permissions.map(p => {
                                             if (p.have && p.have === true) {
-                                                this.checkedPermission.push(p.id);
+                                                this.checkedBox.push(p.id);
                                             }
                                         });
                                     }
@@ -104,10 +103,9 @@
             },
             async currentSubmit() {
                 this.submitLoading = true;
-                const res = await this.$service.updateRole({
+                const res = await this.$service.updateRolePermission({
                     id: this.roleId,
-                    name: this.roleName,
-                    permissionIds: this.checkedPermission
+                    permissionIds: this.checkedBox
                 });
                 this.submitLoading = false;
                 if (res.code === 20000) {
