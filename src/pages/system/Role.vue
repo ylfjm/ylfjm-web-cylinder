@@ -13,7 +13,7 @@
                 <el-form-item label="角色" prop="name" class="specialWidth50">
                     <el-input
                             v-model="formSearch.name"
-                            placeholder="请输入角色"
+                            placeholder="请输入角色名"
                             clearable
                             @clear="onSearch"
                     ></el-input>
@@ -107,7 +107,6 @@
             </div>
         </div>
         <CreateRole
-                width="40%"
                 title="新增角色"
                 :visible="createDialogVisible"
                 :hideDialog="hideCreateDialog"
@@ -116,7 +115,6 @@
                 :error="error"
         />
         <UpdateRole
-                width="40%"
                 title="修改角色"
                 :visible="updateDialogVisible"
                 :hideDialog="hideUpdateDialog"
@@ -139,7 +137,7 @@
                 formSearch: {
                     name: '',
                     pageNum: 1,
-                    pageSize: 10
+                    pageSize: 20
                 },
                 total: 0,
                 pages: 0,
@@ -152,7 +150,6 @@
                 updateRoleLoading: false,
                 updateItem: {},
                 searchLoading: false,
-                autoHeight: 500
             }
         },
         methods: {
@@ -216,40 +213,10 @@
                     this.error = res.message || true
                 }
             },
-            getCheckedPermissions(list) {
-                let arr = [];
-                let map = l => {
-                    l.forEach(item => {
-                        if (item.subMenus && item.subMenus.length !== 0) {
-                            map(item.subMenus)
-                        } else if (item.permissions && item.permissions.length !== 0) {
-                            item.permissions.forEach(c => {
-                                if (c.have && c.method) {
-                                    arr.push(c.id)
-                                }
-                            })
-                        }
-                        return
-                    })
-                };
-                map(list);
-                return arr
-            },
             //修改
-            showUpdateDialog(row) {
+            showUpdateDialog() {
                 this.updateDialogVisible = true;
                 this.error = false;
-                this.$nextTick(async function () {
-                    const res = await this.$service.getMenuWithPermissionByRoleId({
-                        roleId: row.id
-                    });
-                    if (res.code === 20000) {
-                        this.updateItem = {
-                            ...row,
-                            permissionIds: this.getCheckedPermissions(res.data)
-                        }
-                    }
-                })
             },
             hideUpdateDialog() {
                 this.updateDialogVisible = false;
@@ -316,16 +283,8 @@
             this.searchCommon()
         },
         mounted() {
-            this.$nextTick(function () {
-                //56为全选导出数据列表高度
-                // this.autoHeight = this.mainHeight - this.$el.querySelector('.search_box').clientHeight
-            })
         },
-        computed: {
-            ...mapState({
-                mainHeight: state => state.mainHeight
-            })
-        },
+        computed: {},
         components: {
             CreateRole,
             UpdateRole,

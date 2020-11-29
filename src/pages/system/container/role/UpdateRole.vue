@@ -1,6 +1,6 @@
 <template>
     <el-dialog
-            width="40%"
+            width="30%"
             :title="title"
             :visible.sync="visible"
             :before-close="hideDialog"
@@ -8,24 +8,13 @@
             :close-on-click-modal="false"
     >
         <div class="dialog-form">
-            <el-form :label-width="'120px'" ref="form" :rules="rules" :model="form">
+            <el-form :label-width="'80px'" ref="form" :rules="rules" :model="form">
                 <el-form-item label="角色名" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="文字描述" prop="description">
                     <el-input type="textarea" v-model="form.description"></el-input>
                 </el-form-item>
-                <!--<el-form-item label="添加权限" prop="permissionIds">
-                    <el-tree
-                            :data="permissions"
-                            show-checkbox
-                            node-key="key"
-                            ref="permissions"
-                            default-expand-all
-                            @check="changePublic"
-                            :props="defaultProps"
-                    ></el-tree>
-                </el-form-item>-->
             </el-form>
         </div>
         <div slot="footer" class="text-center">
@@ -44,26 +33,16 @@
 </template>
 <script>
     export default {
-        name: 'updateRole',
+        name: 'UpdateRole',
         data() {
             return {
                 form: {
                     name: this.updateItem.name,
                     description: this.updateItem.description,
-                    permissionIds: this.updateItem.permissionIds
                 },
                 rules: {
                     name: [{required: true, message: '请填写角色名', trigger: 'blur'}],
-                    description: [],
-                    permissionIds: []
                 },
-                defaultProps: {
-                    children: 'children',
-                    label: 'label',
-                    value: 'value',
-                    key: 'key'
-                },
-                permissions: []
             }
         },
         props: {
@@ -79,36 +58,14 @@
             currentSubmit(formName) {
                 this.$refs[formName].validate(valid => {
                     if (valid) {
-                        this.submit({
-                            ...this.form,
-                            permissionIds: this.form.permissionIds.map(item => {
-                                if (item.value) {
-                                    return item.value
-                                } else {
-                                    return item
-                                }
-                            })
-                        })
+                        this.submit(this.form)
                     } else {
                         return false
                     }
                 })
             },
-            changePublic(checkedNodes, checkedKeys) {
-                this.form.permissionIds = checkedKeys.checkedNodes.filter(item => {
-                    return item.level === ''
-                })
-            }
         },
         watch: {
-            visible: async function (n) {
-                if (n) {
-                    const res = await this.$service.getMenuWithPermissionByRoleId({})
-                    if (res.code === 20000) {
-                        this.permissions = mapMenuData(res.data)
-                    }
-                }
-            },
             loading: function (n, o) {
                 if (o && !n) {
                     if (this.error) {
@@ -121,31 +78,17 @@
                             title: '提示',
                             type: 'success',
                             message: '修改角色成功',
-                        })
+                        });
                         this.$refs['form'].resetFields()
-                        this.$refs.permissions.setCheckedKeys([])
                     }
                 }
             },
             updateItem: function (n) {
                 this.form = n
-                if (n.permissionIds && n.permissionIds.length !== 0) {
-                    this.$refs.permissions.setCheckedKeys(n.permissionIds)
-                }
             }
         },
         components: {}
     }
-    const mapMenuData = data => {
-        return data ? data.map(item => {
-            return {
-                key: item.level ? item.id + '-' + item.level : item.id,
-                value: item.id,
-                label: item.name,
-                level: item.level || '',
-                children: item.subMenus && item.subMenus.length !== 0 ? mapMenuData(item.subMenus) : mapMenuData(item.permissions)
-            }
-        }) : data
-    }
 </script>
-<style scoped></style>
+<style scoped>
+</style>

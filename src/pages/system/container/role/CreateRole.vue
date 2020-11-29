@@ -15,17 +15,6 @@
                 <el-form-item label="文字描述" prop="description">
                     <el-input type="textarea" v-model="form.description"></el-input>
                 </el-form-item>
-                <!--<el-form-item label="添加权限" prop="permissionIds">
-                    <el-tree
-                            :data="permissions"
-                            show-checkbox
-                            node-key="key"
-                            ref="permissions"
-                            default-expand-all
-                            @check="changePublic"
-                            :props="defaultProps"
-                    ></el-tree>
-                </el-form-item>-->
             </el-form>
         </div>
         <div slot="footer" class="text-center">
@@ -44,26 +33,16 @@
 </template>
 <script>
     export default {
-        name: 'createRole',
+        name: 'CreateRole',
         data() {
             return {
                 form: {
                     name: '',
                     description: '',
-                    permissionIds: []
                 },
                 rules: {
                     name: [{required: true, message: '请填写角色名', trigger: 'blur'}],
-                    description: [],
-                    permissionIds: []
                 },
-                defaultProps: {
-                    children: 'children',
-                    label: 'label',
-                    value: 'value',
-                    key: 'key'
-                },
-                permissions: []
             }
         },
         props: {
@@ -78,32 +57,14 @@
             currentSubmit(formName) {
                 this.$refs[formName].validate(valid => {
                     if (valid) {
-                        this.submit({
-                            ...this.form,
-                            permissionIds: this.form.permissionIds.map(item => {
-                                return item.value
-                            })
-                        })
+                        this.submit(this.form)
                     } else {
                         return false
                     }
                 })
             },
-            changePublic(checkedNodes, checkedKeys) {
-                this.form.permissionIds = checkedKeys.checkedNodes.filter(item => {
-                    return item.level === ''
-                })
-            }
         },
         watch: {
-            visible: async function (n) {
-                if (n) {
-                    const res = await this.$service.getMenuWithPermissionByRoleId({})
-                    if (res.code === 20000) {
-                        this.permissions = mapMenuData(res.data)
-                    }
-                }
-            },
             loading: function (n, o) {
                 if (o && !n) {
                     if (this.error) {
@@ -116,25 +77,14 @@
                             title: '提示',
                             type: 'success',
                             message: '新增角色成功',
-                        })
+                        });
                         this.$refs['form'].resetFields()
-                        this.$refs.permissions.setCheckedKeys([])
                     }
                 }
             }
         },
         components: {}
     }
-    const mapMenuData = data => {
-        return data ? data.map(item => {
-            return {
-                key: item.level ? item.id + '-' + item.level : item.id,
-                value: item.id,
-                label: item.name,
-                level: item.level || '',
-                children: item.subMenus && item.subMenus.length !== 0 ? mapMenuData(item.subMenus) : mapMenuData(item.permissions)
-            }
-        }) : data
-    }
 </script>
-<style scoped></style>
+<style scoped>
+</style>
