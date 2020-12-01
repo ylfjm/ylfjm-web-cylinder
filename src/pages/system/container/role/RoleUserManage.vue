@@ -3,48 +3,30 @@
         <div class="container-border">
             <div class="dp-table">
                 <div class="dp-table-cell text-center" style="width: 10%;">
-                    <div>模块</div>
+                    <div>部门</div>
                 </div>
                 <div class="dp-table-cell text-center" style="width: 90%;">
-                    <div>权限</div>
+                    <div>用户</div>
                 </div>
             </div>
-            <div v-for="menu in menuList">
-                <div v-if="menu.permissions && menu.permissions.length > 0">
+            <div v-for="dept in deptList">
+                <div v-if="dept.userList && dept.userList.length > 0">
                     <div class="dp-table">
                         <div class="dp-table-cell text-right" style="width: 10%; padding-right: 30px;">
-                            <div>{{menu.name}}</div>
+                            <div>{{dept.name}}</div>
                         </div>
                         <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
                             <el-checkbox-group v-model="checkedBox" @change="handleChecked">
-                                <el-checkbox v-for="perm in menu.permissions" :label="perm.id" :key="perm.id" :checked="perm.have"
-                                             style="width: 110px;">{{perm.name}}
+                                <el-checkbox v-for="user in dept.userList" :label="user.id" :key="user.id" :checked="user.have" style="width: 110px;">
+                                    {{user.realName}}
                                 </el-checkbox>
                             </el-checkbox-group>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="menu.subMenus && menu.subMenus.length > 0">
-                    <div v-for="subMenu in menu.subMenus">
-                        <div class="dp-table">
-                            <div class="dp-table-cell text-right" style="width: 10%; padding-right: 30px;">
-                                <div>{{menu.name + ' > ' + subMenu.name}}</div>
-                            </div>
-                            <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
-                                <el-checkbox-group v-model="checkedBox" @change="handleChecked">
-                                    <el-checkbox v-for="perm in subMenu.permissions" :label="perm.id" :key="perm.id" :checked="perm.have"
-                                                 style="width: 110px;">
-                                        {{perm.name}}
-                                    </el-checkbox>
-                                </el-checkbox-group>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="dp-table">
                 <div class="dp-table-cell text-right" style="width: 10%; padding-right: 30px;">
-                    <div>全选</div>
                 </div>
                 <div class="dp-table-cell text-left" style="width: 90%; padding: 10px 30px;">
                     <el-button type="primary" @click="currentSubmit" :loading="submitLoading" style="width: 100px;">保 存
@@ -60,12 +42,12 @@
 
 <script>
     export default {
-        name: "RolePermissionManagePage",
+        name: "RoleUserManagePage",
         data() {
             return {
                 roleId: '',
                 roleName: '',
-                menuList: [],
+                deptList: [],
                 checkedBox: [],
                 submitLoading: false,
             }
@@ -76,17 +58,17 @@
             async initData() {
                 if (this.$route.params.id) {
                     this.roleId = this.$route.params.id;
-                    const res = await this.$service.getMenuWithPermissionByRoleId({roleId: this.roleId});
+                    const res = await this.$service.getDepartmentUserList({roleId: this.roleId});
                     if (res.code === 20000) {
-                        this.menuList = res.data;
+                        this.deptList = res.data;
                     }
                 }
             },
             async currentSubmit() {
                 this.submitLoading = true;
-                const res = await this.$service.updateRolePermission({
+                const res = await this.$service.updateRoleUser({
                     id: this.roleId,
-                    permissionIds: this.checkedBox
+                    userIds: this.checkedBox
                 });
                 this.submitLoading = false;
                 if (res.code === 20000) {

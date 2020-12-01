@@ -115,10 +115,12 @@
                     <div class="pagination_box">
                         <el-pagination
                                 @current-change="handleCurrentChange"
+                                @size-change="handleSizeChange"
                                 class="pagination_content"
                                 :current-page="formSearch.pageNum"
                                 layout="total, sizes, prev, pager, next"
                                 :page-size="formSearch.pageSize"
+                                :page-sizes="[15,20,30,50,100]"
                                 :total="total"
                         ></el-pagination>
                     </div>
@@ -126,7 +128,8 @@
             </el-main>
         </el-container>
         <CreateDialogForm
-                width="40%"
+                width="30%"
+                formLabelWidth="70px"
                 title="添加菜单"
                 :visible="createDialogVisible"
                 :form="form"
@@ -138,7 +141,8 @@
                 :error="error"
         />
         <UpdateDialogForm
-                width="40%"
+                width="30%"
+                formLabelWidth="70px"
                 title="修改菜单"
                 :visible="updateDialogVisible"
                 :hideDialog="hideUpdateDialog"
@@ -162,7 +166,7 @@
             return {
                 formSearch: {
                     pageNum: 1,
-                    pageSize: 10,
+                    pageSize: 15,
                     checkMenuId: '',
                     name: '',
                     level: ''
@@ -195,13 +199,6 @@
                         fieldName: 'url',
                         type: 'input',
                         rules: [{required: true, message: '请填写菜单url', trigger: 'blur'}]
-                    },
-                    {
-                        label: '菜单图标',
-                        fieldName: 'icon',
-                        type: 'upload',
-                        folder: 'system',
-                        rules: []
                     },
                     {
                         label: '父级',
@@ -264,6 +261,11 @@
             //分页
             handleCurrentChange(pageNum) {
                 this.formSearch.pageNum = pageNum
+                this.searchCommon()
+            },
+            handleSizeChange(pageSize) {
+                this.formSearch.pageNum = 1;
+                this.formSearch.pageSize = pageSize;
                 this.searchCommon()
             },
             async searchCommon() {

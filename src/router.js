@@ -9,8 +9,9 @@ import Home from "./pages/home/Home"
 //系统管理
 import Admin from "./pages/system/Admin"
 import Role from "./pages/system/Role"
-import RolePermissionPage from "./pages/system/container/role/RolePermissionManage"
+import RoleUserPage from "./pages/system/container/role/RoleUserManage"
 import RoleMenuPage from "./pages/system/container/role/RoleMenuManage"
+import RolePermissionPage from "./pages/system/container/role/RolePermissionManage"
 import Department from "./pages/system/Department"
 import Menu from "./pages/system/Menu"
 import Permission from "./pages/system/Permission"
@@ -73,11 +74,11 @@ const router = new VueRouter({
             }
         },
         {
-            path: "/role-permission.html",
-            name: "role-permission.html",
-            component: RolePermissionPage,
+            path: "/role-user.html",
+            name: "role-user.html",
+            component: RoleUserPage,
             meta: {
-                title: '系统-角色-权限维护'
+                title: '系统-角色-成员维护'
             }
         },
         {
@@ -86,6 +87,14 @@ const router = new VueRouter({
             component: RoleMenuPage,
             meta: {
                 title: '系统-角色-菜单维护'
+            }
+        },
+        {
+            path: "/role-permission.html",
+            name: "role-permission.html",
+            component: RolePermissionPage,
+            meta: {
+                title: '系统-角色-权限维护'
             }
         },
         {

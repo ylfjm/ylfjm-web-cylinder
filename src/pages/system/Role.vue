@@ -41,6 +41,7 @@
                         :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
                         align="center"
                         fixed="left"
+                        width="80"
                         label="序号"
                 ></el-table-column>
                 <el-table-column
@@ -49,22 +50,6 @@
                         show-overflow-tooltip
                         label="角色名"
                 ></el-table-column>
-                <!--<el-table-column
-                        prop="accountCount"
-                        min-width="120"
-                        show-overflow-tooltip
-                        label="账号数量"
-                >
-                    <template slot-scope="scope">
-                        <div v-show="scope.row.accountCount === 0">{{ scope.row.accountCount}}</div>
-                        <router-link
-                                v-show="scope.row.accountCount > 0"
-                                :to="{name:'admin', path:'/admin', params:{roleId: scope.row.id}}"
-                        >
-                            <span style="color: #409EFF">{{ scope.row.accountCount}}</span>
-                        </router-link>
-                    </template>
-                </el-table-column>-->
                 <el-table-column
                         prop="userList"
                         min-width="500"
@@ -82,11 +67,12 @@
                 <el-table-column
                         align="center"
                         fixed="right"
-                        width="330"
+                        width="410"
                         label="操作"
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
+                            <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'user')">用户维护</el-button>
                             <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'menu')">菜单维护</el-button>
                             <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'permission')">权限维护</el-button>
                             <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
@@ -98,10 +84,12 @@
             <div class="pagination_box">
                 <el-pagination
                         @current-change="handleCurrentChange"
+                        @size-change="handleSizeChange"
                         class="pagination_content"
                         :current-page="formSearch.pageNum"
                         layout="total, sizes, prev, pager, next"
                         :page-size="formSearch.pageSize"
+                        :page-sizes="[15,20,30,50,100]"
                         :total="total"
                 ></el-pagination>
             </div>
@@ -137,7 +125,7 @@
                 formSearch: {
                     name: '',
                     pageNum: 1,
-                    pageSize: 20
+                    pageSize: 15
                 },
                 total: 0,
                 pages: 0,
@@ -168,6 +156,11 @@
             //分页
             handleCurrentChange(pageNum) {
                 this.formSearch.pageNum = pageNum;
+                this.searchCommon()
+            },
+            handleSizeChange(pageSize) {
+                this.formSearch.pageNum = 1;
+                this.formSearch.pageSize = pageSize;
                 this.searchCommon()
             },
             async searchCommon() {
@@ -262,7 +255,14 @@
                 });
             },
             jumpPage(data, page) {
-                if (page === 'menu') {
+                if (page === 'user') {
+                    this.$router.push({
+                        name: 'role-user.html',
+                        params: {
+                            id: data.id
+                        }
+                    })
+                } else if (page === 'menu') {
                     this.$router.push({
                         name: 'role-menu.html',
                         params: {

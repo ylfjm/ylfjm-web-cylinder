@@ -68,7 +68,7 @@
                         :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
                         align="center"
                         fixed="left"
-                        min-width="70"
+                        width="80"
                         label="序号"
                 ></el-table-column>
                 <el-table-column
@@ -83,18 +83,6 @@
                         show-overflow-tooltip
                         label="姓名"
                 ></el-table-column>
-                <el-table-column
-                        prop="phone"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="手机号"
-                >
-                    <template slot-scope="scope">
-                        <div>
-                            {{scope.row.phone? scope.row.phone.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2'): ''}}
-                        </div>
-                    </template>
-                </el-table-column>
                 <el-table-column
                         prop="roleIds"
                         min-width="150"
@@ -113,12 +101,6 @@
                         min-width="150"
                         show-overflow-tooltip
                         label="部门"
-                ></el-table-column>
-                <el-table-column
-                        prop="email"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="邮箱"
                 ></el-table-column>
                 <el-table-column
                         prop="enable"
@@ -163,12 +145,14 @@
                         :current-page="formSearch.pageNum"
                         layout="total, sizes, prev, pager, next"
                         :page-size="formSearch.pageSize"
+                        :page-sizes="[15,20,30,50,100]"
                         :total="total"
                 ></el-pagination>
             </div>
         </div>
         <CreateDialogForm
-                width="40%"
+                width="35%"
+                formLabelWidth="70px"
                 title="新增用户"
                 :visible="createDialogVisible"
                 :form="form"
@@ -180,7 +164,8 @@
                 :error="error"
         />
         <UpdateDialogForm
-                width="40%"
+                width="35%"
+                formLabelWidth="70px"
                 title="修改用户"
                 :visible="updateDialogVisible"
                 :hideDialog="hideUpdateDialog"
@@ -211,7 +196,7 @@
                     roleId: '',
                     forbidden: '',
                     pageNum: 1,
-                    pageSize: 10
+                    pageSize: 15
                 },
                 total: 0,
                 pages: 0,
@@ -257,34 +242,6 @@
                         rules: [{required: true, message: '请填写姓名', trigger: 'blur'}]
                     },
                     {
-                        label: '性别',
-                        fieldName: 'sex',
-                        type: 'radio',
-                        options: [
-                            {value: '1', label: '男'},
-                            {value: '2', label: '女'}
-                        ],
-                        rules: []
-                    },
-                    {
-                        label: '手机号',
-                        fieldName: 'phone',
-                        type: 'input',
-                        rules: [
-                            {
-                                validator: this.checkPhone,
-                                trigger: ['blur', 'change'],
-                                message: '请输入正确的手机号'
-                            }
-                        ]
-                    },
-                    {
-                        label: '邮箱',
-                        fieldName: 'email',
-                        type: 'input',
-                        rules: []
-                    },
-                    {
                         label: '部门',
                         fieldName: 'deptId',
                         type: 'autoSelect',
@@ -327,34 +284,6 @@
                         fieldName: 'realName',
                         type: 'input',
                         rules: [{required: true, message: '请填写姓名', trigger: 'blur'}]
-                    },
-                    {
-                        label: '性别',
-                        fieldName: 'sex',
-                        type: 'radio',
-                        options: [
-                            {value: '1', label: '男'},
-                            {value: '2', label: '女'}
-                        ],
-                        rules: []
-                    },
-                    {
-                        label: '手机号',
-                        fieldName: 'phone',
-                        type: 'input',
-                        rules: [
-                            {
-                                validator: this.checkPhone,
-                                trigger: ['blur', 'change'],
-                                message: '请输入正确的手机号'
-                            }
-                        ]
-                    },
-                    {
-                        label: '邮箱',
-                        fieldName: 'email',
-                        type: 'input',
-                        rules: []
                     },
                     {
                         label: '部门',
@@ -409,19 +338,6 @@
                         )
                     }
                 }, 100)
-            },
-            //手机号验证
-            checkPhone(rule, value, callback) {
-                if (!value) {
-                    return callback()
-                } else {
-                    const reg = /^[1][3,4,5,7,8][0-9]{9}$/
-                    if (reg.test(value)) {
-                        callback()
-                    } else {
-                        return callback(new Error('请输入正确的手机号'))
-                    }
-                }
             },
             //新增修改弹窗回传值
             changeFieldValue(data) {

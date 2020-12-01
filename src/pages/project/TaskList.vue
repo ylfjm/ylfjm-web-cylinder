@@ -214,7 +214,7 @@
                         :current-page="formSearch.pageNum"
                         layout="total, sizes, prev, pager, next"
                         :page-size="formSearch.pageSize"
-                        :page-sizes="[10,15,20,50,100]"
+                        :page-sizes="[15,20,30,50,100]"
                         :total="total"
                 ></el-pagination>
             </div>

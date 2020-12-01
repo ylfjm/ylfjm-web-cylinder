@@ -161,7 +161,7 @@
                 <a title="复制任务">
                     <i class="el-icon-copy-document"></i>
                 </a>
-                <a title="删除">
+                <a @click="deleteTask" title="删除">
                     <i class="el-icon-delete"></i>
                 </a>
             </div>
@@ -197,6 +197,17 @@
                             id: this.task.id
                         }
                     })
+                }
+            },
+            async deleteTask() {
+                const res = await this.$service.deleteTask({id: this.task.id});
+                if (res.code === 20000) {
+                    this.$message({
+                        message: '删除任务成功',
+                        type: 'success'
+                    });
+                } else {
+                    this.$message.error('删除任务失败');
                 }
             },
         },

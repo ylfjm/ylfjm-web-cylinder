@@ -41,29 +41,27 @@
                         :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
                         align="center"
                         fixed="left"
-                        min-width="70"
+                        width="80"
                         label="序号"
                 ></el-table-column>
                 <el-table-column
                         prop="name"
-                        min-width="130"
+                        min-width="150"
                         show-overflow-tooltip
                         label="部门"
                 ></el-table-column>
                 <el-table-column
-                        prop="accountCount"
-                        min-width="130"
+                        prop="userList"
+                        min-width="500"
                         show-overflow-tooltip
-                        label="账号数量"
+                        label="用户列表"
                 >
                     <template slot-scope="scope">
-                        <div v-show="scope.row.accountCount === 0">{{ scope.row.accountCount}}</div>
-                        <router-link
-                                v-show="scope.row.accountCount > 0"
-                                :to="{name:'admin.html', path:'/admin.html', params:{deptId: scope.row.id}}"
-                        >
-                            <span style="color: #409EFF">{{ scope.row.accountCount}}</span>
-                        </router-link>
+                        <div v-if="scope.row.userList && scope.row.userList.length > 0">
+                            <span v-for="(item, index) in scope.row.userList" :key="item.id">
+                                {{item.realName}}<span v-if="index < scope.row.userList.length - 1">、</span>
+                            </span>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -83,16 +81,19 @@
             <div class="pagination_box">
                 <el-pagination
                         @current-change="handleCurrentChange"
+                        @size-change="handleSizeChange"
                         class="pagination_content"
                         :current-page="formSearch.pageNum"
                         layout="total, sizes, prev, pager, next"
                         :page-size="formSearch.pageSize"
+                        :page-sizes="[15,20,30,50,100]"
                         :total="total"
                 ></el-pagination>
             </div>
         </div>
         <CreateDialogForm
-                width="40%"
+                width="30%"
+                formLabelWidth="50px"
                 title="新增部门"
                 :visible="createDialogVisible"
                 :form="form"
@@ -104,7 +105,8 @@
                 :error="error"
         />
         <UpdateDialogForm
-                width="40%"
+                width="30%"
+                formLabelWidth="50px"
                 title="修改部门"
                 :visible="updateDialogVisible"
                 :hideDialog="hideUpdateDialog"
@@ -129,7 +131,7 @@
                 formSearch: {
                     name: '',
                     pageNum: 1,
-                    pageSize: 10
+                    pageSize: 15
                 },
                 total: 0,
                 pages: 0,
@@ -183,6 +185,11 @@
             //分页
             handleCurrentChange(pageNum) {
                 this.formSearch.pageNum = pageNum
+                this.searchCommon()
+            },
+            handleSizeChange(pageSize) {
+                this.formSearch.pageNum = 1;
+                this.formSearch.pageSize = pageSize;
                 this.searchCommon()
             },
             async searchCommon() {

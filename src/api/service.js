@@ -3,7 +3,7 @@ import api from './api'
 const baseUrl = 'http://localhost:9999';
 const Service = {
     //登录
-    adminLogin: data => api.axiosPost(baseUrl + '/api/login', null, data),
+    userLogin: data => api.axiosPost(baseUrl + '/api/login', null, data),
     //用户管理
     getAdminList: data => api.axiosGet(baseUrl + '/api/admin/' + data.pageNum + '/' + data.pageSize, null, data),
     addAdmin: data => api.axiosPost(baseUrl + '/api/admin', data, null),
@@ -15,6 +15,7 @@ const Service = {
     addDepartment: data => api.axiosPost(baseUrl + '/api/department', data, null),
     updateDepartment: data => api.axiosPut(baseUrl + '/api/department', data, null),
     deleteDepartment: data => api.axiosDelete(baseUrl + '/api/department/' + data.id, null, null),
+    getDepartmentUserList: data => api.axiosGet(baseUrl + '/api/department/user', null, data),
     //菜单管理
     getMenuList: data => api.axiosGet(baseUrl + '/api/menu/' + data.pageNum + '/' + data.pageSize, null, data),
     getMenuWithPermissionByRoleId: data => api.axiosGet(baseUrl + '/api/menu/permission', null, data),
@@ -31,6 +32,7 @@ const Service = {
     getRoleList: data => api.axiosGet(baseUrl + '/api/role/' + data.pageNum + '/' + data.pageSize, null, data),
     addRole: data => api.axiosPost(baseUrl + '/api/role', data, null),
     updateRole: data => api.axiosPut(baseUrl + '/api/role', data, null),
+    updateRoleUser: data => api.axiosPut(baseUrl + '/api/roleUser', data, null),
     updateRoleMenu: data => api.axiosPut(baseUrl + '/api/roleMenu', data, null),
     updateRolePermission: data => api.axiosPut(baseUrl + '/api/rolePermission', data, null),
     deleteRole: data => api.axiosDelete(baseUrl + '/api/role/' + data.id, null, null),
@@ -42,6 +44,7 @@ const Service = {
     getTaskList: data => api.axiosGet(baseUrl + '/api/task/' + data.pageNum + '/' + data.pageSize, null, data),
     getTaskById: data => api.axiosGet(baseUrl + '/api/task/' + data.id, null, null),
     addTask: data => api.axiosPost(baseUrl + '/api/task', data, null),
+    deleteTask: data => api.axiosDelete(baseUrl + '/api/task/' + data.id, null, null),
     updateTask: data => api.axiosPut(baseUrl + '/api/task', data, null),
 
 };

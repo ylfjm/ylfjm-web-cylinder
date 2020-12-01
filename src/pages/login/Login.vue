@@ -42,13 +42,11 @@
                         //     text: '努力加载中...',
                         //     spinner: 'el-icon-loading',
                         //     background: 'rgba(0, 0, 0, 0.4)',
-                        //     customClass: 'loginLoading'
                         // });
                         this.loginLoading = true;
-                        const res = await this.$service.adminLogin({
+                        const res = await this.$service.userLogin({
                             userName: this.form.userName.trim(),
-                            password: CryptoJS.MD5(this.form.password.trim()).toString(),
-                            sysType: 5
+                            password: CryptoJS.MD5(this.form.password.trim()).toString()
                         });
                         if (res.code === 20000) {
                             let admin = res.data;
@@ -151,9 +149,5 @@
     .login-button span {
         height: 28px !important;
         line-height: 28px !important;
-    }
-
-    .loginLoading {
-        background-color: aquamarine;
     }
 </style>

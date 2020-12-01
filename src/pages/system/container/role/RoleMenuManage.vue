@@ -8,10 +8,11 @@
                 <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
                     <el-checkbox-group v-model="checkedBox" @change="handleChecked">
                         <template v-for="menu in menuList">
-                            <el-checkbox :label="menu.id" :key="menu.id" style="width: 60px;">{{menu.name}}</el-checkbox>
+                            <el-checkbox :label="menu.id" :key="menu.id" :checked="menu.have" style="width: 60px;">{{menu.name}}</el-checkbox>
                             <template v-if="menu.subMenus && menu.subMenus.length > 0">
                                 <template v-for="subMenu in menu.subMenus">
-                                    <el-checkbox :label="subMenu.id" :key="subMenu.id" style="width: 60px;">{{subMenu.name}}</el-checkbox>
+                                    <el-checkbox :label="subMenu.id" :key="subMenu.id" :checked="subMenu.have" style="width: 60px;">{{subMenu.name}}
+                                    </el-checkbox>
                                 </template>
                             </template>
                         </template>
@@ -20,7 +21,6 @@
             </div>
             <div class="dp-table">
                 <div class="dp-table-cell text-right" style="width: 10%; padding-right: 30px;">
-                    <div>操作</div>
                 </div>
                 <div class="dp-table-cell text-left" style="width: 90%; padding: 10px 30px;">
                     <el-button type="primary" @click="currentSubmit" :loading="submitLoading" style="width: 100px;">保 存
@@ -55,19 +55,6 @@
                     const res = await this.$service.getMenuTree({roleId: this.roleId});
                     if (res.code === 20000) {
                         this.menuList = res.data;
-                        this.checkedBox = [];
-                        this.menuList.map(menu => {
-                            if (menu.have && menu.have === true) {
-                                this.checkedBox.push(menu.id);
-                            }
-                            if (menu.subMenus && menu.subMenus.length > 0) {
-                                menu.subMenus.map(subMenu => {
-                                    if (subMenu.have && subMenu.have === true) {
-                                        this.checkedBox.push(subMenu.id);
-                                    }
-                                });
-                            }
-                        });
                     }
                 }
             },
@@ -82,13 +69,13 @@
                     this.$notify({
                         title: '提示',
                         type: 'success',
-                        message: '角色菜单修改成功',
+                        message: '维护成功',
                     });
                     this.$router.push('/role.html')
                 } else {
                     this.$notify.error({
                         title: '提示',
-                        message: res.message ? res.message : '角色菜单修改失败',
+                        message: res.message ? res.message : '维护失败',
                     })
                 }
             },

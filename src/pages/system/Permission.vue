@@ -107,10 +107,12 @@
                     <div class="pagination_box">
                         <el-pagination
                                 @current-change="handleCurrentChange"
+                                @size-change="handleSizeChange"
                                 class="pagination_content"
                                 :current-page="formSearch.pageNum"
                                 layout="total, sizes, prev, pager, next"
                                 :page-size="formSearch.pageSize"
+                                :page-sizes="[15,20,30,50,100]"
                                 :total="total"
                         ></el-pagination>
                     </div>
@@ -131,7 +133,7 @@
                 :error="error"
         />
         <UpdateDialogForm
-                width="40%"
+                width="30%"
                 formLabelWidth="90px"
                 title="修改权限"
                 :visible="updateDialogVisible"
@@ -156,7 +158,7 @@
             return {
                 formSearch: {
                     pageNum: 1,
-                    pageSize: 10,
+                    pageSize: 15,
                     checkMenuId: 0,
                     name: '',
                     code: '',
@@ -242,6 +244,11 @@
             //分页
             handleCurrentChange(pageNum) {
                 this.formSearch.pageNum = pageNum
+                this.searchCommon()
+            },
+            handleSizeChange(pageSize) {
+                this.formSearch.pageNum = 1;
+                this.formSearch.pageSize = pageSize;
                 this.searchCommon()
             },
             async searchCommon() {
