@@ -5,7 +5,7 @@
                 <router-link :to="'/task-list.html'">
                     <el-button type="primary" icon="el-icon-back">返 回</el-button>
                 </router-link>
-                <el-divider direction="vertical"></el-divider>
+                <el-divider class="black-divider--vertical" direction="vertical"></el-divider>
                 <span style="font-weight: bold; color: #838a9d; border: 1px solid #838a9d; padding: 2px 5px; border-radius: 2px;"
                       v-text="task.id"></span>
                 <span style="margin-left: 30px; font-weight: bold;" v-text="task.name"></span>
@@ -16,7 +16,7 @@
                         <div>
                             <span style="font-weight: bold;">任务描述</span>
                             <div v-html="task.content" class="ql-editor"></div>
-                            <el-divider style="margin: 0 15px !important;"></el-divider>
+                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                         </div>
 
                     </div>
@@ -72,7 +72,8 @@
                     </div>
                     <div class="panel" style="padding: 15px 20px 20px 20px;">
                         <span style="font-weight: bold; font-size: 14px;">开发信息</span>
-                        <el-form :label-width="'126px'" class="task-info-form" style="margin-top: 10px;">
+                        <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
+                        <el-form :label-width="'126px'" class="task-info-form" style="">
                             <div v-if="task.pdEstimateDate">
                                 <el-form-item label="产品预计完成时间">
                                     {{task.pdEstimateDate ? task.pdEstimateDate : '/'}}
@@ -140,7 +141,7 @@
                     <i class="el-icon-back"></i>
                     <div class="text">返回</div>
                 </a>
-                <el-divider direction="vertical"></el-divider>
+                <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
                 <a>
                     <i class="el-icon-right"></i>
                     <div class="text">指派</div>
@@ -153,7 +154,7 @@
                     <i class="el-icon-switch-button"></i>
                     <div class="text">关闭</div>
                 </a>
-                <el-divider direction="vertical"></el-divider>
+                <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
                 <a @click="jumpPage(2)" title="编辑">
                     <i class="el-icon-edit-outline"></i>
                 </a>
@@ -242,14 +243,19 @@
         margin-bottom: 0;
     }
 
-    .panel .el-divider--vertical {
+    .black-divider--vertical {
         background-color: #838a9d;
         width: 2px;
         height: 1.3em;
         margin: 0 20px;
     }
 
-    .popup-btn-box .el-divider--vertical {
+    .black-divider--horizontal {
+        height: 2px;
+        margin: 10px 0;
+    }
+
+    .white-divider--vertical {
         width: 2px;
         height: 1.3em;
         margin: 0 10px 0 20px;

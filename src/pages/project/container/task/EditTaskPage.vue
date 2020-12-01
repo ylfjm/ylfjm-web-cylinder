@@ -206,13 +206,13 @@
             async updateTask() {
                 this.updateLoading = true;
                 this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
-                this.form.pdDesigner = this.form.pdDesigner.join(",");
-                this.form.uiDesigner = this.form.uiDesigner.join(",");
-                this.form.webDeveloper = this.form.webDeveloper.join(",");
-                this.form.androidDeveloper = this.form.androidDeveloper.join(",");
-                this.form.iosDeveloper = this.form.iosDeveloper.join(",");
-                this.form.serverDeveloper = this.form.serverDeveloper.join(",");
-                this.form.tester = this.form.tester.join(",");
+                this.form.pdDesigner = this.form.pdDesigner ? this.form.pdDesigner.join(",") : this.form.pdDesigner;
+                this.form.uiDesigner = this.form.uiDesigner ? this.form.uiDesigner.join(",") : this.form.uiDesigner;
+                this.form.webDeveloper = this.form.webDeveloper ? this.form.webDeveloper.join(",") : this.form.webDeveloper;
+                this.form.androidDeveloper = this.form.androidDeveloper ? this.form.androidDeveloper.join(",") : this.form.androidDeveloper;
+                this.form.iosDeveloper = this.form.iosDeveloper ? this.form.iosDeveloper.join(",") : this.form.iosDeveloper;
+                this.form.serverDeveloper = this.form.serverDeveloper ? this.form.serverDeveloper.join(",") : this.form.serverDeveloper;
+                this.form.tester = this.form.tester ? this.form.tester.join(",") : this.form.tester;
                 const res = await this.$service.updateTask(this.form);
                 this.updateLoading = false;
                 if (res.code === 20000) {
