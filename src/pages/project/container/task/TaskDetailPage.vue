@@ -3,7 +3,7 @@
         <div class="container">
             <div>
                 <router-link :to="'/task-list.html'">
-                    <el-button type="primary" icon="el-icon-back">返 回</el-button>
+                    <el-button type="primary">返 回</el-button>
                 </router-link>
                 <el-divider class="black-divider--vertical" direction="vertical"></el-divider>
                 <span style="font-weight: bold; color: #838a9d; border: 1px solid #838a9d; padding: 2px 5px; border-radius: 2px;"
@@ -137,33 +137,39 @@
         </div>
         <div>
             <div class="popup-btn-box">
-                <a @click="jumpPage(1)">
-                    <i class="el-icon-back"></i>
-                    <div class="text">返回</div>
-                </a>
-                <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
-                <a>
-                    <i class="el-icon-right"></i>
-                    <div class="text">指派</div>
-                </a>
-                <a>
-                    <i class="el-icon-magic-stick"></i>
-                    <div class="text">激活</div>
-                </a>
-                <a>
-                    <i class="el-icon-switch-button"></i>
-                    <div class="text">关闭</div>
-                </a>
-                <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
-                <a @click="jumpPage(2)" title="编辑">
-                    <i class="el-icon-edit-outline"></i>
-                </a>
-                <a title="复制任务">
-                    <i class="el-icon-copy-document"></i>
-                </a>
-                <a @click="deleteTask" title="删除">
-                    <i class="el-icon-delete"></i>
-                </a>
+                <div class="btn-toolbar">
+                    <a @click="jumpPage(1)">
+                        <img src="@/assets/images/back2.png" style="margin-top: 5px;">
+                        <div class="text">返回</div>
+                    </a>
+                    <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
+                    <a>
+                        <img src="@/assets/images/assign.png" style="margin-top: 5px;">
+                        <div class="text">指派</div>
+                    </a>
+                    <a>
+                        <i class="el-icon-magic-stick"></i>
+                        <div class="text">激活</div>
+                    </a>
+                    <a @click="updateTaskStatus('cancel')">
+                        <img src="@/assets/images/cancel.png" style="margin-top: 6px;">
+                        <div class="text">取消</div>
+                    </a>
+                    <a @click="updateTaskStatus('closed')">
+                        <i class="el-icon-switch-button"></i>
+                        <div class="text">关闭</div>
+                    </a>
+                    <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
+                    <a @click="jumpPage(2)" title="编辑">
+                        <i class="el-icon-edit-outline"></i>
+                    </a>
+                    <a title="复制任务">
+                        <i class="el-icon-copy-document"></i>
+                    </a>
+                    <a @click="deleteTask" title="删除" style="margin-right: 10px;">
+                        <i class="el-icon-delete"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -208,6 +214,21 @@
                     });
                 } else {
                     this.$message.error('删除任务失败');
+                }
+            },
+            async updateTaskStatus(newStatus) {
+                const res = await this.$service.updateTaskStatus({
+                    id: this.task.id,
+                    oldStatus: this.task.status,
+                    newStatus: newStatus,
+                });
+                if (res.code === 20000) {
+                    this.$message({
+                        message: '操作成功',
+                        type: 'success'
+                    });
+                } else {
+                    this.$message.error('操作失败');
                 }
             },
         },
@@ -274,15 +295,21 @@
 
     .popup-btn-box {
         position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 70px;
+        text-align: center;
+    }
+
+    .btn-toolbar {
+        display: inline-block;
+        width: auto;
         color: #fff;
         background-color: rgba(90, 90, 90, .85);
         border-radius: 4px;
-        width: 526px;
-        left: 412px;
-        bottom: 70px;
     }
 
-    .popup-btn-box > a {
+    .popup-btn-box a {
         cursor: pointer;
         margin: 4px 0 4px 10px;
         padding: 0 10px;
@@ -294,14 +321,14 @@
         color: #fff;
     }
 
-    .popup-btn-box > a .text {
+    .popup-btn-box a .text {
         float: right;
         height: 30px;
         line-height: 30px;
         padding-top: 2px;
     }
 
-    .popup-btn-box > a:hover {
+    .popup-btn-box a:hover {
         background-color: #909090;
         border-radius: 4px;
     }
