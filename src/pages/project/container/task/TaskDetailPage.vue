@@ -142,7 +142,7 @@
                         <div class="text">返回</div>
                     </a>
                     <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
-                    <a @click="showDialog">
+                    <a @click="showDialog(1)">
                         <img src="@/assets/images/assign.png" style="margin-top: 5px;">
                         <div class="text">指派</div>
                     </a>
@@ -158,11 +158,11 @@
                         <i class="el-icon-magic-stick"></i>
                         <div class="text">激活</div>
                     </a>
-                    <a @click="updateTaskStatus('cancel')" v-if="['wait','doing','pause'].indexOf(task.status) > -1">
+                    <a @click="showDialog(2)" v-if="['wait','doing','pause'].indexOf(task.status) > -1">
                         <img src="@/assets/images/cancel.png" style="margin-top: 6px;">
                         <div class="text">取消</div>
                     </a>
-                    <a @click="updateTaskStatus('closed')" v-if="['wait','doing','pause','cancel'].indexOf(task.status) > -1">
+                    <a @click="showDialog(3)" v-if="['wait','doing','pause','cancel'].indexOf(task.status) > -1">
                         <i class="el-icon-switch-button"></i>
                         <div class="text">关闭</div>
                     </a>
@@ -183,7 +183,8 @@
                 :visible="dialogVisible"
                 :hideDialog="hideDialog"
                 :submit="updateTaskStatus"
-                :item="task"
+                :task="task"
+                :type="type"
                 :loading="updateTaskStatusLoading"
         ></UpdateTaskStatusDialog>
     </div>
@@ -201,6 +202,7 @@
                 activeTabName: 'first',
                 dialogVisible: false,
                 updateTaskStatusLoading: false,
+                type: null,
             }
         },
         methods: {
@@ -234,8 +236,9 @@
                     this.$message.error('删除任务失败');
                 }
             },
-            showDialog() {
+            showDialog(type) {
                 this.dialogVisible = true;
+                this.type = type
             },
             hideDialog() {
                 this.dialogVisible = false;

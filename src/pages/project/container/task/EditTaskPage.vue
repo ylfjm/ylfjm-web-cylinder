@@ -5,7 +5,7 @@
                 <span>编辑任务</span>
             </div>
             <div class="container-box-body">
-                <el-form :label-width="'110px'" ref="form" :model="form">
+                <el-form :label-width="'80px'" ref="form" :model="form">
                     <div class="dp-table">
                         <div class="dp-table-cell col-6">
                             <el-form-item label="所属项目" prop="projectId">
@@ -55,7 +55,7 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="UI设计师">
+                            <el-form-item label="UI设计">
                                 <el-select v-model="form.uiDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
@@ -67,7 +67,7 @@
                             </el-form-item>
                         </div>
                         <div class="dp-table-cell col-6">
-                            <el-form-item label="web开发者">
+                            <el-form-item label="前端开发">
                                 <el-select v-model="form.webDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
@@ -77,7 +77,7 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="Android开发者">
+                            <el-form-item label="安卓开发">
                                 <el-select v-model="form.androidDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
@@ -87,7 +87,7 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="IOS开发者">
+                            <el-form-item label="苹果开发">
                                 <el-select v-model="form.iosDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
@@ -97,7 +97,7 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="后端开发者">
+                            <el-form-item label="后端开发">
                                 <el-select v-model="form.serverDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option
                                             v-for="item in userList"
@@ -127,10 +127,10 @@
                     </el-form-item>
 
                     <div class="text-center" style="margin-top: 20px;">
-                        <el-button type="primary" @click="currentSubmit('form')" :loading="updateLoading" size="medium" style="width: 100px;">保 存
+                        <el-button type="primary" @click="currentSubmit('form')" :loading="updateLoading" style="width: 100px;">保 存
                         </el-button>
                         <router-link :to="'/task-list.html'">
-                            <el-button style="margin-left: 30px; width: 100px;" size="medium">返 回</el-button>
+                            <el-button style="margin-left: 30px; width: 100px;">返 回</el-button>
                         </router-link>
                     </div>
                 </el-form>
