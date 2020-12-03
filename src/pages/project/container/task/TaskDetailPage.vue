@@ -2,16 +2,15 @@
     <div>
         <div class="container">
             <div>
-                <router-link :to="'/task-list.html'">
+                <!--<router-link :to="'/task-list.html'">
                     <el-button type="primary">返 回</el-button>
-                </router-link>
-                <el-divider class="black-divider--vertical" direction="vertical"></el-divider>
-                <span style="font-weight: bold; color: #838a9d; border: 1px solid #838a9d; padding: 2px 5px; border-radius: 2px;"
-                      v-text="task.id"></span>
-                <span style="margin-left: 30px; font-weight: bold;" v-text="task.name"></span>
+                </router-link>-->
+                <!--<el-divider class="black-divider&#45;&#45;vertical" direction="vertical"></el-divider>-->
+                <span class="taskId" v-text="task.id"></span>
+                <span class="taskName" v-text="task.name"></span>
             </div>
             <div class="dp-table">
-                <div class="dp-table-cell" style="width: 68%; padding: 0 10px 0 0;">
+                <div class="dp-table-cell" style="padding: 0 10px 0 0;">
                     <div class="panel" style="padding: 15px 20px;">
                         <div>
                             <span style="font-weight: bold;">任务描述</span>
@@ -21,7 +20,7 @@
 
                     </div>
                 </div>
-                <div class="dp-table-cell" style="width: 32%; padding: 0 0 0 10px;">
+                <div class="dp-table-cell" style="width: 22%; padding: 0 0 0 10px;">
                     <div class="panel" style="padding: 5px 20px 20px 20px;">
                         <el-tabs v-model="activeTabName">
                             <el-tab-pane label="基本信息" name="first">
@@ -143,19 +142,27 @@
                         <div class="text">返回</div>
                     </a>
                     <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
-                    <a>
+                    <a @click="showDialog">
                         <img src="@/assets/images/assign.png" style="margin-top: 5px;">
                         <div class="text">指派</div>
                     </a>
-                    <a>
+                    <a @click="updateTaskStatus('doing')" v-if="'wait' === task.status">
+                        <img src="@/assets/images/begin.png" style="margin-top: 5px;">
+                        <div class="text">开始</div>
+                    </a>
+                    <a @click="updateTaskStatus('done')" v-if="'doing' === task.status">
+                        <img src="@/assets/images/complete.png" style="margin-top: 5px;">
+                        <div class="text">完成</div>
+                    </a>
+                    <a @click="updateTaskStatus('doing')" v-if="['cancel','closed'].indexOf(task.status) > -1">
                         <i class="el-icon-magic-stick"></i>
                         <div class="text">激活</div>
                     </a>
-                    <a @click="updateTaskStatus('cancel')">
+                    <a @click="updateTaskStatus('cancel')" v-if="['wait','doing','pause'].indexOf(task.status) > -1">
                         <img src="@/assets/images/cancel.png" style="margin-top: 6px;">
                         <div class="text">取消</div>
                     </a>
-                    <a @click="updateTaskStatus('closed')">
+                    <a @click="updateTaskStatus('closed')" v-if="['wait','doing','pause','cancel'].indexOf(task.status) > -1">
                         <i class="el-icon-switch-button"></i>
                         <div class="text">关闭</div>
                     </a>
@@ -172,10 +179,19 @@
                 </div>
             </div>
         </div>
+        <UpdateTaskStatusDialog
+                :visible="dialogVisible"
+                :hideDialog="hideDialog"
+                :submit="updateTaskStatus"
+                :item="task"
+                :loading="updateTaskStatusLoading"
+        ></UpdateTaskStatusDialog>
     </div>
 </template>
 
 <script>
+    import UpdateTaskStatusDialog from './UpdateTaskStatusDialog'
+
     export default {
         name: "TaskDetailPage",
         data() {
@@ -183,6 +199,8 @@
                 task: {},
                 projectList: [],
                 activeTabName: 'first',
+                dialogVisible: false,
+                updateTaskStatusLoading: false,
             }
         },
         methods: {
@@ -215,6 +233,12 @@
                 } else {
                     this.$message.error('删除任务失败');
                 }
+            },
+            showDialog() {
+                this.dialogVisible = true;
+            },
+            hideDialog() {
+                this.dialogVisible = false;
             },
             async updateTaskStatus(newStatus) {
                 const res = await this.$service.updateTaskStatus({
@@ -249,6 +273,9 @@
                 }
             }
         },
+        components: {
+            UpdateTaskStatusDialog
+        }
     }
 </script>
 
@@ -261,6 +288,21 @@
 
     .panel {
         margin-top: 10px;
+    }
+
+    .taskId {
+        font-weight: bold;
+        color: #838a9d;
+        border: 1px solid #838a9d;
+        padding: 2px 5px;
+        border-radius: 2px;
+        margin-left: 5px;
+    }
+
+    .taskName {
+        font-size: 15px;
+        font-weight: bold;
+        margin-left: 20px;
     }
 
     .ql-editor {
