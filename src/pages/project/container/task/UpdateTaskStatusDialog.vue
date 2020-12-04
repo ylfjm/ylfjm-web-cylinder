@@ -1,16 +1,21 @@
 <template>
     <el-dialog
             width="50%"
-            :title="title"
             :visible.sync="visible"
             :before-close="hideDialog"
             :append-to-body="true"
             :lock-scroll="false"
             :close-on-click-modal="false"
     >
+        <div slot="title">
+            <div class="page_title">
+                <span class="taskId" v-text="task.id"></span>
+                <span class="taskName" v-text="task.name"></span>
+            </div>
+        </div>
         <div class="dialog-form">
-            <el-form :label-width="'70px'" ref="form" :model="form">
-                <div class="dp-table" v-if="type === 1">
+            <el-form :label-width="'80px'" ref="form" :model="form">
+                <div class="dp-table" v-if="opeType === 'assign'">
                     <div class="dp-table-cell col-6">
                         <el-form-item label="产品设计">
                             <el-select v-model="form.pdDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
@@ -87,7 +92,7 @@
                     </div>
                 </div>
                 <el-form-item label="备注" prop="content" style="width: 96%;">
-                    <QuillEditor @change="changeContent" :editorContent="form.content"></QuillEditor>
+                    <QuillEditor @change="changeContent" :editorContent="form.remark"></QuillEditor>
                 </el-form-item>
             </el-form>
         </div>
@@ -114,9 +119,8 @@
                     iosDeveloper: null,
                     serverDeveloper: null,
                     tester: null,
-                    content: '',
+                    remark: '',
                 },
-                title: '指派',
                 userList: [
                     {label: "用户1", value: "user01"},
                     {label: "用户2", value: "user02"},
@@ -131,33 +135,20 @@
             submit: Function,
             loading: Boolean,
             task: Object,
-            type: Number,//1-指派
+            opeType: String,
         },
         methods: {
             changeContent(data) {
                 console.log("data=" + data);
-                this.form.content = data;
+                this.form.remark = data;
             },
             currentSubmit(formName) {
-                this.$refs[formName].validate(valid => {
-                    if (valid) {
-                        this.submit(this.form)
-                    } else {
-                        return false
-                    }
-                })
+                this.submit(this.form)
             },
         },
         watch: {
             visible: function (n) {
                 if (n) {
-                    if (this.type === 1) {
-                        this.title = '指派';
-                    } else if (this.type === 2) {
-                        this.title = '取消';
-                    } else if (this.type === 3) {
-                        this.title = '关闭';
-                    }
                     this.form.pdDesigner = this.task.pdDesigner ? this.task.pdDesigner.split(',') : null;
                     this.form.uiDesigner = this.task.uiDesigner ? this.task.uiDesigner.split(',') : null;
                     this.form.webDeveloper = this.task.webDeveloper ? this.task.webDeveloper.split(',') : null;
@@ -174,11 +165,21 @@
     }
 </script>
 <style scoped>
-    .edit_container {
-        height: 220px;
+    .taskId {
+        font-size: 15px;
+        font-weight: bold;
+        color: #838a9d;
+        border: 1px solid #838a9d;
+        padding: 2px 5px;
+        border-radius: 2px;
+        margin-left: 5px;
+        line-height: 24px;
     }
 
-    .edit_container /deep/ .quill-editor {
-        height: 150px;
+    .taskName {
+        font-size: 15px;
+        font-weight: bold;
+        margin-left: 20px;
+        line-height: 24px;
     }
 </style>

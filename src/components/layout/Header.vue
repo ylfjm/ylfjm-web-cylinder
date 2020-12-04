@@ -145,6 +145,7 @@
     #menuBar {
         margin: 0 auto;
         text-align: center;
+        font-size: 15px;
     }
 
     #menuBar > ul, #subMenuBar > ul {
@@ -208,7 +209,6 @@
     }
 
     #subMenuBar {
-        /*margin-top: 5px;*/
         height: 50px;
         line-height: 50px;
         font-size: 14px;

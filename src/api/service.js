@@ -47,6 +47,7 @@ const Service = {
     deleteTask: data => api.axiosDelete(baseUrl + '/api/task/' + data.id, null, null),
     updateTask: data => api.axiosPut(baseUrl + '/api/task', data, null),
     updateTaskStatus: data => api.axiosPut(baseUrl + '/api/task/' + data.id, null, data),
+    taskAssign: data => api.axiosPut(baseUrl + '/api/task/assign/', data, null),
 
 };
 

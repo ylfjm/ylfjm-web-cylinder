@@ -142,27 +142,27 @@
                         <div class="text">返回</div>
                     </a>
                     <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
-                    <a @click="showDialog(1)">
+                    <a @click="showDialog('assign')">
                         <img src="@/assets/images/assign.png" style="margin-top: 5px;">
                         <div class="text">指派</div>
                     </a>
-                    <a @click="updateTaskStatus('doing')" v-if="'wait' === task.status">
+                    <a @click="showDialog('begin')" v-if="'wait' === task.status">
                         <img src="@/assets/images/begin.png" style="margin-top: 5px;">
                         <div class="text">开始</div>
                     </a>
-                    <a @click="updateTaskStatus('done')" v-if="'doing' === task.status">
+                    <a @click="showDialog('done')" v-if="'doing' === task.status">
                         <img src="@/assets/images/complete.png" style="margin-top: 5px;">
                         <div class="text">完成</div>
                     </a>
-                    <a @click="updateTaskStatus('doing')" v-if="['cancel','closed'].indexOf(task.status) > -1">
+                    <a @click="showDialog('doing')" v-if="['cancel','closed'].indexOf(task.status) > -1">
                         <i class="el-icon-magic-stick"></i>
                         <div class="text">激活</div>
                     </a>
-                    <a @click="showDialog(2)" v-if="['wait','doing','pause'].indexOf(task.status) > -1">
+                    <a @click="showDialog('cancel')" v-if="['wait','doing','pause'].indexOf(task.status) > -1">
                         <img src="@/assets/images/cancel.png" style="margin-top: 6px;">
                         <div class="text">取消</div>
                     </a>
-                    <a @click="showDialog(3)" v-if="['wait','doing','pause','cancel'].indexOf(task.status) > -1">
+                    <a @click="showDialog('closed')" v-if="['wait','doing','pause','cancel'].indexOf(task.status) > -1">
                         <i class="el-icon-switch-button"></i>
                         <div class="text">关闭</div>
                     </a>
@@ -184,7 +184,7 @@
                 :hideDialog="hideDialog"
                 :submit="updateTaskStatus"
                 :task="task"
-                :type="type"
+                :opeType="opeType"
                 :loading="updateTaskStatusLoading"
         ></UpdateTaskStatusDialog>
     </div>
@@ -202,13 +202,10 @@
                 activeTabName: 'first',
                 dialogVisible: false,
                 updateTaskStatusLoading: false,
-                type: null,
+                opeType: null,
             }
         },
         methods: {
-            async initData() {
-
-            },
             jumpPage(type) {
                 if (type === 1) {
                     //返回到任务列表页
@@ -228,34 +225,61 @@
             async deleteTask() {
                 const res = await this.$service.deleteTask({id: this.task.id});
                 if (res.code === 20000) {
-                    this.$message({
+                    this.$notify({
+                        title: '提示',
+                        type: 'success',
                         message: '删除任务成功',
-                        type: 'success'
                     });
+                    this.$router.push('/task-list.html')
                 } else {
-                    this.$message.error('删除任务失败');
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '删除任务失败',
+                    })
                 }
             },
-            showDialog(type) {
+            showDialog(opeType) {
                 this.dialogVisible = true;
-                this.type = type
+                this.opeType = opeType
             },
             hideDialog() {
                 this.dialogVisible = false;
             },
-            async updateTaskStatus(newStatus) {
-                const res = await this.$service.updateTaskStatus({
-                    id: this.task.id,
-                    oldStatus: this.task.status,
-                    newStatus: newStatus,
-                });
-                if (res.code === 20000) {
-                    this.$message({
-                        message: '操作成功',
-                        type: 'success'
+            async updateTaskStatus(data) {
+                this.updateTaskStatusLoading = true;
+                let res = null;
+                if (this.opeType === 'assign') {
+                    res = await this.$service.taskAssign({
+                        id: this.task.id,
+                        pdDesigner: data.pdDesigner,
+                        uiDesigner: data.uiDesigner,
+                        webDeveloper: data.webDeveloper,
+                        androidDeveloper: data.androidDeveloper,
+                        iosDeveloper: data.iosDeveloper,
+                        serverDeveloper: data.serverDeveloper,
+                        tester: data.tester,
+                        remark: data.remark
                     });
                 } else {
-                    this.$message.error('操作失败');
+                    res = await this.$service.updateTaskStatus({
+                        id: this.task.id,
+                        oldStatus: this.task.status,
+                        newStatus: this.opeType,
+                        remark: data.remark
+                    });
+                }
+                this.updateTaskStatusLoading = false;
+                if (res.code === 20000) {
+                    this.$notify({
+                        title: '提示',
+                        type: 'success',
+                        message: '操作成功',
+                    });
+                } else {
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '操作失败',
+                    })
                 }
             },
         },
