@@ -139,7 +139,6 @@
         },
         methods: {
             changeContent(data) {
-                console.log("data=" + data);
                 this.form.remark = data;
             },
             currentSubmit(formName) {

@@ -51,15 +51,15 @@
                         label="角色名"
                 ></el-table-column>
                 <el-table-column
-                        prop="userList"
+                        prop="adminList"
                         min-width="500"
                         show-overflow-tooltip
                         label="用户列表"
                 >
                     <template slot-scope="scope">
-                        <div v-if="scope.row.userList && scope.row.userList.length > 0">
-                            <span v-for="(item, index) in scope.row.userList" :key="item.id">
-                                {{item.realName}}<span v-if="index < scope.row.userList.length - 1">、</span>
+                        <div v-if="scope.row.adminList && scope.row.adminList.length > 0">
+                            <span v-for="(item, index) in scope.row.adminList" :key="item.id">
+                                {{item.realName}}<span v-if="index < scope.row.adminList.length - 1">、</span>
                             </span>
                         </div>
                     </template>

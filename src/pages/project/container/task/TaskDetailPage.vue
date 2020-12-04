@@ -20,18 +20,10 @@
                         <div class="history-record">
                             <div style="font-weight: bold; margin: 30px 0 10px 0;">历史记录</div>
                             <div v-for="(item, index) in taskRemarkList">
-                                <div v-if="item.textType === 2">
-                                    <div>{{(index+1)+'.'+item.createDate+', 由 '}}
-                                        <span style="font-weight: bold;">{{item.createBy}}</span> 添加备注。
-                                    </div>
-                                    <div v-html="item.richText" class="ql-editor"></div>
+                                <div>{{(index+1)+'.'+item.createDate+', 由 '}}
+                                    <span style="font-weight: bold;">{{item.createBy}}</span>{{' '+item.text+'。'}}
                                 </div>
-                                <div v-else>
-                                    <div>{{(index+1)+'.'+item.createDate+', 由 '}}
-                                        <span style="font-weight: bold;">{{item.createBy}}</span>{{' '+item.text+'。'}}
-                                    </div>
-                                    <div></div>
-                                </div>
+                                <div v-html="item.richText" class="ql-editor"></div>
                             </div>
                         </div>
 
@@ -293,6 +285,7 @@
                         type: 'success',
                         message: '操作成功',
                     });
+                    this.hideDialog();
                 } else {
                     this.$notify.error({
                         title: '提示',
@@ -367,7 +360,7 @@
         padding: 5px 5px 5px 10px;
         margin: 5px 0 0 10px;
         background-color: rgba(0, 0, 0, .025);
-        border: 1px solid #eee;
+        /*border: 1px solid #eee;*/
     }
 
     .task-info-form /deep/ .el-form-item__label {

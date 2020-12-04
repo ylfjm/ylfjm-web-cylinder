@@ -10,14 +10,14 @@
                 </div>
             </div>
             <div v-for="dept in deptList">
-                <div v-if="dept.userList && dept.userList.length > 0">
+                <div v-if="dept.adminList && dept.adminList.length > 0">
                     <div class="dp-table">
                         <div class="dp-table-cell text-right" style="width: 10%; padding-right: 30px;">
                             <div>{{dept.name}}</div>
                         </div>
                         <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
                             <el-checkbox-group v-model="checkedBox" @change="handleChecked">
-                                <el-checkbox v-for="user in dept.userList" :label="user.id" :key="user.id" :checked="user.have" style="width: 110px;">
+                                <el-checkbox v-for="user in dept.adminList" :label="user.id" :key="user.id" :checked="user.have" style="width: 110px;">
                                     {{user.realName}}
                                 </el-checkbox>
                             </el-checkbox-group>
@@ -58,7 +58,7 @@
             async initData() {
                 if (this.$route.params.id) {
                     this.roleId = this.$route.params.id;
-                    const res = await this.$service.getDepartmentUserList({roleId: this.roleId});
+                    const res = await this.$service.getDepartmentAdminList({roleId: this.roleId});
                     if (res.code === 20000) {
                         this.deptList = res.data;
                     }
@@ -66,9 +66,9 @@
             },
             async currentSubmit() {
                 this.submitLoading = true;
-                const res = await this.$service.updateRoleUser({
+                const res = await this.$service.updateRoleAdmin({
                     id: this.roleId,
-                    userIds: this.checkedBox
+                    adminIds: this.checkedBox
                 });
                 this.submitLoading = false;
                 if (res.code === 20000) {

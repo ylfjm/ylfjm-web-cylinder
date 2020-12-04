@@ -15,7 +15,7 @@ const Service = {
     addDepartment: data => api.axiosPost(baseUrl + '/api/department', data, null),
     updateDepartment: data => api.axiosPut(baseUrl + '/api/department', data, null),
     deleteDepartment: data => api.axiosDelete(baseUrl + '/api/department/' + data.id, null, null),
-    getDepartmentUserList: data => api.axiosGet(baseUrl + '/api/department/user', null, data),
+    getDepartmentAdminList: data => api.axiosGet(baseUrl + '/api/department/user', null, data),
     //菜单管理
     getMenuList: data => api.axiosGet(baseUrl + '/api/menu/' + data.pageNum + '/' + data.pageSize, null, data),
     getMenuWithPermissionByRoleId: data => api.axiosGet(baseUrl + '/api/menu/permission', null, data),
@@ -32,7 +32,7 @@ const Service = {
     getRoleList: data => api.axiosGet(baseUrl + '/api/role/' + data.pageNum + '/' + data.pageSize, null, data),
     addRole: data => api.axiosPost(baseUrl + '/api/role', data, null),
     updateRole: data => api.axiosPut(baseUrl + '/api/role', data, null),
-    updateRoleUser: data => api.axiosPut(baseUrl + '/api/roleUser', data, null),
+    updateRoleAdmin: data => api.axiosPut(baseUrl + '/api/roleUser', data, null),
     updateRoleMenu: data => api.axiosPut(baseUrl + '/api/roleMenu', data, null),
     updateRolePermission: data => api.axiosPut(baseUrl + '/api/rolePermission', data, null),
     deleteRole: data => api.axiosDelete(baseUrl + '/api/role/' + data.id, null, null),
