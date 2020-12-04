@@ -13,9 +13,26 @@
                 <div class="dp-table-cell" style="padding: 0 10px 0 0;">
                     <div class="panel" style="padding: 15px 20px;">
                         <div>
-                            <span style="font-weight: bold;">任务描述</span>
-                            <div v-html="task.content" class="ql-editor"></div>
+                            <div style="font-weight: bold;">任务描述</div>
+                            <div v-html="task.richText" class="ql-editor"></div>
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
+                        </div>
+                        <div class="history-record">
+                            <div style="font-weight: bold; margin: 30px 0 10px 0;">历史记录</div>
+                            <div v-for="(item, index) in taskRemarkList">
+                                <div v-if="item.textType === 2">
+                                    <div>{{(index+1)+'.'+item.createDate+', 由 '}}
+                                        <span style="font-weight: bold;">{{item.createBy}}</span> 添加备注。
+                                    </div>
+                                    <div v-html="item.richText" class="ql-editor"></div>
+                                </div>
+                                <div v-else>
+                                    <div>{{(index+1)+'.'+item.createDate+', 由 '}}
+                                        <span style="font-weight: bold;">{{item.createBy}}</span>{{' '+item.text+'。'}}
+                                    </div>
+                                    <div></div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -199,6 +216,7 @@
             return {
                 task: {},
                 projectList: [],
+                taskRemarkList: [],
                 activeTabName: 'first',
                 dialogVisible: false,
                 updateTaskStatusLoading: false,
@@ -251,13 +269,13 @@
                 if (this.opeType === 'assign') {
                     res = await this.$service.taskAssign({
                         id: this.task.id,
-                        pdDesigner: data.pdDesigner,
-                        uiDesigner: data.uiDesigner,
-                        webDeveloper: data.webDeveloper,
-                        androidDeveloper: data.androidDeveloper,
-                        iosDeveloper: data.iosDeveloper,
-                        serverDeveloper: data.serverDeveloper,
-                        tester: data.tester,
+                        pdDesigner: data.pdDesigner ? data.pdDesigner.join(",") : data.pdDesigner,
+                        uiDesigner: data.uiDesigner ? data.uiDesigner.join(",") : data.uiDesigner,
+                        webDeveloper: data.webDeveloper ? data.webDeveloper.join(",") : data.webDeveloper,
+                        androidDeveloper: data.androidDeveloper ? data.androidDeveloper.join(",") : data.androidDeveloper,
+                        iosDeveloper: data.iosDeveloper ? data.iosDeveloper.join(",") : data.iosDeveloper,
+                        serverDeveloper: data.serverDeveloper ? data.serverDeveloper.join(",") : data.serverDeveloper,
+                        tester: data.tester ? data.tester.join(",") : data.tester,
                         remark: data.remark
                     });
                 } else {
@@ -284,6 +302,7 @@
             },
         },
         async created() {
+            //获取项目列表
             const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
             if (res.code === 20000) {
                 this.projectList = res.data.result || [];
@@ -297,6 +316,11 @@
                             this.task.projectName = item.name;
                         }
                     });
+                }
+                //获取任务备注列表
+                const res1 = await this.$service.getTaskRemarkList({taskId: this.$route.params.id});
+                if (res1.code === 20000) {
+                    this.taskRemarkList = res1.data || [];
                 }
             }
         },
@@ -315,6 +339,7 @@
 
     .panel {
         margin-top: 10px;
+        margin-bottom: 130px;
     }
 
     .taskId {
@@ -334,6 +359,15 @@
 
     .ql-editor {
         padding: 15px 0;
+    }
+
+    .history-record .ql-editor {
+        /*padding: 5px 0;
+        margin-left: 10px;*/
+        padding: 5px 5px 5px 10px;
+        margin: 5px 0 0 10px;
+        background-color: rgba(0, 0, 0, .025);
+        border: 1px solid #eee;
     }
 
     .task-info-form /deep/ .el-form-item__label {

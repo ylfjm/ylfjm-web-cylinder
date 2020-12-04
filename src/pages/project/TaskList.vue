@@ -77,7 +77,7 @@
                         prop="pdEstimateDate"
                         min-width="100"
                         show-overflow-tooltip
-                        label="产品已逾期"
+                        label="产品逾期"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.pdOverdue === '是'" style="color: #FF0000;">{{scope.row.pdOverdue}}</div>
@@ -88,14 +88,14 @@
                         prop="uiDesigner"
                         min-width="80"
                         show-overflow-tooltip
-                        label="UI设计师"
+                        label="UI设计"
                 ></el-table-column>
                 <el-table-column
                         align="center"
                         prop="uiEstimateDate"
                         min-width="100"
                         show-overflow-tooltip
-                        label="UI已逾期"
+                        label="UI逾期"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.uiOverdue === '是'" style="color: #FF0000;">{{scope.row.uiOverdue}}</div>
@@ -106,14 +106,14 @@
                         prop="webDeveloper"
                         min-width="80"
                         show-overflow-tooltip
-                        label="web开发"
+                        label="前端开发"
                 ></el-table-column>
                 <el-table-column
                         align="center"
                         prop="webEstimateDate"
                         min-width="100"
                         show-overflow-tooltip
-                        label="web已逾期"
+                        label="web逾期"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.webOverdue === '是'" style="color: #FF0000;">{{scope.row.webOverdue}}</div>
@@ -124,14 +124,14 @@
                         prop="androidDeveloper"
                         min-width="100"
                         show-overflow-tooltip
-                        label="android开发"
+                        label="安卓开发"
                 ></el-table-column>
                 <el-table-column
                         align="center"
                         prop="androidEstimateDate"
                         min-width="120"
                         show-overflow-tooltip
-                        label="android已逾期"
+                        label="安卓逾期"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.androidOverdue === '是'" style="color: #FF0000;">{{scope.row.androidOverdue}}</div>
@@ -142,14 +142,14 @@
                         prop="iosDeveloper"
                         min-width="80"
                         show-overflow-tooltip
-                        label="ios开发"
+                        label="苹果开发"
                 ></el-table-column>
                 <el-table-column
                         align="center"
                         prop="iosEstimateDate"
                         min-width="100"
                         show-overflow-tooltip
-                        label="ios已逾期"
+                        label="苹果逾期"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.iosOverdue === '是'" style="color: #FF0000;">{{scope.row.iosOverdue}}</div>
@@ -160,14 +160,14 @@
                         prop="serverDeveloper"
                         min-width="80"
                         show-overflow-tooltip
-                        label="后台开发"
+                        label="后端开发"
                 ></el-table-column>
                 <el-table-column
                         align="center"
                         prop="serverEstimateDate"
                         min-width="100"
                         show-overflow-tooltip
-                        label="后台已逾期"
+                        label="后端逾期"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.serverOverdue === '是'" style="color: #FF0000;">{{scope.row.serverOverdue}}</div>
@@ -185,7 +185,7 @@
                         prop="testEstimateDate"
                         min-width="100"
                         show-overflow-tooltip
-                        label="测试已逾期"
+                        label="测试逾期"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.testOverdue === '是'" style="color: #FF0000;">{{scope.row.testOverdue}}</div>

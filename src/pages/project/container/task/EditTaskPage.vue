@@ -122,8 +122,8 @@
                     <el-form-item label="任务名称" prop="name" style="width: 96%;">
                         <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
                     </el-form-item>
-                    <el-form-item label="任务描述" prop="content" style="width: 96%;">
-                        <QuillEditor @change="changeContent" :editorContent="form.content"></QuillEditor>
+                    <el-form-item label="任务描述" prop="richText" style="width: 96%;">
+                        <QuillEditor @change="changeText" :editorText="form.richText"></QuillEditor>
                     </el-form-item>
 
                     <div class="text-center" style="margin-top: 20px;">
@@ -150,7 +150,7 @@
                 form: {
                     id: '',
                     name: '',
-                    content: null,
+                    richText: null,
                     projectId: '',
                     pri: '',
                     type: '',
@@ -193,8 +193,8 @@
             }
         },
         methods: {
-            changeContent(data) {
-                this.form.content = data;
+            changeText(data) {
+                this.form.richText = data;
             },
             currentSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -239,7 +239,7 @@
                     const res = await this.$service.getTaskById({id: this.form.id});
                     if (res.code === 20000) {
                         this.form.name = res.data.name;
-                        this.form.content = res.data.content;
+                        this.form.richText = res.data.richText;
                         this.form.projectId = res.data.projectId;
                         this.form.pri = res.data.pri;
                         this.form.type = res.data.type;
