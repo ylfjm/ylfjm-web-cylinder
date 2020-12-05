@@ -11,7 +11,7 @@
             </div>
             <div class="dp-table">
                 <div class="dp-table-cell" style="padding: 0 10px 0 0;">
-                    <div class="panel" style="padding: 15px 20px;">
+                    <div class="panel task-text-panel" style="padding: 15px 20px;">
                         <div>
                             <div style="font-weight: bold;">任务描述</div>
                             <div v-html="task.richText" class="ql-editor"></div>
@@ -48,7 +48,7 @@
                                     </el-form-item>
                                 </el-form>
                             </el-tab-pane>
-                            <el-tab-pane label="任务的周期" name="second">
+                            <el-tab-pane label="任务周期" name="second">
                                 <el-form :label-width="'70px'" class="task-info-form">
                                     <el-form-item label="由谁创建">
                                         <div v-if="task.openedBy">{{task.openedBy}} 于 {{task.openedDate}}</div>
@@ -332,7 +332,10 @@
 
     .panel {
         margin-top: 10px;
-        margin-bottom: 130px;
+    }
+
+    .task-text-panel {
+        margin-bottom: 150px;
     }
 
     .taskId {
@@ -355,12 +358,10 @@
     }
 
     .history-record .ql-editor {
-        /*padding: 5px 0;
-        margin-left: 10px;*/
-        padding: 5px 5px 5px 10px;
+        font-size: 13px;
+        padding: 10px 5px 10px 10px;
         margin: 5px 0 0 10px;
         background-color: rgba(0, 0, 0, .025);
-        /*border: 1px solid #eee;*/
     }
 
     .task-info-form /deep/ .el-form-item__label {
@@ -372,13 +373,14 @@
     }
 
     .black-divider--vertical {
-        background-color: #838a9d;
+        background-color: #F5F5F5;
         width: 2px;
         height: 1.3em;
         margin: 0 20px;
     }
 
     .black-divider--horizontal {
+        background-color: #F5F5F5;
         height: 2px;
         margin: 10px 0;
     }

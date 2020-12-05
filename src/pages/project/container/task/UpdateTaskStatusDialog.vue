@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="dialog-form">
-            <el-form :label-width="'80px'" ref="form" :model="form">
+            <el-form :label-width="formLabelWidth" ref="form" :model="form">
                 <div class="dp-table" v-if="opeType === 'assign'">
                     <div class="dp-table-cell col-6">
                         <el-form-item label="产品设计">
@@ -91,8 +91,24 @@
                         </el-form-item>
                     </div>
                 </div>
-                <el-form-item label="备注" prop="content" style="width: 96%;">
+                <div class="dp-table" v-if="opeType === 'done'">
+                    <el-form-item label="预计完成日期" prop="estimateDate">
+                        <el-date-picker
+                                v-model="form.estimateDate"
+                                type="date"
+                                :clearable="false"
+                                style="width: 200px;"
+                                placeholder="选择日期">
+                        </el-date-picker>
+                    </el-form-item>
+                </div>
+                <!--<el-form-item label="备注" prop="content" style="width: 96%;">
                     <QuillEditor @change="changeContent" :editorContent="form.remark"></QuillEditor>
+                </el-form-item>-->
+                <el-form-item label="备注" prop="content">
+                    <KindEditor id="editor_id" :content.sync="editorText"
+                                :afterChange="afterChange()" :loadStyleMode="false"
+                                @on-content-change="onContentChange"></KindEditor>
                 </el-form-item>
             </el-form>
         </div>
@@ -106,6 +122,7 @@
 </template>
 <script>
     import QuillEditor from '@/components/common/QuillEditor'
+    import KindEditor from '@/components/KindEditor/index'
 
     export default {
         name: 'UpdateTaskStatusDialog',
@@ -120,13 +137,16 @@
                     serverDeveloper: null,
                     tester: null,
                     remark: '',
+                    estimateDate: '',
                 },
+                formLabelWidth: '80px',
                 userList: [
                     {label: "用户1", value: "user01"},
                     {label: "用户2", value: "user02"},
                     {label: "用户3", value: "user03"},
                     {label: "用户4", value: "user04"},
                 ],
+                editorText: '可以在编辑器里直接粘贴图片', // 双向同步的变量
             }
         },
         props: {
@@ -144,6 +164,13 @@
             currentSubmit(formName) {
                 this.submit(this.form)
             },
+            onContentChange(val) {
+                console.log(val)
+                this.form.remark = val;
+            },
+            afterChange() {
+                console.log("afterChange")
+            }
         },
         watch: {
             visible: function (n) {
@@ -155,11 +182,16 @@
                     this.form.iosDeveloper = this.task.iosDeveloper ? this.task.iosDeveloper.split(',') : null;
                     this.form.serverDeveloper = this.task.serverDeveloper ? this.task.serverDeveloper.split(',') : null;
                     this.form.tester = this.task.tester ? this.task.tester.split(',') : null;
+
+                    if (this.opeType === 'done') {
+                        this.formLabelWidth = '110px'
+                    }
                 }
             }
         },
         components: {
-            QuillEditor
+            QuillEditor,
+            KindEditor
         },
     }
 </script>
