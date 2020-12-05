@@ -146,7 +146,7 @@
                     {label: "用户3", value: "user03"},
                     {label: "用户4", value: "user04"},
                 ],
-                editorText: '可以在编辑器里直接粘贴图片', // 双向同步的变量
+                editorText: '',// 双向同步的变量
             }
         },
         props: {

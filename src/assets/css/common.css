@@ -318,3 +318,17 @@ a {
 .page_title {
     font-size: 18px;
 }
+
+.kind-editor-show {
+    padding: 15px;
+}
+
+.kind-editor-show p, .kind-editor-show ol, .kind-editor-show ul, .kind-editor-show pre, .kind-editor-show blockquote, .kind-editor-show h1, .kind-editor-show h2, .kind-editor-show h3, .kind-editor-show h4, .kind-editor-show h5, .kind-editor-show h6 {
+    margin: 0;
+    padding: 0;
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+
+.kind-editor-show > * {
+    cursor: text;
+}

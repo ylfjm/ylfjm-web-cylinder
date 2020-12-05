@@ -123,7 +123,10 @@
                         <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
                     </el-form-item>
                     <el-form-item label="任务描述" prop="richText" style="width: 96%;">
-                        <QuillEditor @change="changeText" :editorContent="form.richText"></QuillEditor>
+                        <!--<QuillEditor @change="changeText" :editorContent="form.richText"></QuillEditor>-->
+                        <KindEditor id="editor_id" :content.sync="form.richText"
+                                    :loadStyleMode="false"
+                                    @onContentChange="onContentChange"></KindEditor>
                     </el-form-item>
                     <el-form-item label="创建之后">
                         <el-radio-group v-model="afterCreateAction">
@@ -147,7 +150,8 @@
 
 <script>
     import moment from 'moment'
-    import QuillEditor from '@/components/common/QuillEditor'
+    // import QuillEditor from '@/components/common/QuillEditor'
+    import KindEditor from '@/components/KindEditor/index'
 
     export default {
         name: "CreateTaskPage",
@@ -199,7 +203,11 @@
             }
         },
         methods: {
-            changeText(data) {
+            /*changeText(data) {
+                console.log("data=" + data);
+                this.form.richText = data;
+            },*/
+            onContentChange(data) {
                 console.log("data=" + data);
                 this.form.richText = data;
             },
@@ -259,7 +267,8 @@
             this.initData();
         },
         components: {
-            QuillEditor
+            // QuillEditor,
+            KindEditor
         },
     }
 </script>

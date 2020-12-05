@@ -15,12 +15,18 @@ const items = [
     "justifyfull",//两端对齐
     "insertorderedlist",//编号
     "insertunorderedlist",//项目符号
-    "emoticons",//插入表情
+    // "emoticons",//插入表情
     "image",//图片
     "code",//插入程序代码
     "link",//超级链接
+    "indent",//增加缩进
+    "outdent",//减少缩进
+    "hr",//插入横线
+    "lineheight",//行距
     "removeformat",//删除格式
     "preview",//预览
+    "fullscreen",//全屏显示
+    "about",//关于
     // "undo",//后退
     // "redo",//前进
     // "cut",//剪切
@@ -29,28 +35,22 @@ const items = [
     // "plainpaste",//粘贴为无格式文本
     // "wordpaste",//从Word粘贴
     // "selectall",//全选
-    "indent",//增加缩进
-    "outdent",//减少缩进
     // "subscript",//下标
     // "superscript",//上标
     // "strikethrough",//删除线
     // "flash",//Flash
     // "media",//视音频
     // "table",//表格
-    "hr",//插入横线
     // "unlink",//取消超级链接
-    "fullscreen",//全屏显示
     // "print",//打印
     // "map",//Google地图
     // "baidumap",//百度地图
-    "lineheight",//行距
     // "clearhtml",//清理HTML代码
     // "pagebreak",//插入分页符
     // "quickformat",//一键排版
     // "insertfile",//插入文件
     // "template",//插入模板
     // "anchor",//插入锚点
-    "about",//关于
 ];
 
 export default items;

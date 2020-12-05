@@ -16,7 +16,7 @@ const otherConfig = {
     },
     resizeType: {
         type: Number,
-        default: 2
+        default: 1//2或1或0，2时可以拖动改变宽度和高度，1时只能改变高度，0时不能拖动。
     },
     designMode: {
         type: Boolean,
@@ -53,11 +53,11 @@ const otherConfig = {
     },
     newlineTag: {
         type: String,
-        default: "p"
+        default: "br"//设置回车换行标签，可设置”p”、”br”。
     },
     pasteType: {
         type: Number,
-        default: 2
+        default: 2//设置粘贴类型，0:禁止粘贴, 1:纯文本粘贴, 2:HTML粘贴
     },
     dialogAlignType: {
         type: String,
@@ -73,11 +73,11 @@ const otherConfig = {
     },
     useContextmenu: {
         type: Boolean,
-        default: true
+        default: true//true时使用右键菜单，false时屏蔽右键菜单。
     },
     syncType: {
         type: String,
-        default: "form"
+        default: ""//同步数据的方式，可设置”“、”form”，值为form时提交form时自动同步，空时不会自动同步。
     },
     indentChar: {
         type: String,
@@ -89,23 +89,42 @@ const otherConfig = {
     cssData: {
         type: String
     },
+    bodyClass: {
+        type: String,
+        default: 'ke-content'
+    },
     colorTable: {
-        type: Array
+        type: Array,
+        default: function () {
+            return [
+                ['#E53333', '#E56600', '#FF9900', '#64451D', '#DFC5A4', '#FFE500'],
+                ['#009900', '#006600', '#99BB00', '#B8D100', '#60D978', '#00D5FF'],
+                ['#337FE5', '#003399', '#4C33E5', '#9933E5', '#CC33E5', '#EE33EE'],
+                ['#FFFFFF', '#CCCCCC', '#999999', '#666666', '#333333', '#000000']
+            ];
+        }
+
     },
     afterCreate: {
-        type: Function
+        type: Function//设置编辑器创建后执行的回调函数。
     },
     afterChange: {
-        type: Function
+        type: Function//编辑器内容发生变化后执行的回调函数。
     },
     afterTab: {
-        type: Function
+        type: Function//按下TAB键后执行的的回调函数。
     },
     afterFocus: {
-        type: Function
+        type: Function,//编辑器聚焦(focus)时执行的回调函数。
+        default: function () {
+            console.log("afterFocus")
+        }
     },
     afterBlur: {
-        type: Function
+        type: Function,//编辑器失去焦点(blur)时执行的回调函数。
+        default: function () {
+            console.log("afterBlur")
+        }
     },
     afterUpload: {
         type: Function
@@ -170,8 +189,8 @@ const otherConfig = {
         type: Function
     },
     pagebreakHtml: {
-        type: String,
-        default: '<hr style="page-break-after: always;" class="ke-pagebreak" />'
+        type: String,//可指定分页符HTML。
+        default: '<hr style="page-break-after: always;" class="ke-pagebreak"/>'
     },
     allowImageRemote: {
         type: Boolean,
@@ -184,9 +203,6 @@ const otherConfig = {
     fixToolBar: {
         type: Boolean,
         default: false
-    },
-    tabIndex: {
-        type: Number
     }
 };
 

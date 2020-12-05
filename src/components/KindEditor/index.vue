@@ -52,10 +52,6 @@
                 type: String,
                 default: 'default'
             },
-            bodyClass: {
-                type: String,
-                default: 'ke-content'
-            },
             fontSizeTable: {
                 type: Array,
                 default: function () {
@@ -81,13 +77,13 @@
                 this.editor && val !== this.outContent && this.editor.html(val)
             },
             outContent(val) {
-                this.$emit('update:content', val);
-                this.$emit('on-content-change', val);
+                // this.$emit('update:content', val);
+                this.$emit('onContentChange', val);
             }
         },
         mounted() {
-            var _this = this;
-            _this.editor = window.KindEditor.create('#' + this.id, {
+            let _this = this;
+            _this.editor = KindEditor.create('#' + this.id, {
                 width: _this.width,
                 height: _this.height,
                 minWidth: _this.minWidth,
@@ -123,7 +119,7 @@
                 colorTable: _this.colorTable,
                 afterCreate: _this.afterCreate,
                 afterChange: function () {
-                    _this.afterChange;
+                    // _this.afterChange;
                     _this.outContent = this.html()
                 },
                 afterTab: _this.afterTab,
@@ -150,7 +146,6 @@
                 allowImageRemote: _this.allowImageRemote,
                 autoHeightMode: _this.autoHeightMode,
                 fixToolBar: _this.fixToolBar,
-                tabIndex: _this.tabIndex
             })
         }
     }

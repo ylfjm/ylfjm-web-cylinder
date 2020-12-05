@@ -11,15 +11,14 @@ import './common/stylus/reset.styl'
 import './common/stylus/common.styl'
 import './assets/css/common.css'
 
-
-import '../static/kindeditor/themes/default/default.css'
-import '../static/kindeditor/kindeditor-all-min.js'
-import '../static/kindeditor/lang/zh-CN.js'
-
-
 Vue.use(ElementUI, {size: 'small'});
 Vue.prototype.$service = Service;
 Vue.config.productionTip = false;
+
+import '../static/kindeditor/themes/default/default.css'
+import '../static/kindeditor/themes/simple/simple.css'
+import '../static/kindeditor/kindeditor-all-min.js'
+import '../static/kindeditor/lang/zh-CN.js'
 
 new Vue({
     router,

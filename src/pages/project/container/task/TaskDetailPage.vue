@@ -14,7 +14,8 @@
                     <div class="panel task-text-panel" style="padding: 15px 20px;">
                         <div>
                             <div style="font-weight: bold;">任务描述</div>
-                            <div v-html="task.richText" class="ql-editor"></div>
+                            <!--<div v-html="task.richText" class="ql-editor"></div>-->
+                            <div v-html="task.richText" class="kind-editor-show"></div>
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                         </div>
                         <div class="history-record">
@@ -23,7 +24,9 @@
                                 <div>{{(index+1)+'.'+item.createDate+', 由 '}}
                                     <span style="font-weight: bold;">{{item.createBy}}</span>{{' '+item.text+'。'}}
                                 </div>
-                                <div v-html="item.richText" class="ql-editor"></div>
+                                <div v-if="item.richText">
+                                    <div v-html="item.richText" class="kind-editor-show"></div>
+                                </div>
                             </div>
                         </div>
 
@@ -353,14 +356,10 @@
         margin-left: 20px;
     }
 
-    .ql-editor {
-        padding: 15px 0;
-    }
-
-    .history-record .ql-editor {
+    .history-record .kind-editor-show {
         font-size: 13px;
-        padding: 10px 5px 10px 10px;
-        margin: 5px 0 0 10px;
+        padding: 5px 10px 5px 15px;
+        margin: 5px 10px;
         background-color: rgba(0, 0, 0, .025);
     }
 
@@ -431,7 +430,7 @@
         border-radius: 4px;
     }
 
-    .el-icon-back, .el-icon-right, .el-icon-magic-stick, .el-icon-switch-button {
+    .el-icon-magic-stick, .el-icon-switch-button {
         vertical-align: middle;
         display: inline;
         font-size: 18px;
