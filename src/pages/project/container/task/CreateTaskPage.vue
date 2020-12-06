@@ -208,7 +208,7 @@
                 this.form.richText = data;
             },*/
             onContentChange(data) {
-                console.log("data=" + data);
+                // console.log("data=" + data);
                 this.form.richText = data;
             },
             currentSubmit(formName) {

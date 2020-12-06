@@ -19,25 +19,20 @@
                             @clear="onSearch"
                     ></el-input>
                 </el-form-item>
-                <el-form-item label="角色" prop="roleId" class="specialWidth50">
-                    <AutoSelectForm
-                            @selectCb="selectCb"
-                            :defaultValue="formSearch.roleId"
-                            key="roleId"
-                            fieldName="roleId"
-                            dataType="role"
-                            :size="'small'"
-                    />
-                </el-form-item>
                 <el-form-item label="部门" prop="deptId" class="specialWidth50">
-                    <AutoSelectForm
-                            @selectCb="selectCb"
-                            :defaultValue="formSearch.deptId"
-                            key="deptId"
-                            fieldName="deptId"
-                            dataType="dept"
-                            :size="'small'"
-                    ></AutoSelectForm>
+                    <el-select v-model="formSearch.deptId" clearable placeholder="请选择">
+                        <el-option v-for="item in deptList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="职位" prop="postCode" class="specialWidth50">
+                    <el-select v-model="formSearch.postCode" clearable placeholder="请选择">
+                        <el-option v-for="item in postList" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="角色" prop="roleId" class="specialWidth50">
+                    <el-select v-model="formSearch.roleId" clearable placeholder="请选择" style="width: 100%;">
+                        <el-option v-for="item in roleList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="状态" prop="forbidden" class="specialWidth50">
                     <el-select v-model="formSearch.forbidden" clearable @clear="onSearch">
@@ -84,16 +79,15 @@
                         label="姓名"
                 ></el-table-column>
                 <el-table-column
-                        prop="roleIds"
+                        prop="roleNameList"
                         min-width="150"
                         show-overflow-tooltip
                         label="角色"
                 >
                     <template slot-scope="scope">
-                        <SelectTableDataForm
-                                :value="scope.row.roleIds"
-                                dataType="role"
-                        ></SelectTableDataForm>
+                        <div v-for="item in scope.row.roleNameList" :key="item">
+                            {{item}}<br/>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -150,41 +144,23 @@
                 ></el-pagination>
             </div>
         </div>
-        <CreateDialogForm
-                width="35%"
-                formLabelWidth="70px"
-                title="新增用户"
-                :visible="createDialogVisible"
-                :form="form"
+        <AdminDialog
+                :visible="dialogVisible"
                 :hideDialog="hideCreateDialog"
-                @changeFieldValue="changeFieldValue"
-                :submit="addAdmin"
-                :columns="columns"
-                :loading="createAdminLoading"
+                :submit="addOrUpdateAdmin"
+                :loading="dialogSubmitLoading"
                 :error="error"
-        />
-        <UpdateDialogForm
-                width="35%"
-                formLabelWidth="70px"
-                title="修改用户"
-                :visible="updateDialogVisible"
-                :hideDialog="hideUpdateDialog"
-                @changeFieldValue="changeFieldValue"
-                :submit="updateAdmin"
                 :updateItem="updateItem"
-                :columns="updateColumns"
-                :loading="updateAdminLoading"
-                :error="error"
+                :deptList="deptList"
+                :postList="postList"
+                :roleList="roleList"
         />
     </div>
 </template>
 <script>
-    import AutoSelectForm from '@/components/common/AutoSelectForm'
-    import CreateDialogForm from '@/components/common/CreateDialogForm'
-    import UpdateDialogForm from '@/components/common/UpdateDialogForm'
-    import SelectTableDataForm from '@/components/common/SelectTableDataForm'
     import {mapState} from 'vuex'
     import CryptoJS from 'crypto-js'
+    import AdminDialog from './container/admin/AdminDialog'
 
     export default {
         name: 'adminPage',
@@ -193,6 +169,7 @@
                 formSearch: {
                     realName: '',
                     deptId: '',
+                    postCode: '',
                     roleId: '',
                     forbidden: '',
                     pageNum: 1,
@@ -201,189 +178,62 @@
                 total: 0,
                 pages: 0,
                 tableList: [],
+                deptList: [],
+                postList: [],
+                roleList: [],
                 error: false,
                 searchBoxVisible: false,
-                createDialogVisible: false,
-                createAdminLoading: false,
-                updateDialogVisible: false,
-                updateAdminLoading: false,
+                dialogVisible: false,
+                dialogSubmitLoading: false,
+                opeType: 1,//1-添加用户；2-修改用户
                 updateItem: {},
                 oldRow: {},
-                form: {
-                    userName: '',
-                    password: '',
-                    realName: '',
-                    sex: '',
-                    phone: '',
-                    deptId: '',
-                    roleIds: [],
-                    remark: ''
-                },
-                columns: [
-                    {
-                        label: '用户名',
-                        fieldName: 'userName',
-                        type: 'input',
-                        rules: [{required: true, message: '请填写用户名', trigger: 'blur'}]
-                    },
-                    {
-                        label: '密码',
-                        fieldName: 'password',
-                        type: 'input',
-                        textType: 'password',
-                        rules: [
-                            {required: true, validator: this.checkPassword, trigger: 'blur'}
-                        ]
-                    },
-                    {
-                        label: '姓名',
-                        fieldName: 'realName',
-                        type: 'input',
-                        rules: [{required: true, message: '请填写姓名', trigger: 'blur'}]
-                    },
-                    {
-                        label: '部门',
-                        fieldName: 'deptId',
-                        type: 'autoSelect',
-                        dataType: 'dept',
-                        rules: [{required: true, message: '请选择部门', trigger: 'blur'}]
-                    },
-                    {
-                        label: '角色',
-                        fieldName: 'roleIds',
-                        type: 'autoSelect',
-                        dataType: 'role',
-                        multiple: true,
-                        rules: [{required: true, message: '请选择角色', trigger: 'blur'}]
-                    },
-                    {
-                        label: '文字描述',
-                        fieldName: 'remark',
-                        type: 'textarea',
-                        rules: []
-                    }
-                ],
-                updateColumns: [
-                    {
-                        label: '用户名',
-                        fieldName: 'userName',
-                        type: 'input',
-                        rules: [{required: true, message: '请填写用户名', trigger: 'blur'}]
-                    },
-                    {
-                        label: '密码',
-                        fieldName: 'password',
-                        type: 'input',
-                        textType: 'password',
-                        rules: [
-                            {required: true, validator: this.checkPassword, trigger: 'blur'}
-                        ]
-                    },
-                    {
-                        label: '姓名',
-                        fieldName: 'realName',
-                        type: 'input',
-                        rules: [{required: true, message: '请填写姓名', trigger: 'blur'}]
-                    },
-                    {
-                        label: '部门',
-                        fieldName: 'deptId',
-                        type: 'autoSelect',
-                        dataType: 'dept',
-                        rules: [{required: true, message: '请选择部门', trigger: 'blur'}]
-                    },
-                    {
-                        label: '角色',
-                        fieldName: 'roleIds',
-                        type: 'autoSelect',
-                        dataType: 'role',
-                        multiple: true,
-                        rules: [{required: true, message: '请选择角色', trigger: 'blur'}]
-                    },
-                    {
-                        label: '文字描述',
-                        fieldName: 'remark',
-                        type: 'textarea',
-                        rules: []
-                    }
-                ],
                 searchLoading: false,
-                autoHeight: 500
             }
         },
-        computed: {
-            ...mapState({
-                autoSelectData: state => state.common.autoSelectData,
-                mainHeight: state => state.mainHeight
-            })
-        },
+        computed: {},
         methods: {
             changeSearchBox() {
                 this.searchBoxVisible = !this.searchBoxVisible
             },
-            //密码校验
-            checkPassword(rule, value, callback) {
-                const phoneReg = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-z]|[A-Z]|[0-9]){6,}$/
-                if (!value) {
-                    return callback(new Error('密码不能为空'))
-                }
-                setTimeout(() => {
-                    if (phoneReg.test(value) && value.length > 7) {
-                        callback()
-                    } else {
-                        callback(
-                            new Error(
-                                '密码需要大小写字母、数字、特殊字符任意两组组成且长度最少八位'
-                            )
-                        )
-                    }
-                }, 100)
-            },
-            //新增修改弹窗回传值
-            changeFieldValue(data) {
-                this[data.type][data.fieldName] = data.value
-            },
             //重置
             refresh() {
-                this.$refs['formSearch'].resetFields()
+                this.$refs['formSearch'].resetFields();
                 this.onSearch()
             },
             async onSearch() {
-                this.formSearch.pageNum = 1
+                this.formSearch.pageNum = 1;
                 this.searchCommon()
-            },
-            selectCb(data) {
-                this.formSearch[data.fieldName] = data.value
-                this.onSearch()
             },
             //分页
             handleCurrentChange(pageNum) {
-                this.formSearch.pageNum = pageNum
+                this.formSearch.pageNum = pageNum;
                 this.searchCommon()
             },
             handleSizeChange(pageSize) {
                 this.formSearch.pageNum = 1;
-                this.formSearch.pageSize = pageSize
+                this.formSearch.pageSize = pageSize;
                 this.searchCommon()
             },
             async searchCommon() {
                 let formData = {
                     realName: this.formSearch.realName.trim(),
                     deptId: this.formSearch.deptId,
+                    postCode: this.formSearch.postCode,
                     roleId: this.formSearch.roleId,
                     forbidden: this.formSearch.forbidden,
                     pageNum: this.formSearch.pageNum,
                     pageSize: this.formSearch.pageSize
-                }
-                this.searchLoading = true
-                const res = await this.$service.getAdminList(formData)
-                this.searchLoading = false
+                };
+                this.searchLoading = true;
+                const res = await this.$service.getAdminList(formData);
+                this.searchLoading = false;
                 if (res.code === 20000) {
-                    this.formSearch.pageNum = res.data.pageNum
-                    this.formSearch.pageSize = res.data.pageSize
-                    this.total = res.data.total
-                    this.pages = res.data.pages
-                    this.tableList = res.data.result || []
+                    this.formSearch.pageNum = res.data.pageNum;
+                    this.formSearch.pageSize = res.data.pageSize;
+                    this.total = res.data.total;
+                    this.pages = res.data.pages;
+                    this.tableList = res.data.result || [];
                 } else {
                     this.$notify.error({
                         title: '提示',
@@ -393,103 +243,77 @@
             },
             //新增
             showCreateDialog() {
-                this.$store.dispatch('common/getAutoSelectData', {dataType: 'role'})
-                this.$store.dispatch('common/getAutoSelectData', {dataType: 'dept'})
-                this.createDialogVisible = true
-                this.error = false
+                this.opeType = 1;
+                this.dialogVisible = true;
+                this.error = false;
+                this.updateItem = {};
+                this.oldRow = {};
             },
             hideCreateDialog() {
-                this.createDialogVisible = false
-                this.error = false
+                this.dialogVisible = false;
+                this.error = false;
+            },
+            addOrUpdateAdmin(data) {
+                if (this.opeType === 1) {
+                    this.addAdmin(data);
+                } else if (this.opeType === 2) {
+                    this.updateAdmin(data);
+                }
             },
             async addAdmin(data) {
-                this.autoSelectData['dept'].map(item => {
-                    if (item.value === data.deptId) {
-                        data.deptName = item.label
-                    }
-                })
-                this.createAdminLoading = true
+                this.dialogSubmitLoading = true;
                 const res = await this.$service.addAdmin({
                     ...data,
                     password: CryptoJS.MD5(data.password.trim()).toString()
-                })
-                this.createAdminLoading = false
+                });
+                this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
-                    this.createDialogVisible = false
-                    this.error = false
-                    this.searchCommon()
+                    this.dialogVisible = false;
+                    this.error = false;
+                    this.searchCommon();
                 } else {
-                    this.error = res.message || false
+                    this.error = res.message || false;
                 }
             },
             //修改
             showUpdateDialog(row) {
-                this.$store.dispatch('common/getAutoSelectData', {dataType: 'role'})
-                this.$store.dispatch('common/getAutoSelectData', {dataType: 'dept'})
-                this.updateDialogVisible = true
-                this.error = false
-                this.$nextTick(function () {
-                    this.oldRow = {...row}
-                    this.updateItem = {
-                        ...row,
-                        deptId: String(row.deptId),
-                        sex: String(row.sex),
-                        roleIds: row.roleIds.length === 0 ? [] : row.roleIds,
-                        password: row.password || ''
-                    }
-                })
+                this.opeType = 2;
+                this.dialogVisible = true;
+                this.error = false;
+                this.oldRow = {...row};
+                this.updateItem = {...row};
             },
-            /*Decrypt(word) {
-                let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
-                let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr)
-                let decrypt = CryptoJS.AES.decrypt(srcs, key, {
-                    iv: iv,
-                    mode: CryptoJS.mode.CBC,
-                    padding: CryptoJS.pad.Pkcs7
-                })
-                let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
-                return decryptedStr.toString()
-            },*/
             hideUpdateDialog() {
-                this.updateDialogVisible = false
-                this.error = false
-                this.updateItem = {}
-                this.oldRow = {}
+                this.dialogVisible = false;
+                this.error = false;
+                this.updateItem = {};
+                this.oldRow = {};
             },
             async updateAdmin(data) {
-                let formData = {...data}
-                this.autoSelectData['dept'].map(item => {
-                    if (item.value === formData.deptId) {
-                        formData.deptName = item.label
-                    }
-                })
-                if (
-                    formData.password &&
-                    formData.password !== '' &&
-                    formData.password !== this.oldRow.password
-                ) {
+                let formData = {...data};
+                if (formData.password && formData.password !== '' && formData.password !== this.oldRow.password) {
                     formData.password = CryptoJS.MD5(formData.password).toString()
                 } else {
                     formData.password = null
                 }
-                this.updateAdminLoading = true
-                const res = await this.$service.updateAdmin(formData)
-                this.updateAdminLoading = false
+                this.dialogSubmitLoading = true;
+                const res = await this.$service.updateAdmin(formData);
+                this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
-                    this.searchCommon()
-                    this.updateDialogVisible = false
-                    this.error = false
-                    this.updateItem = {}
-                    this.oldRow = {}
+                    this.searchCommon();
+                    this.dialogVisible = false;
+                    this.error = false;
+                    this.updateItem = {};
+                    this.oldRow = {};
                 } else {
-                    this.error = res.message || false
+                    this.error = res.message || false;
                 }
             },
             //是否启用
             async changeEnable(row) {
                 const res = await this.$service.changeAdminStatus({
                     id: row.id
-                })
+                });
                 if (res.code === 20000) {
                     this.$notify({
                         title: '提示',
@@ -504,7 +328,7 @@
                             })
                         }
                         return item
-                    })
+                    });
                     this.$notify.error({
                         title: '提示',
                         message: res.message ? res.message : '操作失败',
@@ -520,13 +344,13 @@
                 }).then(async () => {
                     const res = await this.$service.deleteAdmin({
                         id: row.id
-                    })
+                    });
                     if (res.code === 20000) {
                         this.$notify({
                             title: '提示',
                             type: 'success',
                             message: '删除成功',
-                        })
+                        });
                         this.searchCommon()
                     } else {
                         this.$notify.error({
@@ -537,6 +361,24 @@
                 }).catch(() => {
                 });
             },
+            async getDeptList() {
+                const res = await this.$service.getDepartmentList({pageNum: 1, pageSize: 10000});
+                if (res.code === 20000) {
+                    this.deptList = res.data.result || [];
+                }
+            },
+            async getPostList() {
+                const res = await this.$service.getPositionList({});
+                if (res.code === 20000) {
+                    this.postList = res.data || [];
+                }
+            },
+            async getRoleList() {
+                const res = await this.$service.getRoleList({pageNum: 1, pageSize: 10000});
+                if (res.code === 20000) {
+                    this.roleList = res.data.result || [];
+                }
+            },
         },
         created() {
             if (this.$route.params.deptId) {
@@ -544,20 +386,16 @@
             } else if (this.$route.params.roleId) {
                 this.formSearch.roleId = this.$route.params.roleId;
             }
+            this.getDeptList();
+            this.getPostList();
+            this.getRoleList();
             this.searchCommon()
         },
         mounted() {
-            this.$nextTick(function () {
-                //56为全选导出数据列表高度
-                // this.autoHeight = this.mainHeight - this.$el.querySelector('.search_box').clientHeight
-            })
         },
         watch: {},
         components: {
-            AutoSelectForm,
-            CreateDialogForm,
-            UpdateDialogForm,
-            SelectTableDataForm,
+            AdminDialog
         }
     }
 </script>

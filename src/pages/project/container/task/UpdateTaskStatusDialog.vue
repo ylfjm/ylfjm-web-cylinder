@@ -164,9 +164,9 @@
             currentSubmit(formName) {
                 this.submit(this.form)
             },
-            onContentChange(val) {
-                console.log(val)
-                this.form.remark = val;
+            onContentChange(data) {
+                // console.log(data)
+                this.form.remark = data;
             },
             afterChange() {
                 console.log("afterChange")

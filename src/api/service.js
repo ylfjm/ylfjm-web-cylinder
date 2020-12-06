@@ -28,6 +28,8 @@ const Service = {
     addPermission: data => api.axiosPost(baseUrl + '/api/permission', data, null),
     updatePermission: data => api.axiosPut(baseUrl + '/api/permission', data, null),
     deletePermission: data => api.axiosDelete(baseUrl + '/api/permission/' + data.id, null, null),
+    //职位
+    getPositionList: data => api.axiosGet(baseUrl + '/api/position', null, data),
     //角色管理
     getRoleList: data => api.axiosGet(baseUrl + '/api/role/' + data.pageNum + '/' + data.pageSize, null, data),
     addRole: data => api.axiosPost(baseUrl + '/api/role', data, null),

@@ -15,6 +15,7 @@ import RolePermissionPage from "./pages/system/container/role/RolePermissionMana
 import Department from "./pages/system/Department"
 import Menu from "./pages/system/Menu"
 import Permission from "./pages/system/Permission"
+import Position from "./pages/system/Position"
 
 //项目模块
 import ProjectIndex from "./pages/project/ProjectIndex"
@@ -119,6 +120,14 @@ const router = new VueRouter({
             component: Permission,
             meta: {
                 title: '系统 - 权限'
+            }
+        },
+        {
+            path: "/position.html",
+            name: "position.html",
+            component: Position,
+            meta: {
+                title: '系统-职位'
             }
         },
         {
