@@ -62,6 +62,10 @@ a {
     box-sizing: border-box;
 }
 
+textarea {
+    font-family: "Helvetica Neue", Helvetica, Arial, Tahoma, 'Microsoft Yahei', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+}
+
 .text-left {
     text-align: left !important;
 }
