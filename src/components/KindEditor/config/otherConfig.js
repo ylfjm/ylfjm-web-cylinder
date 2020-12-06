@@ -1,5 +1,50 @@
+import items from "./items";
+import htmlTags from "./htmlTags";
+import fontSizeTable from "./fontSizeTable";
 // 其他非主要配置项
 const otherConfig = {
+    width: {
+        type: String,
+        default: '100%'
+    },
+    height: {
+        type: String,
+        default: '200'
+    },
+    minWidth: {
+        type: Number,
+        default: 100
+    },
+    minHeight: {
+        type: Number,
+        default: 100
+    },
+    langType: {
+        type: String,
+        default: 'zh-CN'
+    },
+    themeType: {
+        type: String,
+        default: 'default'
+    },
+    fontSizeTable: {
+        type: Array,
+        default: function () {
+            return [...fontSizeTable]
+        }
+    },
+    htmlTags: {
+        type: Object,
+        default: function () {
+            return {...htmlTags}
+        }
+    },
+    items: {
+        type: Array,
+        default: function () {
+            return [...items]
+        }
+    },
     noDisableItems: {
         type: Array,
         default: function () {
@@ -87,7 +132,8 @@ const otherConfig = {
         type: [String, Array]
     },
     cssData: {
-        type: String
+        type: String,
+        default: "body {font-family: \"Helvetica Neue\",Helvetica,Arial,Tahoma,'Microsoft Yahei','PingFang SC','Hiragino Sans GB','WenQuanYi Micro Hei',sans-serif; font-size:14px;padding:8px;}"
     },
     bodyClass: {
         type: String,
@@ -113,18 +159,6 @@ const otherConfig = {
     },
     afterTab: {
         type: Function//按下TAB键后执行的的回调函数。
-    },
-    afterFocus: {
-        type: Function,//编辑器聚焦(focus)时执行的回调函数。
-        default: function () {
-            console.log("afterFocus")
-        }
-    },
-    afterBlur: {
-        type: Function,//编辑器失去焦点(blur)时执行的回调函数。
-        default: function () {
-            console.log("afterBlur")
-        }
     },
     afterUpload: {
         type: Function
