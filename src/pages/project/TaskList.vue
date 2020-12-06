@@ -8,11 +8,9 @@
             <a @click="onSearch('pause')" :class="formSearch.status === 'pause' ? 'link-btn link-btn-active' : 'link-btn'">已暂停</a>
             <a @click="onSearch('cancel')" :class="formSearch.status === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
             <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
-            <router-link :to="'/create-task.html'">
-                <el-button type="primary" icon="el-icon-plus" style="float: right;">
-                    创建任务
-                </el-button>
-            </router-link>
+            <el-button type="primary" @click="jumpPage('', 'CreateTaskPage')" icon="el-icon-plus" style="float: right;">
+                创建任务
+            </el-button>
         </div>
         <div class="table-content">
             <el-table
@@ -236,6 +234,7 @@
                 total: 0,
                 pages: 0,
                 tableList: [],
+                adminList: [],
                 searchLoading: false,
             }
         },
@@ -304,18 +303,27 @@
                 }
             },
             jumpPage(id, pageName) {
-                if (pageName === 'EditTaskPage') {
+                if (pageName === 'CreateTaskPage') {
+                    this.$router.push({
+                        name: 'create-task.html',
+                        params: {
+                            adminList: this.adminList
+                        }
+                    })
+                } else if (pageName === 'EditTaskPage') {
                     this.$router.push({
                         name: 'edit-task.html',
                         params: {
-                            id: id
+                            id: id,
+                            adminList: this.adminList
                         }
                     })
                 } else if (pageName === 'TaskDetailPage') {
                     this.$router.push({
                         name: 'task-detail.html',
                         params: {
-                            id: id
+                            id: id,
+                            adminList: this.adminList
                         }
                     })
                 }
@@ -346,9 +354,17 @@
                 }).catch(() => {
                 });
             },
+            async getAdminList() {
+                const res = await this.$service.getAdminList({pageNum: 1, pageSize: 10000});
+                if (res.code === 20000) {
+                    this.adminList = res.data.result || [];
+                }
+            },
         },
         created() {
-            this.searchCommon()
+            this.searchCommon();
+            this.getAdminList();
+
         },
         mounted() {
         },

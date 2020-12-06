@@ -158,7 +158,7 @@
                         <img src="@/assets/images/assign.png" style="margin-top: 5px;">
                         <div class="text">指派</div>
                     </a>
-                    <a @click="showDialog('begin')" v-if="'wait' === task.status">
+                    <a @click="showDialog('doing')" v-if="'wait' === task.status">
                         <img src="@/assets/images/begin.png" style="margin-top: 5px;">
                         <div class="text">开始</div>
                     </a>

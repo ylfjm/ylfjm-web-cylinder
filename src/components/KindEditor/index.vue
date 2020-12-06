@@ -1,6 +1,6 @@
 <template>
-    <div class="kindeditor">
-        <textarea :id="id" name="content">{{ outContent }}</textarea>
+    <div class="">
+        <textarea :id="id">{{ outContent }}</textarea>
     </div>
 </template>
 
@@ -78,8 +78,6 @@
                     _this.outContent = this.html()
                 },
                 afterTab: _this.afterTab,
-                // afterFocus: _this.afterFocus,
-                // afterBlur: _this.afterBlur,
                 afterFocus: function () {//编辑器聚焦(focus)时执行的回调函数。
                     let _html = this.html();
                     this.edit.iframe[0].contentDocument.firstChild.lastChild.style.display = "none";

@@ -3,7 +3,6 @@
             width="50%"
             :visible.sync="visible"
             :before-close="hideDialog"
-            :append-to-body="true"
             :lock-scroll="false"
             :close-on-click-modal="false"
     >
@@ -102,13 +101,8 @@
                         </el-date-picker>
                     </el-form-item>
                 </div>
-                <!--<el-form-item label="备注" prop="content" style="width: 96%;">
-                    <QuillEditor @change="changeContent" :editorContent="form.remark"></QuillEditor>
-                </el-form-item>-->
                 <el-form-item label="备注" prop="content">
-                    <KindEditor id="editor_id" :content.sync="editorText"
-                                :afterChange="afterChange()" :loadStyleMode="false"
-                                @on-content-change="onContentChange"></KindEditor>
+                    <KindEditor id="editor_id" :content.sync="richText" @on-content-change="onContentChange"></KindEditor>
                 </el-form-item>
             </el-form>
         </div>
@@ -146,7 +140,7 @@
                     {label: "用户3", value: "user03"},
                     {label: "用户4", value: "user04"},
                 ],
-                editorText: '',// 双向同步的变量
+                richText: '',
             }
         },
         props: {
@@ -158,19 +152,12 @@
             opeType: String,
         },
         methods: {
-            changeContent(data) {
-                this.form.remark = data;
-            },
             currentSubmit(formName) {
                 this.submit(this.form)
             },
             onContentChange(data) {
-                // console.log(data)
                 this.form.remark = data;
             },
-            afterChange() {
-                console.log("afterChange")
-            }
         },
         watch: {
             visible: function (n) {
@@ -185,6 +172,8 @@
 
                     if (this.opeType === 'done') {
                         this.formLabelWidth = '110px'
+                    } else {
+                        this.formLabelWidth = '40px'
                     }
                 }
             }
