@@ -14,7 +14,7 @@
                 <Header></Header>
             </div>
             <div class="container-main">
-                <router-view></router-view>
+                <router-view v-if="isRouterAlive"></router-view>
             </div>
         </div>
         <router-view name="login"></router-view>
@@ -28,8 +28,21 @@
         name: 'App',
         data() {
             return {
-                activeMenuIndex: '1'
+                isRouterAlive: true,
             }
+        },
+        provide() {
+            return {
+                reload: this.reload,
+            }
+        },
+        methods: {
+            reload() {
+                this.isRouterAlive = false;
+                this.$nextTick(function () {
+                    this.isRouterAlive = true;
+                })
+            },
         },
         components: {
             Header

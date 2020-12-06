@@ -166,15 +166,15 @@
                         <img src="@/assets/images/complete.png" style="margin-top: 5px;">
                         <div class="text">完成</div>
                     </a>
-                    <a @click="showDialog('doing')" v-if="['cancel','closed'].indexOf(task.status) > -1">
+                    <a @click="showDialog('doing')" v-if="['done','cancel','closed'].indexOf(task.status) > -1">
                         <i class="el-icon-magic-stick"></i>
                         <div class="text">激活</div>
                     </a>
-                    <a @click="showDialog('cancel')" v-if="['wait','doing','pause'].indexOf(task.status) > -1">
+                    <a @click="showDialog('cancel')" v-if="['wait','doing'].indexOf(task.status) > -1">
                         <img src="@/assets/images/cancel.png" style="margin-top: 6px;">
                         <div class="text">取消</div>
                     </a>
-                    <a @click="showDialog('closed')" v-if="['wait','doing','pause','cancel'].indexOf(task.status) > -1">
+                    <a @click="showDialog('closed')" v-if="['wait','doing','done','cancel'].indexOf(task.status) > -1">
                         <i class="el-icon-switch-button"></i>
                         <div class="text">关闭</div>
                     </a>
@@ -207,6 +207,7 @@
 
     export default {
         name: "TaskDetailPage",
+        inject: ['reload'],
         data() {
             return {
                 task: {},
@@ -289,6 +290,7 @@
                         message: '操作成功',
                     });
                     this.hideDialog();
+                    this.reload();
                 } else {
                     this.$notify.error({
                         title: '提示',

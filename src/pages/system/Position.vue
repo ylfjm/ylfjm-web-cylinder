@@ -15,11 +15,11 @@
                 ></el-table-column>
                 <el-table-column
                         prop="name"
-                        label="职位名称"
+                        label="NAME"
                 ></el-table-column>
                 <el-table-column
                         prop="code"
-                        label="职位CODE"
+                        label="CODE"
                 ></el-table-column>
             </el-table>
         </div>

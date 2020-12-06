@@ -169,9 +169,10 @@
                     this.form.iosDeveloper = this.task.iosDeveloper ? this.task.iosDeveloper.split(',') : null;
                     this.form.serverDeveloper = this.task.serverDeveloper ? this.task.serverDeveloper.split(',') : null;
                     this.form.tester = this.task.tester ? this.task.tester.split(',') : null;
-
                     if (this.opeType === 'done') {
                         this.formLabelWidth = '110px'
+                    } else if (this.opeType === 'assign') {
+                        this.formLabelWidth = '70px'
                     } else {
                         this.formLabelWidth = '40px'
                     }
