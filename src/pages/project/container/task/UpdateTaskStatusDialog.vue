@@ -90,8 +90,8 @@
                         </el-form-item>
                     </div>
                 </div>
-                <div class="dp-table" v-if="opeType === 'done'">
-                    <el-form-item label="预计完成日期" prop="estimateDate">
+                <div v-if="opeType === 'estimate'">
+                    <el-form-item label="预计完成" prop="estimateDate">
                         <el-date-picker
                                 v-model="form.estimateDate"
                                 type="date"
@@ -101,9 +101,24 @@
                         </el-date-picker>
                     </el-form-item>
                 </div>
-                <el-form-item label="备注" prop="content">
-                    <KindEditor id="editor_id" :content.sync="richText" @on-content-change="onContentChange"></KindEditor>
-                </el-form-item>
+                <div v-if="opeType === 'done'">
+                    <el-form-item label="完成时间" prop="finishedDate">
+                        <el-date-picker
+                                v-model="form.finishedDate"
+                                type="date"
+                                :clearable="false"
+                                style="width: 200px;"
+                                placeholder="选择日期">
+                        </el-date-picker>
+                    </el-form-item>
+                </div>
+                <div>备注</div>
+                <div style="margin-top: 5px;">
+                    <KindEditor id="editor_id" @on-content-change="onContentChange"></KindEditor>
+                </div>
+                <!--<el-form-item label="备注" prop="content">-->
+                    <!--<KindEditor id="editor_id" @on-content-change="onContentChange"></KindEditor>-->
+                <!--</el-form-item>-->
             </el-form>
         </div>
         <div slot="footer" class="text-center">
@@ -132,15 +147,15 @@
                     tester: null,
                     remark: '',
                     estimateDate: '',
+                    finishedDate: '',
                 },
-                formLabelWidth: '80px',
+                formLabelWidth: '70px',
                 userList: [
                     {label: "用户1", value: "user01"},
                     {label: "用户2", value: "user02"},
                     {label: "用户3", value: "user03"},
                     {label: "用户4", value: "user04"},
                 ],
-                richText: '',
             }
         },
         props: {
@@ -169,13 +184,13 @@
                     this.form.iosDeveloper = this.task.iosDeveloper ? this.task.iosDeveloper.split(',') : null;
                     this.form.serverDeveloper = this.task.serverDeveloper ? this.task.serverDeveloper.split(',') : null;
                     this.form.tester = this.task.tester ? this.task.tester.split(',') : null;
-                    if (this.opeType === 'done') {
-                        this.formLabelWidth = '110px'
-                    } else if (this.opeType === 'assign') {
-                        this.formLabelWidth = '70px'
-                    } else {
-                        this.formLabelWidth = '40px'
-                    }
+                    // if (['done', 'estimate'].indexOf(this.opeType) > -1) {
+                    //     this.formLabelWidth = '90px'
+                    // } else if (this.opeType === 'assign') {
+                    //     this.formLabelWidth = '70px'
+                    // } else {
+                    //     this.formLabelWidth = '40px'
+                    // }
                 }
             }
         },
@@ -203,4 +218,22 @@
         margin-left: 20px;
         line-height: 24px;
     }
+
+    .remark {
+        position: absolute;
+        top: 15px;
+        left: -28px;
+    }
+
+    /*.remark:before {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 0;
+        height: 0;
+        content: ' ';
+        border-color: transparent transparent #efefef transparent;
+        border-style: solid;
+        border-width: 0 10px 10px 10px;
+    }*/
 </style>

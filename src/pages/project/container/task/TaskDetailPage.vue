@@ -158,15 +158,15 @@
                         <img src="@/assets/images/assign.png" style="margin-top: 5px;">
                         <div class="text">指派</div>
                     </a>
-                    <a @click="showDialog('doing')" v-if="'wait' === task.status">
-                        <img src="@/assets/images/begin.png" style="margin-top: 5px;">
-                        <div class="text">开始</div>
+                    <a @click="showDialog('estimate')" v-if="['doing'].indexOf(task.status) > -1">
+                        <img src="@/assets/images/estimate.png" style="margin-top: 5px;">
+                        <div class="text">排期</div>
                     </a>
-                    <a @click="showDialog('done')" v-if="'doing' === task.status">
+                    <a @click="showDialog('complete')" v-if="'doing' === task.status">
                         <img src="@/assets/images/complete.png" style="margin-top: 5px;">
                         <div class="text">完成</div>
                     </a>
-                    <a @click="showDialog('doing')" v-if="['done','cancel','closed'].indexOf(task.status) > -1">
+                    <a @click="showDialog('activate')" v-if="['done','cancel','closed'].indexOf(task.status) > -1">
                         <i class="el-icon-magic-stick"></i>
                         <div class="text">激活</div>
                     </a>
@@ -174,7 +174,7 @@
                         <img src="@/assets/images/cancel.png" style="margin-top: 6px;">
                         <div class="text">取消</div>
                     </a>
-                    <a @click="showDialog('closed')" v-if="['wait','doing','done','cancel'].indexOf(task.status) > -1">
+                    <a @click="showDialog('close')" v-if="['wait','doing','done','cancel'].indexOf(task.status) > -1">
                         <i class="el-icon-switch-button"></i>
                         <div class="text">关闭</div>
                     </a>
@@ -262,8 +262,9 @@
             async updateTaskStatus(data) {
                 this.updateTaskStatusLoading = true;
                 let res = null;
+                let formData;
                 if (this.opeType === 'assign') {
-                    res = await this.$service.taskAssign({
+                    formData = {
                         id: this.task.id,
                         pdDesigner: data.pdDesigner ? data.pdDesigner.join(",") : data.pdDesigner,
                         uiDesigner: data.uiDesigner ? data.uiDesigner.join(",") : data.uiDesigner,
@@ -273,15 +274,36 @@
                         serverDeveloper: data.serverDeveloper ? data.serverDeveloper.join(",") : data.serverDeveloper,
                         tester: data.tester ? data.tester.join(",") : data.tester,
                         remark: data.remark
-                    });
-                } else {
-                    res = await this.$service.updateTaskStatus({
+                    };
+                } else if (this.opeType === 'estimate') {
+                    formData = {
                         id: this.task.id,
-                        oldStatus: this.task.status,
-                        newStatus: this.opeType,
+                        estimateDate: data.estimateDate,
                         remark: data.remark
-                    });
+                    };
+                } else if (this.opeType === 'complete') {
+                    formData = {
+                        id: this.task.id,
+                        finishedDate: data.finishedDate,
+                        remark: data.remark
+                    };
+                } else if (this.opeType === 'activate') {
+                    formData = {
+                        id: this.task.id,
+                        remark: data.remark
+                    };
+                } else if (this.opeType === 'cancel') {
+                    formData = {
+                        id: this.task.id,
+                        remark: data.remark
+                    };
+                } else if (this.opeType === 'close') {
+                    formData = {
+                        id: this.task.id,
+                        remark: data.remark
+                    };
                 }
+                res = await this.$service.updateTaskStatus(formData);
                 this.updateTaskStatusLoading = false;
                 if (res.code === 20000) {
                     this.$notify({
@@ -425,6 +447,7 @@
         height: 30px;
         line-height: 30px;
         padding-top: 2px;
+        font-size: 14px;
     }
 
     .popup-btn-box a:hover {
