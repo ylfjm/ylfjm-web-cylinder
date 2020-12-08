@@ -45,6 +45,10 @@ const otherConfig = {
             return [...items]
         }
     },
+    // loadStyleMode: {
+    //     type: Boolean,
+    //     default: true
+    // },
     noDisableItems: {
         type: Array,
         default: function () {
@@ -87,10 +91,6 @@ const otherConfig = {
     minChangeSize: {
         type: Number,
         default: 5
-    },
-    loadStyleMode: {
-        type: Boolean,
-        default: true
     },
     urlType: {
         type: String,
