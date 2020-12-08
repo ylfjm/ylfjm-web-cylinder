@@ -84,9 +84,7 @@
                         @size-change="handleSizeChange"
                         class="pagination_content"
                         :current-page="formSearch.pageNum"
-                        layout="total, sizes, prev, pager, next"
                         :page-size="formSearch.pageSize"
-                        :page-sizes="[15,20,30,50,100]"
                         :total="total"
                 ></el-pagination>
             </div>

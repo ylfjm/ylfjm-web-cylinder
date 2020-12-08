@@ -3,8 +3,6 @@
             width="50%"
             :visible.sync="visible"
             :before-close="hideDialog"
-            :lock-scroll="false"
-            :close-on-click-modal="false"
     >
         <div slot="title">
             <div class="page_title">

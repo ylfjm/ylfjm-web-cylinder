@@ -4,8 +4,6 @@
             :title="title"
             :visible.sync="visible"
             :before-close="hideDialog"
-            :append-to-body="true"
-            :close-on-click-modal="false"
     >
         <!--<div slot="title">
             <div class="page_title">{{ title }}</div>

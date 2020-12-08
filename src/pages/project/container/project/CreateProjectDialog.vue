@@ -4,8 +4,6 @@
             :title="title"
             :visible.sync="visible"
             :before-close="hideDialog"
-            :append-to-body="true"
-            :close-on-click-modal="false"
     >
         <div class="dialog-form">
             <el-form :label-width="'90px'" ref="form" :rules="rules" :model="form">
