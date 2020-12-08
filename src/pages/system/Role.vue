@@ -4,7 +4,7 @@
             <a @click="changeSearchBox" :class="searchBoxVisible ? 'link-search-btn link-search-btn-active' : 'link-search-btn'">
                 <i class="el-icon-search"></i> 搜索
             </a>
-            <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+            <el-button @click="showDialog(null, 'create')" type="primary" icon="el-icon-plus" style="float: right;">
                 新增角色
             </el-button>
         </div>
@@ -75,7 +75,7 @@
                             <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'user')">用户维护</el-button>
                             <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'menu')">菜单维护</el-button>
                             <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'permission')">权限维护</el-button>
-                            <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
+                            <el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteRole(scope.row)">删除</el-button>
                         </el-row>
                     </template>
@@ -92,29 +92,18 @@
                 ></el-pagination>
             </div>
         </div>
-        <CreateRole
-                title="新增角色"
-                :visible="createDialogVisible"
-                :hideDialog="hideCreateDialog"
-                :submit="createRole"
-                :loading="createRoleLoading"
+        <RoleDialog
+                :visible="dialogVisible"
+                :hideDialog="hideDialog"
+                :submit="addOrUpdateRole"
+                :loading="dialogSubmitLoading"
                 :error="error"
-        />
-        <UpdateRole
-                title="修改角色"
-                :visible="updateDialogVisible"
-                :hideDialog="hideUpdateDialog"
-                :submit="updateRole"
-                :updateItem="updateItem"
-                :loading="updateRoleLoading"
-                :error="error"
+                :updateObj="updateObj"
         />
     </div>
 </template>
 <script>
-    import CreateRole from './container/role/CreateRole'
-    import UpdateRole from './container/role/UpdateRole'
-    import {mapState} from 'vuex'
+    import RoleDialog from './container/role/RoleDialog'
 
     export default {
         name: 'rolePage',
@@ -125,17 +114,16 @@
                     pageNum: 1,
                     pageSize: 15
                 },
+                searchBoxVisible: false,
+                searchLoading: false,
+                tableList: [],
                 total: 0,
                 pages: 0,
-                tableList: [],
                 error: false,
-                searchBoxVisible: false,
-                createDialogVisible: false,
-                createRoleLoading: false,
-                updateDialogVisible: false,
-                updateRoleLoading: false,
-                updateItem: {},
-                searchLoading: false,
+                dialogVisible: false,
+                dialogSubmitLoading: false,
+                actionType: '',
+                updateObj: {},
             }
         },
         methods: {
@@ -180,50 +168,38 @@
                     this.$notify.error({
                         title: '提示',
                         message: res.message ? res.message : '搜索失败',
+                        duration: 2000
                     })
                 }
             },
-            //新增
-            showCreateDialog() {
-                this.createDialogVisible = true;
-                this.error = false
-            },
-            hideCreateDialog() {
-                this.createDialogVisible = false;
-                this.error = false
-            },
-            async createRole(data) {
-                this.createRoleLoading = true;
-                const res = await this.$service.addRole(data);
-                this.createRoleLoading = false;
-                if (res.code === 20000) {
-                    this.createDialogVisible = false;
-                    this.error = false;
-                    this.searchCommon()
-                } else {
-                    this.error = res.message || true
+            showDialog(row, actionType) {
+                this.dialogVisible = true;
+                this.error = false;
+                this.actionType = actionType;
+                if (this.actionType === 'update') {
+                    this.updateObj = {...row};
                 }
             },
-            //修改
-            showUpdateDialog() {
-                this.updateDialogVisible = true;
+            hideDialog() {
+                this.dialogVisible = false;
                 this.error = false;
+                this.updateObj = {};
             },
-            hideUpdateDialog() {
-                this.updateDialogVisible = false;
-                this.error = false;
-                this.updateItem = {}
-            },
-            async updateRole(data) {
-                this.updateRoleLoading = true;
-                const res = await this.$service.updateRole(data);
-                this.updateRoleLoading = false;
+            async addOrUpdateRole(data) {
+                let formData = {...data};
+                let res;
+                this.dialogSubmitLoading = true;
+                if (this.actionType === 'create') {
+                    res = await this.$service.addRole(formData);
+                } else if (this.actionType === 'update') {
+                    res = await this.$service.updateRole(formData);
+                }
+                this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
+                    this.hideDialog();
                     this.searchCommon();
-                    this.updateDialogVisible = false;
-                    this.error = false
                 } else {
-                    this.error = res.message || true
+                    this.error = res.message || true;
                 }
             },
             //删除
@@ -284,8 +260,7 @@
         },
         computed: {},
         components: {
-            CreateRole,
-            UpdateRole,
+            RoleDialog,
         }
     }
 </script>

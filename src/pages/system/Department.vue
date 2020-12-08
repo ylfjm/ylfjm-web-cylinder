@@ -4,7 +4,7 @@
             <a @click="changeSearchBox" :class="searchBoxVisible ? 'link-search-btn link-search-btn-active' : 'link-search-btn'">
                 <i class="el-icon-search"></i> 搜索
             </a>
-            <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+            <el-button @click="showDialog(null, 'create')" type="primary" icon="el-icon-plus" style="float: right;">
                 新增部门
             </el-button>
         </div>
@@ -72,7 +72,7 @@
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
+                            <el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteDepartment(scope.row)">删除</el-button>
                         </el-row>
                     </template>
@@ -89,38 +89,18 @@
                 ></el-pagination>
             </div>
         </div>
-        <CreateDialogForm
-                width="30%"
-                formLabelWidth="50px"
-                title="新增部门"
-                :visible="createDialogVisible"
-                :form="form"
-                :hideDialog="hideCreateDialog"
-                @changeFieldValue="changeFieldValue"
-                :submit="addDepartment"
-                :columns="columns"
-                :loading="createDepartmentLoading"
+        <DepartmentDialog
+                :visible="dialogVisible"
+                :hideDialog="hideDialog"
+                :submit="addOrUpdateDepartment"
+                :loading="dialogSubmitLoading"
                 :error="error"
-        />
-        <UpdateDialogForm
-                width="30%"
-                formLabelWidth="50px"
-                title="修改部门"
-                :visible="updateDialogVisible"
-                :hideDialog="hideUpdateDialog"
-                @changeFieldValue="changeFieldValue"
-                :submit="updateDepartment"
-                :updateItem="updateItem"
-                :columns="columns"
-                :loading="updateDepartmentLoading"
-                :error="error"
+                :updateObj="updateObj"
         />
     </div>
 </template>
 <script>
-    import CreateDialogForm from '@/components/common/CreateDialogForm'
-    import UpdateDialogForm from '@/components/common/UpdateDialogForm'
-    import {mapState} from 'vuex'
+    import DepartmentDialog from './container/department/DepartmentDialog'
 
     export default {
         name: 'departmentPage',
@@ -131,45 +111,21 @@
                     pageNum: 1,
                     pageSize: 15
                 },
+                searchBoxVisible: false,
+                searchLoading: false,
+                tableList: [],
                 total: 0,
                 pages: 0,
-                tableList: [],
                 error: false,
-                searchBoxVisible: false,
-                createDialogVisible: false,
-                createDepartmentLoading: false,
-                updateDialogVisible: false,
-                updateDepartmentLoading: false,
-                updateItem: {},
-                form: {
-                    name: '',
-                    remark: ''
-                },
-                columns: [
-                    {
-                        label: '部门',
-                        fieldName: 'name',
-                        type: 'input',
-                        rules: [{required: true, message: '请填写部门', trigger: 'blur'}]
-                    },
-                    {
-                        label: '描述',
-                        fieldName: 'remark',
-                        type: 'textarea',
-                        rules: []
-                    }
-                ],
-                searchLoading: false,
-                autoHeight: 500
+                dialogVisible: false,
+                dialogSubmitLoading: false,
+                actionType: '',
+                updateObj: {},
             }
         },
         methods: {
             changeSearchBox() {
                 this.searchBoxVisible = !this.searchBoxVisible
-            },
-            //新增修改弹窗回传值
-            changeFieldValue(data) {
-                this[data.type][data.fieldName] = data.value
             },
             async onSearch() {
                 this.formSearch.pageNum = 1
@@ -195,73 +151,52 @@
                     name: this.formSearch.name.trim(),
                     pageNum: this.formSearch.pageNum,
                     pageSize: this.formSearch.pageSize
-                }
-                this.searchLoading = true
-                const res = await this.$service.getDepartmentList(formData)
-                this.searchLoading = false
+                };
+                this.searchLoading = true;
+                const res = await this.$service.getDepartmentList(formData);
+                this.searchLoading = false;
                 if (res.code === 20000) {
-                    this.formSearch.pageNum = res.data.pageNum
-                    this.formSearch.pageSize = res.data.pageSize
-                    this.total = res.data.total
-                    this.pages = res.data.pages
-                    this.tableList = res.data.result || []
+                    this.formSearch.pageNum = res.data.pageNum;
+                    this.formSearch.pageSize = res.data.pageSize;
+                    this.total = res.data.total;
+                    this.pages = res.data.pages;
+                    this.tableList = res.data.result || [];
                 } else {
-                    // console.log("123---"+JSON.stringify(res))
                     this.$notify.error({
                         title: '提示',
                         message: res.message ? res.message : '搜索失败',
+                        duration: 2000
                     })
                 }
             },
-            //新增
-            showCreateDialog() {
-                this.createDialogVisible = true
-                this.error = false
-            },
-            hideCreateDialog() {
-                this.createDialogVisible = false
-                this.error = false
-            },
-            async addDepartment(data) {
-                this.createDepartmentLoading = true
-                const res = await this.$service.addDepartment({
-                    ...data
-                })
-                this.createDepartmentLoading = false
-                if (res.code === 20000) {
-                    this.createDialogVisible = false
-                    this.error = false
-                    this.searchCommon()
-                } else {
-                    this.error = res.message || true
+            showDialog(row, actionType) {
+                this.dialogVisible = true;
+                this.error = false;
+                this.actionType = actionType;
+                if (this.actionType === 'update') {
+                    this.updateObj = {...row};
                 }
             },
-            //修改
-            showUpdateDialog(row) {
-                this.updateDialogVisible = true
-                this.error = false
-                this.$nextTick(function () {
-                    this.updateItem = {...row}
-                })
+            hideDialog() {
+                this.dialogVisible = false;
+                this.error = false;
+                this.updateObj = {};
             },
-            hideUpdateDialog() {
-                this.updateDialogVisible = false
-                this.error = false
-                this.updateItem = {}
-            },
-            async updateDepartment(data) {
-                this.updateDepartmentLoading = true
-                const res = await this.$service.updateDepartment({
-                    ...data
-                })
-                this.updateDepartmentLoading = false
+            async addOrUpdateDepartment(data) {
+                let formData = {...data};
+                let res;
+                this.dialogSubmitLoading = true;
+                if (this.actionType === 'create') {
+                    res = await this.$service.addDepartment(formData);
+                } else if (this.actionType === 'update') {
+                    res = await this.$service.updateDepartment(formData);
+                }
+                this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
-                    this.searchCommon()
-                    this.updateDialogVisible = false
-                    this.error = false
-                    this.updateItem = {}
+                    this.hideDialog();
+                    this.searchCommon();
                 } else {
-                    this.error = res.message || true
+                    this.error = res.message || true;
                 }
             },
             //删除
@@ -273,18 +208,20 @@
                 }).then(async () => {
                     const res = await this.$service.deleteDepartment({
                         id: row.id
-                    })
+                    });
                     if (res.code === 20000) {
                         this.$notify({
                             title: '提示',
                             type: 'success',
                             message: '删除成功',
-                        })
+                            duration: 2000
+                        });
                         this.searchCommon()
                     } else {
                         this.$notify.error({
                             title: '提示',
                             message: res.message ? res.message : '删除失败',
+                            duration: 2000
                         })
                     }
                 }).catch(() => {
@@ -295,19 +232,10 @@
             this.searchCommon()
         },
         mounted() {
-            this.$nextTick(function () {
-                //56为全选导出数据列表高度
-                // this.autoHeight = this.mainHeight - this.$el.querySelector('.search_box').clientHeight
-            })
         },
-        computed: {
-            ...mapState({
-                mainHeight: state => state.mainHeight
-            })
-        },
+        computed: {},
         components: {
-            CreateDialogForm,
-            UpdateDialogForm,
+            DepartmentDialog,
         }
     }
 </script>

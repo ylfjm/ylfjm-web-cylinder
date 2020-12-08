@@ -18,7 +18,7 @@
                     <a @click="changeSearchBox" :class="searchBoxVisible ? 'link-search-btn link-search-btn-active' : 'link-search-btn'">
                         <i class="el-icon-search"></i> 搜索
                     </a>
-                    <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
+                    <el-button @click="showDialog(null, 'create')" type="primary" icon="el-icon-plus" style="float: right;">
                         添加菜单
                     </el-button>
                 </div>
@@ -106,7 +106,7 @@
                         >
                             <template slot-scope="scope">
                                 <el-row type="flex" justify="center">
-                                    <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
+                                    <el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
                                     <el-button type="danger" size="mini" @click="deleteMenu(scope.row)">删除</el-button>
                                 </el-row>
                             </template>
@@ -125,38 +125,19 @@
                 </div>
             </el-main>
         </el-container>
-        <CreateDialogForm
-                width="30%"
-                formLabelWidth="70px"
-                title="添加菜单"
-                :visible="createDialogVisible"
-                :form="form"
-                :hideDialog="hideCreateDialog"
-                @changeFieldValue="changeFieldValue"
-                :submit="addMenu"
-                :columns="columns"
-                :loading="createMenuLoading"
+        <MenuDialog
+                :visible="dialogVisible"
+                :hideDialog="hideDialog"
+                :submit="addOrUpdateMenu"
+                :loading="dialogSubmitLoading"
                 :error="error"
-        />
-        <UpdateDialogForm
-                width="30%"
-                formLabelWidth="70px"
-                title="修改菜单"
-                :visible="updateDialogVisible"
-                :hideDialog="hideUpdateDialog"
-                @changeFieldValue="changeFieldValue"
-                :submit="updateMenu"
-                :updateItem="updateItem"
-                :columns="columns"
-                :loading="updateMenuLoading"
-                :error="error"
+                :updateObj="updateObj"
+                :firstLevelMenuList="firstLevelMenuList"
         />
     </div>
 </template>
 <script>
-    import CreateDialogForm from '@/components/common/CreateDialogForm'
-    import UpdateDialogForm from '@/components/common/UpdateDialogForm'
-    import {mapState} from 'vuex'
+    import MenuDialog from './container/menu/MenuDialog'
 
     export default {
         name: 'menuPage',
@@ -169,57 +150,6 @@
                     name: '',
                     level: ''
                 },
-                total: 0,
-                pages: 0,
-                tableList: [],
-                error: false,
-                searchBoxVisible: false,
-                createDialogVisible: false,
-                createMenuLoading: false,
-                updateDialogVisible: false,
-                updateMenuLoading: false,
-                updateItem: {},
-                form: {
-                    name: '',
-                    url: '',
-                    pid: [],
-                    sorts: 0
-                },
-                columns: [
-                    {
-                        label: '菜单名',
-                        fieldName: 'name',
-                        type: 'input',
-                        rules: [{required: true, message: '请填写菜单名', trigger: 'blur'}]
-                    },
-                    {
-                        label: '菜单url',
-                        fieldName: 'url',
-                        type: 'input',
-                        rules: [{required: true, message: '请填写菜单url', trigger: 'blur'}]
-                    },
-                    {
-                        label: '父级',
-                        fieldName: 'pid',
-                        type: 'autoCascader',
-                        dataType: 'menu',
-                        checkStrictly: true,
-                        rules: []
-                    },
-                    {
-                        label: '描述',
-                        fieldName: 'description',
-                        type: 'textarea',
-                        rules: []
-                    },
-                    {
-                        label: '排序',
-                        fieldName: 'sorts',
-                        type: 'inputNumber',
-                        rules: [{required: true, message: '请填写排序', trigger: 'blur'}]
-                    }
-                ],
-                searchLoading: false,
                 defaultProps: {
                     children: 'subMenus',
                     label: 'name',
@@ -227,7 +157,18 @@
                 },
                 menuList: [],
                 firstMenuId: '',
-                autoHeight: 500
+
+                firstLevelMenuList: [],
+                searchBoxVisible: false,
+                searchLoading: false,
+                tableList: [],
+                total: 0,
+                pages: 0,
+                error: false,
+                dialogVisible: false,
+                dialogSubmitLoading: false,
+                actionType: '',
+                updateObj: {},
             }
         },
         methods: {
@@ -244,10 +185,6 @@
                 this.formSearch.checkMenuId = '';
                 this.$refs['formSearch'].resetFields()
                 this.onSearch()
-            },
-            //新增修改弹窗回传值
-            changeFieldValue(data) {
-                this[data.type][data.fieldName] = data.value
             },
             async handleCheckChange(data) {
                 this.formSearch.checkMenuId = data.id
@@ -273,15 +210,15 @@
                     level: this.formSearch.level,
                     pageNum: this.formSearch.pageNum,
                     pageSize: this.formSearch.pageSize,
-                }
-                this.searchLoading = true
-                const res = await this.$service.getMenuList(formData)
-                this.searchLoading = false
+                };
+                this.searchLoading = true;
+                const res = await this.$service.getMenuList(formData);
+                this.searchLoading = false;
                 if (res.code === 20000) {
-                    this.formSearch.pageNum = res.data.pageNum
-                    this.formSearch.pageSize = res.data.pageSize
-                    this.total = res.data.total
-                    this.pages = res.data.pages
+                    this.formSearch.pageNum = res.data.pageNum;
+                    this.formSearch.pageSize = res.data.pageSize;
+                    this.total = res.data.total;
+                    this.pages = res.data.pages;
                     this.tableList = res.data.result
                         ? res.data.result.map(item => {
                             return Object.assign({}, item, {
@@ -293,52 +230,27 @@
                     this.$notify.error({
                         title: '提示',
                         message: res.message ? res.message : '搜索失败',
+                        duration: 2000
                     })
                 }
             },
-            //新增
-            showCreateDialog() {
-                this.$store.dispatch('common/getAutoCascaderData', {dataType: 'menu'})
-                this.createDialogVisible = true
-                this.error = false
-            },
-            hideCreateDialog() {
-                this.createDialogVisible = false
-                this.error = false
-            },
-            async addMenu(data) {
-                this.createMenuLoading = true
-                const res = await this.$service.addMenu({
-                    ...data,
-                    pid: data.pid[data.pid.length - 1],
-                    icon: data.icon
-                })
-                this.createMenuLoading = false
-                if (res.code === 20000) {
-                    this.createDialogVisible = false
-                    this.error = false
-                    this.createLoad()
-                } else {
-                    this.error = res.message || true
-                }
-            },
-            //获取父级id
-            getPidArr(list, id) {
-                let arr = []
-                let map = (l, i) => {
-                    l.forEach(item => {
-                        if (item.id === i) {
-                            arr.push(i)
-                            map(list, item.pid)
-                        } else if (item.subMenus) {
-                            map(item.subMenus, i)
-                        }
-                        return
-                    })
-                }
-                map(list, id)
-                return arr.reverse()
-            },
+            // //获取父级id
+            // getPidArr(list, id) {
+            //     let arr = []
+            //     let map = (l, i) => {
+            //         l.forEach(item => {
+            //             if (item.id === i) {
+            //                 arr.push(i)
+            //                 map(list, item.pid)
+            //             } else if (item.subMenus) {
+            //                 map(item.subMenus, i)
+            //             }
+            //             return
+            //         })
+            //     }
+            //     map(list, id)
+            //     return arr.reverse()
+            // },
             //获取父级name
             getPidName(list, id) {
                 let name = ''
@@ -355,41 +267,34 @@
                 map(list, id)
                 return name
             },
-            //修改
-            showUpdateDialog(row) {
-                this.$store.dispatch('common/getAutoCascaderData', {dataType: 'menu'})
-                this.updateDialogVisible = true
-                this.error = false
-                this.$nextTick(function () {
-                    this.updateItem = {
-                        ...row,
-                        // icon: this.getDefaultUpload(row.icon),
-                        icon: row.icon,
-                        pid: this.getPidArr(this.menuList, row.pid)
-                    }
-                })
+            showDialog(row, actionType) {
+                this.dialogVisible = true;
+                this.error = false;
+                this.actionType = actionType;
+                if (this.actionType === 'update') {
+                    this.updateObj = {...row};
+                }
             },
-            hideUpdateDialog() {
-                this.updateDialogVisible = false
-                this.error = false
-                this.updateItem = {}
+            hideDialog() {
+                this.dialogVisible = false;
+                this.error = false;
+                this.updateObj = {};
             },
-            async updateMenu(data) {
-                this.updateMenuLoading = true
-                const res = await this.$service.updateMenu({
-                    ...data,
-                    pid: data.pid[data.pid.length - 1],
-                    // icon: this.getUploadUrl(data.icon)
-                    icon: data.icon
-                })
-                this.updateMenuLoading = false
+            async addOrUpdateMenu(data) {
+                let formData = {...data};
+                let res;
+                this.dialogSubmitLoading = true;
+                if (this.actionType === 'create') {
+                    res = await this.$service.addMenu(formData);
+                } else if (this.actionType === 'update') {
+                    res = await this.$service.updateMenu(formData);
+                }
+                this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
-                    this.createLoad()
-                    this.updateDialogVisible = false
-                    this.error = false
-                    this.updateItem = {}
+                    this.hideDialog();
+                    this.createLoad();
                 } else {
-                    this.error = res.message || true
+                    this.error = res.message || true;
                 }
             },
             //删除
@@ -401,13 +306,13 @@
                 }).then(async () => {
                     const res = await this.$service.deleteMenu({
                         id: row.id
-                    })
+                    });
                     if (res.code === 20000) {
                         this.$notify({
                             title: '提示',
                             type: 'success',
                             message: '删除成功',
-                        })
+                        });
                         this.createLoad()
                     } else {
                         this.$notify.error({
@@ -421,6 +326,7 @@
             async createLoad() {
                 const res = await this.$service.getMenuTree({})
                 if (res.code === 20000) {
+                    this.firstLevelMenuList = res.data;
                     this.menuList = [
                         {
                             id: 0,
@@ -437,19 +343,10 @@
             this.createLoad()
         },
         mounted() {
-            this.$nextTick(function () {
-                //56为全选导出数据列表高度
-                // this.autoHeight = this.mainHeight - 28
-            })
         },
-        computed: {
-            ...mapState({
-                mainHeight: state => state.mainHeight
-            })
-        },
+        computed: {},
         components: {
-            CreateDialogForm,
-            UpdateDialogForm,
+            MenuDialog,
         }
     }
 </script>

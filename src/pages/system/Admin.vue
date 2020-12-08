@@ -4,7 +4,7 @@
             <a @click="changeSearchBox" :class="searchBoxVisible ? 'link-search-btn link-search-btn-active' : 'link-search-btn'">
                 <i class="el-icon-search"></i> 搜索
             </a>
-            <el-button @click="showCreateDialog" type="primary" style="float: right;">
+            <el-button @click="showDialog(null, 'create')" type="primary" style="float: right;">
                 <i class="el-icon-plus" style="font-weight: bold"></i>
                 新增用户
             </el-button>
@@ -125,7 +125,7 @@
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="showUpdateDialog(scope.row)">编辑</el-button>
+                            <el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteAdmin(scope.row)">删除</el-button>
                         </el-row>
                     </template>
@@ -144,11 +144,11 @@
         </div>
         <AdminDialog
                 :visible="dialogVisible"
-                :hideDialog="hideCreateDialog"
+                :hideDialog="hideDialog"
                 :submit="addOrUpdateAdmin"
                 :loading="dialogSubmitLoading"
                 :error="error"
-                :updateItem="updateItem"
+                :updateObj="updateObj"
                 :deptList="deptList"
                 :postList="postList"
                 :roleList="roleList"
@@ -173,20 +173,20 @@
                     pageNum: 1,
                     pageSize: 15
                 },
+                searchBoxVisible: false,
+                searchLoading: false,
+                tableList: [],
                 total: 0,
                 pages: 0,
-                tableList: [],
+                error: false,
+                dialogVisible: false,
                 deptList: [],
                 postList: [],
                 roleList: [],
-                error: false,
-                searchBoxVisible: false,
-                dialogVisible: false,
                 dialogSubmitLoading: false,
-                opeType: 1,//1-添加用户；2-修改用户
-                updateItem: {},
-                oldRow: {},
-                searchLoading: false,
+                actionType: '',
+                updateObj: {},
+                oldObj: {},
             }
         },
         computed: {},
@@ -236,75 +236,50 @@
                     this.$notify.error({
                         title: '提示',
                         message: res.message ? res.message : '查询失败',
+                        duration: 2000
                     })
                 }
             },
-            //新增
-            showCreateDialog() {
-                this.opeType = 1;
+            showDialog(row, actionType) {
                 this.dialogVisible = true;
                 this.error = false;
-                this.updateItem = {};
-                this.oldRow = {};
+                this.actionType = actionType;
+                if (this.actionType === 'update') {
+                    this.updateObj = {...row};
+                    this.oldObj = {...row};
+                }
             },
-            hideCreateDialog() {
+            hideDialog() {
                 this.dialogVisible = false;
                 this.error = false;
+                this.updateObj = {};
+                this.oldObj = {};
             },
-            addOrUpdateAdmin(data) {
-                if (this.opeType === 1) {
-                    this.addAdmin(data);
-                } else if (this.opeType === 2) {
-                    this.updateAdmin(data);
-                }
-            },
-            async addAdmin(data) {
+            async addOrUpdateAdmin(data) {
+                let formData;
+                let res;
                 this.dialogSubmitLoading = true;
-                const res = await this.$service.addAdmin({
-                    ...data,
-                    password: CryptoJS.MD5(data.password.trim()).toString()
-                });
+                if (this.actionType === 'create') {
+                    formData = {
+                        ...data,
+                        password: CryptoJS.MD5(data.password.trim()).toString()
+                    };
+                    res = await this.$service.addAdmin(formData);
+                } else if (this.actionType === 'update') {
+                    formData = {...data};
+                    if (formData.password && formData.password !== '' && formData.password !== this.oldObj.password) {
+                        formData.password = CryptoJS.MD5(formData.password).toString()
+                    } else {
+                        formData.password = null
+                    }
+                    res = await this.$service.updateAdmin(formData);
+                }
                 this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
-                    this.dialogVisible = false;
-                    this.error = false;
+                    this.hideDialog();
                     this.searchCommon();
                 } else {
-                    this.error = res.message || false;
-                }
-            },
-            //修改
-            showUpdateDialog(row) {
-                this.opeType = 2;
-                this.dialogVisible = true;
-                this.error = false;
-                this.oldRow = {...row};
-                this.updateItem = {...row};
-            },
-            hideUpdateDialog() {
-                this.dialogVisible = false;
-                this.error = false;
-                this.updateItem = {};
-                this.oldRow = {};
-            },
-            async updateAdmin(data) {
-                let formData = {...data};
-                if (formData.password && formData.password !== '' && formData.password !== this.oldRow.password) {
-                    formData.password = CryptoJS.MD5(formData.password).toString()
-                } else {
-                    formData.password = null
-                }
-                this.dialogSubmitLoading = true;
-                const res = await this.$service.updateAdmin(formData);
-                this.dialogSubmitLoading = false;
-                if (res.code === 20000) {
-                    this.searchCommon();
-                    this.dialogVisible = false;
-                    this.error = false;
-                    this.updateItem = {};
-                    this.oldRow = {};
-                } else {
-                    this.error = res.message || false;
+                    this.error = res.message || true;
                 }
             },
             //是否启用

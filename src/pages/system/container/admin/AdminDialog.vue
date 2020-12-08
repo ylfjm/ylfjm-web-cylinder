@@ -1,10 +1,5 @@
 <template>
-    <el-dialog
-            width="35%"
-            :title="title"
-            :visible.sync="visible"
-            :before-close="hideDialog"
-    >
+    <el-dialog width="35%" :title="title" :visible.sync="visible" :before-close="hideDialog">
         <div class="dialog-form">
             <el-form :label-width="'70px'" ref="form" :rules="rules" :model="form">
                 <el-form-item label="用户名" prop="userName">
@@ -44,12 +39,11 @@
 </template>
 <script>
     export default {
-        name: 'CreateAdminDialog',
+        name: 'AdminDialog',
         data() {
             return {
                 title: '',
                 form: {
-                    id: '',
                     userName: '',
                     password: '',
                     realName: '',
@@ -74,7 +68,7 @@
             submit: Function,
             loading: Boolean,
             error: {},
-            updateItem: Object,
+            updateObj: Object,
             deptList: Array,
             postList: Array,
             roleList: Array,
@@ -103,14 +97,13 @@
             },
         },
         watch: {
-            visible: async function (n) {
+            visible: function (n) {
                 if (n) {
                     this.title = '新增用户';
-                    if (this.updateItem && this.updateItem.id) {
-                        this.form = this.updateItem;
+                    if (this.updateObj && this.updateObj.id) {
+                        this.form = this.updateObj;
                         this.title = '修改用户';
                     } else {
-                        this.form.id = '';
                         this.form.userName = '';
                         this.form.password = '';
                         this.form.realName = '';
@@ -130,19 +123,20 @@
                         this.$notify.error({
                             title: '提示',
                             message: typeof this.error === 'boolean' ? '操作失败' : this.error,
+                            duration: 2000
                         })
                     } else {
                         this.$notify({
                             title: '提示',
                             type: 'success',
                             message: '操作成功',
+                            duration: 2000
                         });
                         this.$refs['form'].resetFields()
                     }
                 }
             },
         },
-        components: {}
     }
 </script>
 <style scoped>
