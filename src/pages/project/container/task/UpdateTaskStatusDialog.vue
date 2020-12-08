@@ -12,7 +12,7 @@
         </div>
         <div class="dialog-form">
             <el-form :label-width="formLabelWidth" ref="form" :model="form">
-                <div class="dp-table" v-if="opeType === 'assign'">
+                <div class="dp-table" v-if="actionType === 'assign'">
                     <div class="dp-table-cell col-6">
                         <el-form-item label="产品设计">
                             <el-select v-model="form.pdDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
@@ -88,7 +88,7 @@
                         </el-form-item>
                     </div>
                 </div>
-                <div v-if="opeType === 'estimate'">
+                <div v-if="actionType === 'estimate'">
                     <el-form-item label="预计完成" prop="estimateDate">
                         <el-date-picker
                                 v-model="form.estimateDate"
@@ -99,7 +99,7 @@
                         </el-date-picker>
                     </el-form-item>
                 </div>
-                <div v-if="opeType === 'done'">
+                <div v-if="actionType === 'complete'">
                     <el-form-item label="完成时间" prop="finishedDate">
                         <el-date-picker
                                 v-model="form.finishedDate"
@@ -112,7 +112,7 @@
                 </div>
                 <div>备注</div>
                 <div style="margin-top: 5px;">
-                    <KindEditor id="editor_id" @on-content-change="onContentChange"></KindEditor>
+                    <KindEditor id="editor_id" :content.sync="form.remark" @onContentChange="onContentChange"></KindEditor>
                 </div>
                 <!--<el-form-item label="备注" prop="content">-->
                     <!--<KindEditor id="editor_id" @on-content-change="onContentChange"></KindEditor>-->
@@ -162,7 +162,7 @@
             submit: Function,
             loading: Boolean,
             task: Object,
-            opeType: String,
+            actionType: String,
         },
         methods: {
             currentSubmit(formName) {
@@ -182,13 +182,6 @@
                     this.form.iosDeveloper = this.task.iosDeveloper ? this.task.iosDeveloper.split(',') : null;
                     this.form.serverDeveloper = this.task.serverDeveloper ? this.task.serverDeveloper.split(',') : null;
                     this.form.tester = this.task.tester ? this.task.tester.split(',') : null;
-                    // if (['done', 'estimate'].indexOf(this.opeType) > -1) {
-                    //     this.formLabelWidth = '90px'
-                    // } else if (this.opeType === 'assign') {
-                    //     this.formLabelWidth = '70px'
-                    // } else {
-                    //     this.formLabelWidth = '40px'
-                    // }
                 }
             }
         },
@@ -216,22 +209,4 @@
         margin-left: 20px;
         line-height: 24px;
     }
-
-    .remark {
-        position: absolute;
-        top: 15px;
-        left: -28px;
-    }
-
-    /*.remark:before {
-        position: absolute;
-        top: 20px;
-        left: 0;
-        width: 0;
-        height: 0;
-        content: ' ';
-        border-color: transparent transparent #efefef transparent;
-        border-style: solid;
-        border-width: 0 10px 10px 10px;
-    }*/
 </style>

@@ -196,13 +196,14 @@
                 :hideDialog="hideDialog"
                 :submit="updateTaskStatus"
                 :task="task"
-                :opeType="opeType"
+                :actionType="actionType"
                 :loading="updateTaskStatusLoading"
         ></UpdateTaskStatusDialog>
     </div>
 </template>
 
 <script>
+    import moment from 'moment'
     import UpdateTaskStatusDialog from './UpdateTaskStatusDialog'
 
     export default {
@@ -216,7 +217,7 @@
                 activeTabName: 'first',
                 dialogVisible: false,
                 updateTaskStatusLoading: false,
-                opeType: null,
+                actionType: null,
             }
         },
         methods: {
@@ -252,9 +253,9 @@
                     })
                 }
             },
-            showDialog(opeType) {
+            showDialog(actionType) {
                 this.dialogVisible = true;
-                this.opeType = opeType
+                this.actionType = actionType
             },
             hideDialog() {
                 this.dialogVisible = false;
@@ -263,7 +264,7 @@
                 this.updateTaskStatusLoading = true;
                 let res = null;
                 let formData;
-                if (this.opeType === 'assign') {
+                if (this.actionType === 'assign') {
                     formData = {
                         id: this.task.id,
                         pdDesigner: data.pdDesigner ? data.pdDesigner.join(",") : data.pdDesigner,
@@ -275,41 +276,35 @@
                         tester: data.tester ? data.tester.join(",") : data.tester,
                         remark: data.remark
                     };
-                } else if (this.opeType === 'estimate') {
+                } else if (this.actionType === 'estimate') {
                     formData = {
                         id: this.task.id,
-                        estimateDate: data.estimateDate,
+                        estimateDate: moment(data.estimateDate).format('YYYY-MM-DD'),
                         remark: data.remark
                     };
-                } else if (this.opeType === 'complete') {
+                } else if (this.actionType === 'complete') {
                     formData = {
                         id: this.task.id,
-                        finishedDate: data.finishedDate,
+                        finishedDate: moment(data.finishedDate).format('YYYY-MM-DD'),
                         remark: data.remark
                     };
-                } else if (this.opeType === 'activate') {
-                    formData = {
-                        id: this.task.id,
-                        remark: data.remark
-                    };
-                } else if (this.opeType === 'cancel') {
-                    formData = {
-                        id: this.task.id,
-                        remark: data.remark
-                    };
-                } else if (this.opeType === 'close') {
+                } else if (this.actionType === 'activate' || this.actionType === 'cancel' || this.actionType === 'close') {
                     formData = {
                         id: this.task.id,
                         remark: data.remark
                     };
                 }
-                res = await this.$service.updateTaskStatus(formData);
+                res = await this.$service.updateTaskStatus({
+                    ...formData,
+                    actionType: this.actionType
+                });
                 this.updateTaskStatusLoading = false;
                 if (res.code === 20000) {
                     this.$notify({
                         title: '提示',
                         type: 'success',
                         message: '操作成功',
+                        duration: 2000,
                     });
                     this.hideDialog();
                     this.reload();
@@ -317,6 +312,7 @@
                     this.$notify.error({
                         title: '提示',
                         message: res.message ? res.message : '操作失败',
+                        duration: 2000,
                     })
                 }
             },
