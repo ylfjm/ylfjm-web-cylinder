@@ -11,46 +11,34 @@
             </div>
         </div>
         <div class="dialog-form">
-            <el-form :label-width="formLabelWidth" ref="form" :model="form">
+            <el-form :label-width="formLabelWidth" ref="form" :rules="rules" :model="form">
                 <div class="dp-table" v-if="actionType === 'assign'">
                     <div class="dp-table-cell col-6">
                         <el-form-item label="产品设计">
                             <el-select v-model="form.pdDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
-                                <el-option
-                                        v-for="item in userList"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
+                                           v-show="item.postCode === 'po'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="UI设计">
                             <el-select v-model="form.uiDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
-                                <el-option
-                                        v-for="item in userList"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
+                                           v-show="item.postCode === 'ui'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="安卓开发">
                             <el-select v-model="form.androidDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
-                                <el-option
-                                        v-for="item in userList"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
+                                           v-show="item.postCode === 'android'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="苹果开发">
                             <el-select v-model="form.iosDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
-                                <el-option
-                                        v-for="item in userList"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
+                                           v-show="item.postCode === 'ios'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -58,31 +46,22 @@
                     <div class="dp-table-cell col-6">
                         <el-form-item label="前端开发">
                             <el-select v-model="form.webDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
-                                <el-option
-                                        v-for="item in userList"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
+                                           v-show="['web','dev'].indexOf(item.postCode) > -1">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="后端开发">
                             <el-select v-model="form.serverDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
-                                <el-option
-                                        v-for="item in userList"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
+                                           v-show="item.postCode === 'dev'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="测试人员">
                             <el-select v-model="form.tester" clearable multiple placeholder="请选择" style="width: 90%;">
-                                <el-option
-                                        v-for="item in userList"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
+                                           v-show="item.postCode === 'test'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -128,7 +107,7 @@
     </el-dialog>
 </template>
 <script>
-    import QuillEditor from '@/components/common/QuillEditor'
+    // import QuillEditor from '@/components/common/QuillEditor'
     import KindEditor from '@/components/KindEditor/index'
 
     export default {
@@ -147,13 +126,10 @@
                     estimateDate: '',
                     finishedDate: '',
                 },
-                formLabelWidth: '70px',
-                userList: [
-                    {label: "用户1", value: "user01"},
-                    {label: "用户2", value: "user02"},
-                    {label: "用户3", value: "user03"},
-                    {label: "用户4", value: "user04"},
-                ],
+                formLabelWidth: '80px',
+                rules: {
+                    estimateDate: [{required: true, message: '请选择预计完成时间', trigger: 'blur'}],
+                },
             }
         },
         props: {
@@ -163,10 +139,17 @@
             loading: Boolean,
             task: Object,
             actionType: String,
+            adminList: Array,
         },
         methods: {
             currentSubmit(formName) {
-                this.submit(this.form)
+                this.$refs[formName].validate(valid => {
+                    if (valid) {
+                        this.submit(this.form)
+                    } else {
+                        return false
+                    }
+                })
             },
             onContentChange(data) {
                 this.form.remark = data;
@@ -186,7 +169,7 @@
             }
         },
         components: {
-            QuillEditor,
+            // QuillEditor,
             KindEditor
         },
     }

@@ -197,7 +197,8 @@
                 :task="task"
                 :actionType="actionType"
                 :loading="updateTaskStatusLoading"
-        ></UpdateTaskStatusDialog>
+                :adminList="adminList"
+        />
     </div>
 </template>
 
@@ -217,6 +218,7 @@
                 dialogVisible: false,
                 updateTaskStatusLoading: false,
                 actionType: null,
+                adminList: [],
             }
         },
         methods: {
@@ -231,7 +233,8 @@
                     this.$router.push({
                         name: 'edit-task.html',
                         params: {
-                            id: this.task.id
+                            id: this.task.id,
+                            adminList: this.adminList
                         }
                     })
                 }
@@ -284,7 +287,7 @@
                 } else if (this.actionType === 'complete') {
                     formData = {
                         id: this.task.id,
-                        finishedDate: moment(data.finishedDate).format('YYYY-MM-DD'),
+                        finishedDate: data.finishedDate ? moment(data.finishedDate).format('YYYY-MM-DD') : null,
                         remark: data.remark
                     };
                 } else if (this.actionType === 'activate' || this.actionType === 'cancel' || this.actionType === 'close') {
@@ -316,7 +319,7 @@
                 }
             },
         },
-        async created() {
+        async mounted() {
             //获取项目列表
             const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
             if (res.code === 20000) {
@@ -338,6 +341,7 @@
                     this.taskRemarkList = res1.data || [];
                 }
             }
+            this.adminList = this.$route.params.adminList || [];
         },
         components: {
             UpdateTaskStatusDialog

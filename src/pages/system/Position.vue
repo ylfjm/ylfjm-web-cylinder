@@ -10,7 +10,8 @@
             >
                 <el-table-column
                         prop="id"
-                        width="80"
+                        align="center"
+                        width="60"
                         label="ID"
                 ></el-table-column>
                 <el-table-column

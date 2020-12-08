@@ -77,7 +77,10 @@
                 afterCreate: _this.afterCreate,
                 afterChange: function () {
                     // _this.afterChange;
-                    _this.outContent = this.html()
+                    let _html = this.html();
+                    if (_html.indexOf(_span) < 0) {
+                        _this.outContent = this.html()
+                    }
                 },
                 afterTab: _this.afterTab,
                 afterFocus: function () {//编辑器聚焦(focus)时执行的回调函数。

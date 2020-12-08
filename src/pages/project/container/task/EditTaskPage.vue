@@ -64,7 +64,7 @@
                             <el-form-item label="前端开发">
                                 <el-select v-model="form.webDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
-                                               v-show="item.postCode === 'web'">
+                                               v-show="['web','dev'].indexOf(item.postCode) > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
