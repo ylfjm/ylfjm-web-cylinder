@@ -105,13 +105,25 @@
                         <!--<QuillEditor @change="changeText" :editorText="form.richText"></QuillEditor>-->
                         <KindEditor id="editor_id" :content.sync="form.richText" @onContentChange="onContentChange"></KindEditor>
                     </el-form-item>
-
+                    <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                     <div class="text-center" style="margin-top: 20px;">
                         <el-button type="primary" @click="currentSubmit('form')" :loading="updateLoading" style="width: 100px;">保 存
                         </el-button>
                         <router-link :to="'/task-list.html'">
                             <el-button style="margin-left: 30px; width: 100px;">返 回</el-button>
                         </router-link>
+                    </div>
+                    <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
+                    <div class="history-record">
+                        <div style="font-weight: bold; margin: 30px 0 10px 0;">历史记录</div>
+                        <div v-for="(item, index) in taskRemarkList">
+                            <div>{{(index+1)+'.'+item.createDate+', 由 '}}
+                                <span style="font-weight: bold;">{{item.createBy}}</span>{{' '+item.text+'。'}}
+                            </div>
+                            <div v-if="item.richText">
+                                <div v-html="item.richText" class="kind-editor-show"></div>
+                            </div>
+                        </div>
                     </div>
                 </el-form>
             </div>
@@ -153,6 +165,7 @@
                 },
                 projectList: [],
                 adminList: [],
+                taskRemarkList: [],
                 priOptions: [
                     {label: "1", value: "1"},
                     {label: "2", value: "2"},
@@ -233,6 +246,11 @@
                         this.form.tester = res.data.tester ? res.data.tester.split(',') : null;
                     }
                 }
+                //获取任务备注列表
+                const res1 = await this.$service.getTaskRemarkList({taskId: this.$route.params.id});
+                if (res1.code === 20000) {
+                    this.taskRemarkList = res1.data || [];
+                }
             },
         },
         mounted() {
@@ -273,5 +291,12 @@
 
     .container-box-body {
         padding: 20px;
+    }
+
+    .history-record .kind-editor-show {
+        font-size: 13px;
+        padding: 5px 10px 5px 15px;
+        margin: 5px 10px;
+        background-color: rgba(0, 0, 0, .025);
     }
 </style>

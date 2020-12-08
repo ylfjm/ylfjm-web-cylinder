@@ -29,7 +29,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="dp-table-cell" style="width: 22%; padding: 0 0 0 10px;">
