@@ -68,9 +68,20 @@
                         this.activeSubMenuId = '';
                         localStorage.setItem('activeMenuId', this.activeMenuId);
                         localStorage.setItem('activeSubMenuId', this.activeSubMenuId);
-                        this.$router.push(item.url);
+                        if (item.url && item.url !== '') {
+                            this.$router.push(item.url);
+                        }
                     }
-                })
+                });
+                for (let item of this.subMenuList) {
+                    if (item.url && item.url !== '') {
+                        this.activeSubMenuId = item.id;
+                        localStorage.setItem('activeMenuId', this.activeMenuId);
+                        localStorage.setItem('activeSubMenuId', this.activeSubMenuId);
+                        this.$router.push(item.url);
+                        return;
+                    }
+                }
             },
             clickSubMenu(id) {
                 this.activeSubMenuId = id;
