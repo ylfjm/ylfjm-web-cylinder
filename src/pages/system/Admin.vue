@@ -125,8 +125,18 @@
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
-                            <el-button type="danger" size="mini" @click="deleteAdmin(scope.row)">删除</el-button>
+                            <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                                <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
+                                    <img src="@/assets/images/edit-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                                <a @click="deleteAdmin(scope.row)" class="action-a-btn">
+                                    <img src="@/assets/images/delete-22.png">
+                                </a>
+                            </el-tooltip>
+                            <!--<el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
+                            <el-button type="danger" size="mini" @click="deleteAdmin(scope.row)">删除</el-button>-->
                         </el-row>
                     </template>
                 </el-table-column>

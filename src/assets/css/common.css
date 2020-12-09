@@ -336,3 +336,20 @@ textarea {
 .kind-editor-show > * {
     cursor: text;
 }
+
+.action-a-btn {
+    height: 26px;
+    padding: 0 3px;
+    display: inline;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.action-a-btn:hover {
+    background-color: #dbdbdb;
+    border-radius: 4px;
+}
+
+.action-a-btn img {
+    margin-top: 2px;
+}
