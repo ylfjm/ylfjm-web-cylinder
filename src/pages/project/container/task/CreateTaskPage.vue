@@ -193,13 +193,13 @@
             async addTask() {
                 this.createLoading = true;
                 this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
-                this.form.pdDesigner = this.form.pdDesigner.join(",");
-                this.form.uiDesigner = this.form.uiDesigner.join(",");
-                this.form.webDeveloper = this.form.webDeveloper.join(",");
-                this.form.androidDeveloper = this.form.androidDeveloper.join(",");
-                this.form.iosDeveloper = this.form.iosDeveloper.join(",");
-                this.form.serverDeveloper = this.form.serverDeveloper.join(",");
-                this.form.tester = this.form.tester.join(",");
+                this.form.pdDesigner = this.form.pdDesigner && this.form.pdDesigner.length > 0 ? this.form.pdDesigner.join(",") : null;
+                this.form.uiDesigner = this.form.uiDesigner && this.form.uiDesigner.length > 0 ? this.form.uiDesigner.join(",") : null;
+                this.form.webDeveloper = this.form.webDeveloper && this.form.webDeveloper.length > 0 ? this.form.webDeveloper.join(",") : null;
+                this.form.androidDeveloper = this.form.androidDeveloper && this.form.androidDeveloper.length > 0 ? this.form.androidDeveloper.join(",") : null;
+                this.form.iosDeveloper = this.form.iosDeveloper && this.form.iosDeveloper.length > 0 ? this.form.iosDeveloper.join(",") : null;
+                this.form.serverDeveloper = this.form.serverDeveloper && this.form.serverDeveloper.length > 0 ? this.form.serverDeveloper.join(",") : null;
+                this.form.tester = this.form.tester && this.form.tester.length > 0 ? this.form.tester.join(",") : null;
                 const res = await this.$service.addTask(this.form);
                 this.createLoading = false;
                 if (res.code === 20000) {

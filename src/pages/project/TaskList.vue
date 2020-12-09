@@ -2,10 +2,8 @@
     <div class="container">
         <div class="search_box">
             <a @click="onSearch('')" :class="formSearch.status === '' ? 'link-btn link-btn-active' : 'link-btn'">所有</a>
-            <a @click="onSearch('wait')" :class="formSearch.status === 'wait' ? 'link-btn link-btn-active' : 'link-btn'">未开始</a>
             <a @click="onSearch('doing')" :class="formSearch.status === 'doing' ? 'link-btn link-btn-active' : 'link-btn'">进行中</a>
             <a @click="onSearch('done')" :class="formSearch.status === 'done' ? 'link-btn link-btn-active' : 'link-btn'">已完成</a>
-            <a @click="onSearch('pause')" :class="formSearch.status === 'pause' ? 'link-btn link-btn-active' : 'link-btn'">已暂停</a>
             <a @click="onSearch('cancel')" :class="formSearch.status === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
             <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
             <el-button type="primary" @click="jumpPage('', 'CreateTaskPage')" icon="el-icon-plus" style="float: right;">
@@ -193,13 +191,33 @@
                 <el-table-column
                         align="center"
                         fixed="right"
-                        width="150"
+                        width="200"
                         label="操作"
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="jumpPage(scope.row.id, 'EditTaskPage')">编辑</el-button>
-                            <el-button type="danger" size="mini" @click="deleteTask(scope.row.id)">删除</el-button>
+                            <el-tooltip effect="dark" content="指派" placement="bottom-start">
+                                <a @click="showDialog(scope.row, 'assign')" class="action-a-btn">
+                                    <img src="@/assets/images/assign-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip effect="dark" content="排期" placement="bottom-start">
+                                <a @click="showDialog(scope.row, 'estimate')" class="action-a-btn">
+                                    <img src="@/assets/images/estimate-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip effect="dark" content="完成" placement="bottom-start">
+                                <a @click="showDialog(scope.row, 'complete')" class="action-a-btn">
+                                    <img src="@/assets/images/complete-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                                <a @click="jumpPage(scope.row.id, 'EditTaskPage')" class="action-a-btn">
+                                    <img src="@/assets/images/edit-22.png">
+                                </a>
+                            </el-tooltip>
+                            <!--<el-button type="primary" size="mini" @click="jumpPage(scope.row.id, 'EditTaskPage')">编辑</el-button>-->
+                            <!--<el-button type="danger" size="mini" @click="deleteTask(scope.row.id)">删除</el-button>-->
                         </el-row>
                     </template>
                 </el-table-column>
@@ -215,10 +233,20 @@
                 ></el-pagination>
             </div>
         </div>
+        <UpdateTaskStatusDialog
+                :visible="dialogVisible"
+                :hideDialog="hideDialog"
+                :submit="updateTaskStatus"
+                :task="task"
+                :actionType="actionType"
+                :loading="updateTaskStatusLoading"
+                :adminList="adminList"
+        />
     </div>
 </template>
 <script>
     import moment from 'moment'
+    import UpdateTaskStatusDialog from './container/task/UpdateTaskStatusDialog'
 
     export default {
         name: 'TaskList',
@@ -234,6 +262,11 @@
                 tableList: [],
                 adminList: [],
                 searchLoading: false,
+
+                task: {},
+                dialogVisible: false,
+                updateTaskStatusLoading: false,
+                actionType: '',
             }
         },
         methods: {
@@ -352,6 +385,71 @@
                 }).catch(() => {
                 });
             },
+            showDialog(row, actionType) {
+                this.dialogVisible = true;
+                this.actionType = actionType;
+                this.task = {...row};
+            },
+            hideDialog() {
+                this.dialogVisible = false;
+                this.task = {};
+            },
+            async updateTaskStatus(data) {
+                this.updateTaskStatusLoading = true;
+                let res = null;
+                let formData;
+                if (this.actionType === 'assign') {
+                    formData = {
+                        id: this.task.id,
+                        pdDesigner: data.pdDesigner && data.pdDesigner.length > 0 ? data.pdDesigner.join(",") : null,
+                        uiDesigner: data.uiDesigner && data.uiDesigner.length > 0 ? data.uiDesigner.join(",") : null,
+                        webDeveloper: data.webDeveloper && data.webDeveloper.length > 0 ? data.webDeveloper.join(",") : null,
+                        androidDeveloper: data.androidDeveloper && data.androidDeveloper.length > 0 ? data.androidDeveloper.join(",") : null,
+                        iosDeveloper: data.iosDeveloper && data.iosDeveloper.length > 0 ? data.iosDeveloper.join(",") : null,
+                        serverDeveloper: data.serverDeveloper && data.serverDeveloper.length > 0 ? data.serverDeveloper.join(",") : null,
+                        tester: data.tester && data.tester.length > 0 ? data.tester.join(",") : null,
+                        remark: data.remark
+                    };
+                } else if (this.actionType === 'estimate') {
+                    formData = {
+                        id: this.task.id,
+                        estimateDate: moment(data.estimateDate).format('YYYY-MM-DD'),
+                        remark: data.remark
+                    };
+                } else if (this.actionType === 'complete') {
+                    formData = {
+                        id: this.task.id,
+                        finishedDate: data.finishedDate ? moment(data.finishedDate).format('YYYY-MM-DD') : null,
+                        remark: data.remark
+                    };
+                } else if (this.actionType === 'activate' || this.actionType === 'cancel' || this.actionType === 'close') {
+                    formData = {
+                        id: this.task.id,
+                        remark: data.remark
+                    };
+                }
+                res = await this.$service.updateTaskStatus({
+                    ...formData,
+                    actionType: this.actionType
+                });
+                this.updateTaskStatusLoading = false;
+                if (res.code === 20000) {
+                    this.$notify({
+                        title: '提示',
+                        type: 'success',
+                        message: '操作成功',
+                        duration: 2000,
+                    });
+                    this.hideDialog();
+                    this.reload();
+                } else {
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '操作失败',
+                        duration: 2000,
+                    })
+                }
+            },
             async getAdminList() {
                 const res = await this.$service.getAdminList({pageNum: 1, pageSize: 10000});
                 if (res.code === 20000) {
@@ -367,9 +465,26 @@
         mounted() {
         },
         computed: {},
-        components: {}
+        components: {
+            UpdateTaskStatusDialog
+        }
     }
 </script>
 <style scoped>
+    .action-a-btn {
+        height: 26px;
+        padding: 0 3px;
+        display: inline;
+        text-align: center;
+        vertical-align: middle;
+    }
 
+    .action-a-btn:hover {
+        background-color: #dbdbdb;
+        border-radius: 4px;
+    }
+
+    .action-a-btn img {
+        margin-top: 2px;
+    }
 </style>

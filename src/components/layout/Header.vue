@@ -62,7 +62,7 @@
             clickMenu(id) {
                 this.activeMenuId = id;
                 this.subMenuList = [];
-                this.menuList.map(item => {
+                for (let item of this.menuList) {
                     if (item.id === id) {
                         this.subMenuList = item.subMenus;
                         this.activeSubMenuId = '';
@@ -70,9 +70,10 @@
                         localStorage.setItem('activeSubMenuId', this.activeSubMenuId);
                         if (item.url && item.url !== '') {
                             this.$router.push(item.url);
+                            return;
                         }
                     }
-                });
+                }
                 for (let item of this.subMenuList) {
                     if (item.url && item.url !== '') {
                         this.activeSubMenuId = item.id;
@@ -85,13 +86,14 @@
             },
             clickSubMenu(id) {
                 this.activeSubMenuId = id;
-                this.subMenuList.map(item => {
+                for (let item of this.subMenuList) {
                     if (item.id === id) {
                         localStorage.setItem('activeMenuId', this.activeMenuId);
                         localStorage.setItem('activeSubMenuId', this.activeSubMenuId);
                         this.$router.push(item.url);
+                        return;
                     }
-                })
+                }
             },
             //注销
             handleCommand(command) {

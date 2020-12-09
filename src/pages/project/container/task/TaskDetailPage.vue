@@ -154,15 +154,15 @@
                     </a>
                     <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
                     <a @click="showDialog('assign')">
-                        <img src="@/assets/images/assign.png" style="margin-top: 5px;">
+                        <img src="@/assets/images/assign-18.png" style="margin-top: 7px;">
                         <div class="text">指派</div>
                     </a>
                     <a @click="showDialog('estimate')" v-if="['doing'].indexOf(task.status) > -1">
-                        <img src="@/assets/images/estimate.png" style="margin-top: 5px;">
+                        <img src="@/assets/images/estimate-18.png" style="margin-top: 7px;">
                         <div class="text">排期</div>
                     </a>
                     <a @click="showDialog('complete')" v-if="'doing' === task.status">
-                        <img src="@/assets/images/complete.png" style="margin-top: 5px;">
+                        <img src="@/assets/images/complete-18.png" style="margin-top: 7px;">
                         <div class="text">完成</div>
                     </a>
                     <a @click="showDialog('activate')" v-if="['done','cancel','closed'].indexOf(task.status) > -1">
@@ -170,11 +170,12 @@
                         <div class="text">激活</div>
                     </a>
                     <a @click="showDialog('cancel')" v-if="['wait','doing'].indexOf(task.status) > -1">
-                        <img src="@/assets/images/cancel.png" style="margin-top: 6px;">
+                        <img src="@/assets/images/cancel-18.png" style="margin-top: 7px;">
                         <div class="text">取消</div>
                     </a>
                     <a @click="showDialog('close')" v-if="['wait','doing','done','cancel'].indexOf(task.status) > -1">
-                        <i class="el-icon-switch-button"></i>
+                        <!--<i class="el-icon-switch-button"></i>-->
+                        <img src="@/assets/images/close-18.png" style="margin-top: 7px;">
                         <div class="text">关闭</div>
                     </a>
                     <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
@@ -269,13 +270,13 @@
                 if (this.actionType === 'assign') {
                     formData = {
                         id: this.task.id,
-                        pdDesigner: data.pdDesigner ? data.pdDesigner.join(",") : data.pdDesigner,
-                        uiDesigner: data.uiDesigner ? data.uiDesigner.join(",") : data.uiDesigner,
-                        webDeveloper: data.webDeveloper ? data.webDeveloper.join(",") : data.webDeveloper,
-                        androidDeveloper: data.androidDeveloper ? data.androidDeveloper.join(",") : data.androidDeveloper,
-                        iosDeveloper: data.iosDeveloper ? data.iosDeveloper.join(",") : data.iosDeveloper,
-                        serverDeveloper: data.serverDeveloper ? data.serverDeveloper.join(",") : data.serverDeveloper,
-                        tester: data.tester ? data.tester.join(",") : data.tester,
+                        pdDesigner: data.pdDesigner && data.pdDesigner.length > 0 ? data.pdDesigner.join(",") : null,
+                        uiDesigner: data.uiDesigner && data.uiDesigner.length > 0 ? data.uiDesigner.join(",") : null,
+                        webDeveloper: data.webDeveloper && data.webDeveloper.length > 0 ? data.webDeveloper.join(",") : null,
+                        androidDeveloper: data.androidDeveloper && data.androidDeveloper.length > 0 ? data.androidDeveloper.join(",") : null,
+                        iosDeveloper: data.iosDeveloper && data.iosDeveloper.length > 0 ? data.iosDeveloper.join(",") : null,
+                        serverDeveloper: data.serverDeveloper && data.serverDeveloper.length > 0 ? data.serverDeveloper.join(",") : null,
+                        tester: data.tester && data.tester.length > 0 ? data.tester.join(",") : null,
                         remark: data.remark
                     };
                 } else if (this.actionType === 'estimate') {
@@ -442,10 +443,11 @@
     }
 
     .popup-btn-box a .text {
+        margin-left: 3px;
         float: right;
-        height: 30px;
-        line-height: 30px;
-        padding-top: 2px;
+        height: 32px;
+        line-height: 32px;
+        /*padding-top: 2px;*/
         font-size: 14px;
     }
 
