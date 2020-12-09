@@ -75,8 +75,18 @@
                             <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'user')">用户维护</el-button>
                             <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'menu')">菜单维护</el-button>
                             <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'permission')">权限维护</el-button>
-                            <el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
-                            <el-button type="danger" size="mini" @click="deleteRole(scope.row)">删除</el-button>
+                            <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                                <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
+                                    <img src="@/assets/images/edit-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip effect="dark" content="删除" placement="bottom-start">
+                                <a @click="deleteRole(scope.row)" class="action-a-btn">
+                                    <img src="@/assets/images/delete-22.png">
+                                </a>
+                            </el-tooltip>
+                            <!--<el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
+                            <el-button type="danger" size="mini" @click="deleteRole(scope.row)">删除</el-button>-->
                         </el-row>
                     </template>
                 </el-table-column>

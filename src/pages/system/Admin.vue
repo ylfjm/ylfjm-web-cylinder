@@ -130,7 +130,7 @@
                                     <img src="@/assets/images/edit-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                            <el-tooltip effect="dark" content="删除" placement="bottom-start">
                                 <a @click="deleteAdmin(scope.row)" class="action-a-btn">
                                     <img src="@/assets/images/delete-22.png">
                                 </a>
