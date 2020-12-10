@@ -46,14 +46,14 @@
                                 </el-date-picker>
                             </el-form-item>
                             <el-form-item label="产品设计">
-                                <el-select v-model="form.pdDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.pdDesigner" clearable placeholder="请选择" style="width: 90%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'po'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="UI设计">
-                                <el-select v-model="form.uiDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.uiDesigner" clearable placeholder="请选择" style="width: 90%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'ui'">
                                     </el-option>
@@ -62,35 +62,35 @@
                         </div>
                         <div class="dp-table-cell col-6">
                             <el-form-item label="前端开发">
-                                <el-select v-model="form.webDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.webDeveloper" clearable placeholder="请选择" style="width: 90%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="['web','dev'].indexOf(item.postCode) > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="安卓开发">
-                                <el-select v-model="form.androidDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.androidDeveloper" clearable placeholder="请选择" style="width: 90%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'android'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="苹果开发">
-                                <el-select v-model="form.iosDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.iosDeveloper" clearable placeholder="请选择" style="width: 90%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'ios'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="后端开发">
-                                <el-select v-model="form.serverDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.serverDeveloper" clearable placeholder="请选择" style="width: 90%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'dev'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="测试人员">
-                                <el-select v-model="form.tester" clearable multiple placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.tester" clearable placeholder="请选择" style="width: 90%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'test'">
                                     </el-option>
@@ -170,7 +170,6 @@
                     {label: "1", value: "1"},
                     {label: "2", value: "2"},
                     {label: "3", value: "3"},
-                    {label: "4", value: "4"},
                 ],
                 typeOptions: [
                     {label: "产品", value: "design"},
@@ -199,13 +198,13 @@
             async updateTask() {
                 this.updateLoading = true;
                 this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
-                this.form.pdDesigner = this.form.pdDesigner && this.form.pdDesigner.length > 0 ? this.form.pdDesigner.join(",") : null;
-                this.form.uiDesigner = this.form.uiDesigner && this.form.uiDesigner.length > 0 ? this.form.uiDesigner.join(",") : null;
-                this.form.webDeveloper = this.form.webDeveloper && this.form.webDeveloper.length > 0 ? this.form.webDeveloper.join(",") : null;
-                this.form.androidDeveloper = this.form.androidDeveloper && this.form.androidDeveloper.length > 0 ? this.form.androidDeveloper.join(",") : null;
-                this.form.iosDeveloper = this.form.iosDeveloper && this.form.iosDeveloper.length > 0 ? this.form.iosDeveloper.join(",") : null;
-                this.form.serverDeveloper = this.form.serverDeveloper && this.form.serverDeveloper.length > 0 ? this.form.serverDeveloper.join(",") : null;
-                this.form.tester = this.form.tester && this.form.tester.length > 0 ? this.form.tester.join(",") : null;
+                // this.form.pdDesigner = this.form.pdDesigner && this.form.pdDesigner.length > 0 ? this.form.pdDesigner.join(",") : null;
+                // this.form.uiDesigner = this.form.uiDesigner && this.form.uiDesigner.length > 0 ? this.form.uiDesigner.join(",") : null;
+                // this.form.webDeveloper = this.form.webDeveloper && this.form.webDeveloper.length > 0 ? this.form.webDeveloper.join(",") : null;
+                // this.form.androidDeveloper = this.form.androidDeveloper && this.form.androidDeveloper.length > 0 ? this.form.androidDeveloper.join(",") : null;
+                // this.form.iosDeveloper = this.form.iosDeveloper && this.form.iosDeveloper.length > 0 ? this.form.iosDeveloper.join(",") : null;
+                // this.form.serverDeveloper = this.form.serverDeveloper && this.form.serverDeveloper.length > 0 ? this.form.serverDeveloper.join(",") : null;
+                // this.form.tester = this.form.tester && this.form.tester.length > 0 ? this.form.tester.join(",") : null;
                 const res = await this.$service.updateTask(this.form);
                 this.updateLoading = false;
                 if (res.code === 20000) {
@@ -222,40 +221,53 @@
                     })
                 }
             },
-            async initData() {
+            async getProjectList() {
                 const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
                 if (res.code === 20000) {
                     this.projectList = res.data.result || [];
                 }
-                if (this.$route.params.id) {
-                    this.form.id = this.$route.params.id;
+            },
+            async getAdminList() {
+                const res = await this.$service.getAdminList({pageNum: 1, pageSize: 10000});
+                if (res.code === 20000) {
+                    this.adminList = res.data.result || [];
+                }
+            },
+            async getTaskDetail() {
+                this.form.id = this.$route.query.taskId;
+                if (this.form.id) {
                     const res = await this.$service.getTaskById({id: this.form.id});
                     if (res.code === 20000) {
-                        this.form.name = res.data.name;
-                        this.form.richText = res.data.richText;
-                        this.form.projectId = res.data.projectId;
-                        this.form.pri = res.data.pri;
-                        this.form.type = res.data.type;
-                        this.form.deadline = moment(res.data.deadline);
-                        this.form.pdDesigner = res.data.pdDesigner ? res.data.pdDesigner.split(',') : null;
-                        this.form.uiDesigner = res.data.uiDesigner ? res.data.uiDesigner.split(',') : null;
-                        this.form.webDeveloper = res.data.webDeveloper ? res.data.webDeveloper.split(',') : null;
-                        this.form.androidDeveloper = res.data.androidDeveloper ? res.data.androidDeveloper.split(',') : null;
-                        this.form.iosDeveloper = res.data.iosDeveloper ? res.data.iosDeveloper.split(',') : null;
-                        this.form.serverDeveloper = res.data.serverDeveloper ? res.data.serverDeveloper.split(',') : null;
-                        this.form.tester = res.data.tester ? res.data.tester.split(',') : null;
+                        this.form = {
+                            ...res.data,
+                            deadline: moment(res.data.deadline),
+                        }
+                        // this.form.name = res.data.name;
+                        // this.form.richText = res.data.richText;
+                        // this.form.projectId = res.data.projectId;
+                        // this.form.pri = res.data.pri;
+                        // this.form.type = res.data.type;
+                        // this.form.deadline = moment(res.data.deadline);
+                        // this.form.pdDesigner = res.data.pdDesigner ? res.data.pdDesigner.split(',') : null;
+                        // this.form.uiDesigner = res.data.uiDesigner ? res.data.uiDesigner.split(',') : null;
+                        // this.form.webDeveloper = res.data.webDeveloper ? res.data.webDeveloper.split(',') : null;
+                        // this.form.androidDeveloper = res.data.androidDeveloper ? res.data.androidDeveloper.split(',') : null;
+                        // this.form.iosDeveloper = res.data.iosDeveloper ? res.data.iosDeveloper.split(',') : null;
+                        // this.form.serverDeveloper = res.data.serverDeveloper ? res.data.serverDeveloper.split(',') : null;
+                        // this.form.tester = res.data.tester ? res.data.tester.split(',') : null;
                     }
-                }
-                //获取任务备注列表
-                const res1 = await this.$service.getTaskRemarkList({taskId: this.$route.params.id});
-                if (res1.code === 20000) {
-                    this.taskRemarkList = res1.data || [];
+                    //获取任务备注列表
+                    const res1 = await this.$service.getTaskRemarkList({taskId: this.form.id});
+                    if (res1.code === 20000) {
+                        this.taskRemarkList = res1.data || [];
+                    }
                 }
             },
         },
         mounted() {
-            this.initData();
-            this.adminList = this.$route.params.adminList || [];
+            this.getProjectList();
+            this.getAdminList();
+            this.getTaskDetail();
         },
         components: {
             // QuillEditor,

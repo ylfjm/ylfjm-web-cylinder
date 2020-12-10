@@ -38,7 +38,9 @@
                         label="任务名称"
                 >
                     <template slot-scope="scope">
-                        <el-link :underline="false" @click="jumpPage(scope.row.id, 'TaskDetailPage')">{{scope.row.name}}</el-link>
+                        <el-tooltip effect="dark" :content="scope.row.name" placement="right-start">
+                            <el-link :underline="false" @click="jumpPage(scope.row.id, 'TaskDetailPage')">{{scope.row.name}}</el-link>
+                        </el-tooltip>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -191,7 +193,7 @@
                 <el-table-column
                         align="center"
                         fixed="right"
-                        width="200"
+                        width="170"
                         label="操作"
                 >
                     <template slot-scope="scope">
@@ -204,6 +206,11 @@
                             <el-tooltip effect="dark" content="排期" placement="bottom-start">
                                 <a @click="showDialog(scope.row, 'estimate')" class="action-a-btn">
                                     <img src="@/assets/images/estimate-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip effect="dark" content="关闭" placement="bottom-start">
+                                <a @click="showDialog(scope.row, 'close')" class="action-a-btn">
+                                    <img src="@/assets/images/close-22.png">
                                 </a>
                             </el-tooltip>
                             <el-tooltip effect="dark" content="完成" placement="bottom-start">
@@ -337,49 +344,44 @@
                 if (pageName === 'CreateTaskPage') {
                     this.$router.push({
                         name: 'create-task.html',
-                        params: {
-                            adminList: this.adminList
-                        }
                     })
                 } else if (pageName === 'EditTaskPage') {
                     this.$router.push({
                         name: 'edit-task.html',
-                        params: {
-                            id: id,
-                            adminList: this.adminList
+                        query: {
+                            taskId: id,
                         }
                     })
                 } else if (pageName === 'TaskDetailPage') {
                     this.$router.push({
                         name: 'task-detail.html',
-                        params: {
-                            id: id,
-                            adminList: this.adminList
+                        query: {
+                            taskId: id,
                         }
                     })
                 }
             },
-            //删除
             deleteTask(id) {
                 this.$confirm('您选择了1条数据，是否确认删除?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
-                    type: 'warning'
+                    type: 'warning',
+                    lockScroll: false
                 }).then(async () => {
-                    const res = await this.$service.deleteProject({
-                        id: id
-                    });
+                    const res = await this.$service.deleteTask({id: id});
                     if (res.code === 20000) {
                         this.$notify({
                             title: '提示',
                             type: 'success',
                             message: '删除成功',
+                            duration: 2000
                         });
                         this.searchCommon()
                     } else {
                         this.$notify.error({
                             title: '提示',
                             message: res.message ? res.message : '删除失败',
+                            duration: 2000
                         })
                     }
                 }).catch(() => {

@@ -175,7 +175,7 @@
                     </a>
                     <a @click="showDialog('close')" v-if="['wait','doing','done','cancel'].indexOf(task.status) > -1">
                         <!--<i class="el-icon-switch-button"></i>-->
-                        <img src="@/assets/images/close-18.png" style="margin-top: 7px;">
+                        <img src="@/assets/images/close.png" style="margin-top: 7px;">
                         <div class="text">关闭</div>
                     </a>
                     <el-divider class="white-divider--vertical" direction="vertical"></el-divider>
@@ -235,26 +235,34 @@
                         name: 'edit-task.html',
                         params: {
                             id: this.task.id,
-                            adminList: this.adminList
                         }
                     })
                 }
             },
             async deleteTask() {
-                const res = await this.$service.deleteTask({id: this.task.id});
-                if (res.code === 20000) {
-                    this.$notify({
-                        title: '提示',
-                        type: 'success',
-                        message: '删除任务成功',
-                    });
-                    this.$router.push('/task-list.html')
-                } else {
-                    this.$notify.error({
-                        title: '提示',
-                        message: res.message ? res.message : '删除任务失败',
-                    })
-                }
+                this.$confirm('您选择了1条数据，是否确认删除?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    lockScroll: false
+                }).then(async () => {
+                    const res = await this.$service.deleteTask({id: this.task.id});
+                    if (res.code === 20000) {
+                        this.$notify({
+                            title: '提示',
+                            type: 'success',
+                            message: '删除成功',
+                            duration: 2000
+                        });
+                    } else {
+                        this.$notify.error({
+                            title: '提示',
+                            message: res.message ? res.message : '删除失败',
+                            duration: 2000
+                        })
+                    }
+                }).catch(() => {
+                });
             },
             showDialog(actionType) {
                 this.dialogVisible = true;
@@ -270,14 +278,15 @@
                 if (this.actionType === 'assign') {
                     formData = {
                         id: this.task.id,
-                        pdDesigner: data.pdDesigner && data.pdDesigner.length > 0 ? data.pdDesigner.join(",") : null,
-                        uiDesigner: data.uiDesigner && data.uiDesigner.length > 0 ? data.uiDesigner.join(",") : null,
-                        webDeveloper: data.webDeveloper && data.webDeveloper.length > 0 ? data.webDeveloper.join(",") : null,
-                        androidDeveloper: data.androidDeveloper && data.androidDeveloper.length > 0 ? data.androidDeveloper.join(",") : null,
-                        iosDeveloper: data.iosDeveloper && data.iosDeveloper.length > 0 ? data.iosDeveloper.join(",") : null,
-                        serverDeveloper: data.serverDeveloper && data.serverDeveloper.length > 0 ? data.serverDeveloper.join(",") : null,
-                        tester: data.tester && data.tester.length > 0 ? data.tester.join(",") : null,
-                        remark: data.remark
+                        ...data,
+                        // pdDesigner: data.pdDesigner && data.pdDesigner.length > 0 ? data.pdDesigner.join(",") : null,
+                        // uiDesigner: data.uiDesigner && data.uiDesigner.length > 0 ? data.uiDesigner.join(",") : null,
+                        // webDeveloper: data.webDeveloper && data.webDeveloper.length > 0 ? data.webDeveloper.join(",") : null,
+                        // androidDeveloper: data.androidDeveloper && data.androidDeveloper.length > 0 ? data.androidDeveloper.join(",") : null,
+                        // iosDeveloper: data.iosDeveloper && data.iosDeveloper.length > 0 ? data.iosDeveloper.join(",") : null,
+                        // serverDeveloper: data.serverDeveloper && data.serverDeveloper.length > 0 ? data.serverDeveloper.join(",") : null,
+                        // tester: data.tester && data.tester.length > 0 ? data.tester.join(",") : null,
+                        // remark: data.remark
                     };
                 } else if (this.actionType === 'estimate') {
                     formData = {
@@ -319,30 +328,27 @@
                     })
                 }
             },
+            async getAdminList() {
+                const res = await this.$service.getAdminList({pageNum: 1, pageSize: 10000});
+                if (res.code === 20000) {
+                    this.adminList = res.data.result || [];
+                }
+            },
         },
         async mounted() {
-            //获取项目列表
-            const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
-            if (res.code === 20000) {
-                this.projectList = res.data.result || [];
-            }
-            if (this.$route.params.id) {
-                const res = await this.$service.getTaskById({id: this.$route.params.id});
+            if (this.$route.query.taskId) {
+                //获取任务详情
+                const res = await this.$service.getTaskById({id: this.$route.query.taskId});
                 if (res.code === 20000) {
                     this.task = res.data;
-                    this.projectList.map(item => {
-                        if (this.task.projectId === item.id) {
-                            this.task.projectName = item.name;
-                        }
-                    });
                 }
                 //获取任务备注列表
-                const res1 = await this.$service.getTaskRemarkList({taskId: this.$route.params.id});
+                const res1 = await this.$service.getTaskRemarkList({taskId: this.$route.query.taskId});
                 if (res1.code === 20000) {
                     this.taskRemarkList = res1.data || [];
                 }
             }
-            this.adminList = this.$route.params.adminList || [];
+            this.getAdminList();
         },
         components: {
             UpdateTaskStatusDialog

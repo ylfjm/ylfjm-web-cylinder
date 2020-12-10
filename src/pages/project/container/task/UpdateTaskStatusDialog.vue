@@ -15,28 +15,28 @@
                 <div class="dp-table" v-if="actionType === 'assign'">
                     <div class="dp-table-cell col-6">
                         <el-form-item label="产品设计">
-                            <el-select v-model="form.pdDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
+                            <el-select v-model="form.pdDesigner" clearable placeholder="请选择" style="width: 90%;">
                                 <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                            v-show="item.postCode === 'po'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="UI设计">
-                            <el-select v-model="form.uiDesigner" clearable multiple placeholder="请选择" style="width: 90%;">
+                            <el-select v-model="form.uiDesigner" clearable placeholder="请选择" style="width: 90%;">
                                 <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                            v-show="item.postCode === 'ui'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="安卓开发">
-                            <el-select v-model="form.androidDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
+                            <el-select v-model="form.androidDeveloper" clearable placeholder="请选择" style="width: 90%;">
                                 <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                            v-show="item.postCode === 'android'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="苹果开发">
-                            <el-select v-model="form.iosDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
+                            <el-select v-model="form.iosDeveloper" clearable placeholder="请选择" style="width: 90%;">
                                 <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                            v-show="item.postCode === 'ios'">
                                 </el-option>
@@ -45,21 +45,21 @@
                     </div>
                     <div class="dp-table-cell col-6">
                         <el-form-item label="前端开发">
-                            <el-select v-model="form.webDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
+                            <el-select v-model="form.webDeveloper" clearable placeholder="请选择" style="width: 90%;">
                                 <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                            v-show="['web','dev'].indexOf(item.postCode) > -1">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="后端开发">
-                            <el-select v-model="form.serverDeveloper" clearable multiple placeholder="请选择" style="width: 90%;">
+                            <el-select v-model="form.serverDeveloper" clearable placeholder="请选择" style="width: 90%;">
                                 <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                            v-show="item.postCode === 'dev'">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="测试人员">
-                            <el-select v-model="form.tester" clearable multiple placeholder="请选择" style="width: 90%;">
+                            <el-select v-model="form.tester" clearable placeholder="请选择" style="width: 90%;">
                                 <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                            v-show="item.postCode === 'test'">
                                 </el-option>
@@ -158,13 +158,13 @@
         watch: {
             visible: function (n) {
                 if (n) {
-                    this.form.pdDesigner = this.task.pdDesigner ? this.task.pdDesigner.split(',') : null;
-                    this.form.uiDesigner = this.task.uiDesigner ? this.task.uiDesigner.split(',') : null;
-                    this.form.webDeveloper = this.task.webDeveloper ? this.task.webDeveloper.split(',') : null;
-                    this.form.androidDeveloper = this.task.androidDeveloper ? this.task.androidDeveloper.split(',') : null;
-                    this.form.iosDeveloper = this.task.iosDeveloper ? this.task.iosDeveloper.split(',') : null;
-                    this.form.serverDeveloper = this.task.serverDeveloper ? this.task.serverDeveloper.split(',') : null;
-                    this.form.tester = this.task.tester ? this.task.tester.split(',') : null;
+                    this.form.pdDesigner = this.task.pdDesigner;
+                    this.form.uiDesigner = this.task.uiDesigner;
+                    this.form.webDeveloper = this.task.webDeveloper;
+                    this.form.androidDeveloper = this.task.androidDeveloper;
+                    this.form.iosDeveloper = this.task.iosDeveloper;
+                    this.form.serverDeveloper = this.task.serverDeveloper;
+                    this.form.tester = this.task.tester;
                 }
             }
         },
