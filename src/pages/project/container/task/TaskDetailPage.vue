@@ -31,116 +31,140 @@
                         </div>
                     </div>
                 </div>
-                <div class="dp-table-cell" style="width: 22%; padding: 0 0 0 10px;">
+                <div class="dp-table-cell" style="width: 25%; padding: 0 0 0 10px;">
                     <div class="panel" style="padding: 5px 20px 20px 20px;">
-                        <el-tabs v-model="activeTabName">
-                            <el-tab-pane label="基本信息" name="first">
+                        <el-tabs>
+                            <el-tab-pane label="基本信息">
                                 <el-form :label-width="'70px'" class="task-info-form">
                                     <el-form-item label="所属项目">
                                         <div>{{task.projectName}}</div>
                                     </el-form-item>
                                     <el-form-item label="任务类型">
-                                        <div>{{task.type}}</div>
+                                        <div v-if="task.type === 'design'">产品</div>
+                                        <div v-else-if="task.type === 'develop'">开发</div>
+                                        <div v-else-if="task.type === 'test'">测试</div>
+                                        <div v-else-if="task.type === 'other'">其它</div>
                                     </el-form-item>
                                     <el-form-item label="优先级">
                                         <div>{{task.pri}}</div>
                                     </el-form-item>
                                     <el-form-item label="任务状态">
-                                        <div>{{task.status}}</div>
-                                    </el-form-item>
-                                </el-form>
-                            </el-tab-pane>
-                            <el-tab-pane label="任务周期" name="second">
-                                <el-form :label-width="'70px'" class="task-info-form">
-                                    <el-form-item label="由谁创建">
-                                        <div v-if="task.openedBy">{{task.openedBy}} 于 {{task.openedDate}}</div>
-                                        <div v-else>/</div>
-                                    </el-form-item>
-                                    <el-form-item label="由谁完成">
-                                        <div v-if="task.finishedBy">{{task.finishedBy}} 于 {{task.finishedDate}}</div>
-                                        <div v-else>/</div>
-                                    </el-form-item>
-                                    <el-form-item label="由谁取消">
-                                        <div v-if="task.canceledBy">{{task.canceledBy}} 于 {{task.canceledDate}}</div>
-                                        <div v-else>/</div>
-                                    </el-form-item>
-                                    <el-form-item label="由谁关闭">
-                                        <div v-if="task.closedBy">{{task.closedBy}} 于 {{task.closedDate}}</div>
-                                        <div v-else>/</div>
-                                    </el-form-item>
-                                    <el-form-item label="关闭原因">
-                                        <div v-if="task.closedReason">{{task.closedReason}}</div>
-                                        <div v-else>/</div>
-                                    </el-form-item>
-                                    <el-form-item label="最后编辑">
-                                        <div v-if="task.lastEditedBy">{{task.lastEditedBy}} 于 {{task.lastEditedDate}}</div>
-                                        <div v-else>/</div>
+                                        <div v-if="task.status === 'doing'" style="color: #ff5d5d;">进行中</div>
+                                        <div v-else-if="task.status === 'done'" style="color: #00AA55;">已完成</div>
+                                        <div v-else-if="task.status === 'cancel'" style="color: #ff9800;">已取消</div>
+                                        <div v-else-if="task.status === 'closed'" style="color: #AAAAAA;">已关闭</div>
                                     </el-form-item>
                                 </el-form>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
-                    <div class="panel" style="padding: 15px 20px 20px 20px;">
-                        <span style="font-weight: bold; font-size: 14px;">开发信息</span>
-                        <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
-                        <el-form :label-width="'126px'" class="task-info-form" style="">
-                            <div v-if="task.pdEstimateDate">
-                                <el-form-item label="产品预计完成时间">
-                                    {{task.pdEstimateDate ? task.pdEstimateDate : '/'}}
-                                </el-form-item>
-                                <el-form-item label="产品实际完成时间">
-                                    {{task.pdFinishedDate ? task.pdFinishedDate : '/'}}
-                                </el-form-item>
-                            </div>
-                            <div v-if="task.uiEstimateDate">
-                                <el-form-item label="UI预计完成时间">
-                                    {{task.uiEstimateDate ? task.uiEstimateDate : '/'}}
-                                </el-form-item>
-                                <el-form-item label="UI实际完成时间">
-                                    {{task.uiFinishedDate ? task.uiFinishedDate : '/'}}
-                                </el-form-item>
-                            </div>
-                            <div v-if="task.webEstimateDate">
-                                <el-form-item label="web预计完成时间">
-                                    {{task.webEstimateDate ? task.webEstimateDate : '/'}}
-                                </el-form-item>
-                                <el-form-item label="web实际完成时间">
-                                    {{task.webFinishedDate ? task.webFinishedDate : '/'}}
-                                </el-form-item>
-                            </div>
-                            <div v-if="task.androidEstimateDate">
-                                <el-form-item label="android预计完成时间">
-                                    {{task.androidEstimateDate ? task.androidEstimateDate : '/'}}
-                                </el-form-item>
-                                <el-form-item label="android实际完成时间">
-                                    {{task.androidFinishedDate ? task.androidFinishedDate : '/'}}
-                                </el-form-item>
-                            </div>
-                            <div v-if="task.iosEstimateDate">
-                                <el-form-item label="ios预计完成时间">
-                                    {{task.iosEstimateDate ? task.iosEstimateDate : '/'}}
-                                </el-form-item>
-                                <el-form-item label="ios实际完成时间">
-                                    {{task.iosFinishedDate ? task.iosFinishedDate : '/'}}
-                                </el-form-item>
-                            </div>
-                            <div v-if="task.serverEstimateDate">
-                                <el-form-item label="后端预计完成时间">
-                                    {{task.serverEstimateDate ? task.serverEstimateDate : '/'}}
-                                </el-form-item>
-                                <el-form-item label="后端实际完成时间">
-                                    {{task.serverFinishedDate ? task.serverFinishedDate : '/'}}
-                                </el-form-item>
-                            </div>
-                            <div v-if="task.testEstimateDate">
-                                <el-form-item label="测试预计完成时间">
-                                    {{task.testEstimateDate ? task.testEstimateDate : '/'}}
-                                </el-form-item>
-                                <el-form-item label="测试实际完成时间">
-                                    {{task.testFinishedDate ? task.testFinishedDate : '/'}}
-                                </el-form-item>
-                            </div>
-                        </el-form>
+                    <div class="panel" style="padding: 5px 20px 20px 20px;">
+                        <el-tabs>
+                            <el-tab-pane label="任务的生命周期">
+                                <el-form :label-width="'70px'" class="task-info-form">
+                                    <el-form-item label="由谁创建">
+                                        <div v-if="task.openedBy">{{getDevRealName(task.openedBy)}}于{{task.openedDate}}</div>
+                                        <div v-else>/</div>
+                                    </el-form-item>
+                                    <el-form-item label="产品设计">
+                                        <div v-if="task.pdRequired === true">
+                                            <div v-if="task.pdFinishedDate">
+                                                {{getDevRealName(task.pdDesigner)}}于{{task.pdFinishedDate}}完成
+                                            </div>
+                                            <div v-else-if="task.pdEstimateDate">
+                                                {{getDevRealName(task.pdDesigner)}}预计于{{task.pdEstimateDate}}完成
+                                            </div>
+                                            <div v-else style="color: #ff5d5d;">尚未排期</div>
+                                        </div>
+                                        <div v-else>未指派，自动完成</div>
+                                    </el-form-item>
+                                    <el-form-item label="UI设计">
+                                        <div v-if="task.uiRequired === true">
+                                            <div v-if="task.uiFinishedDate">
+                                                {{getDevRealName(task.uiDesigner)}}于{{task.uiFinishedDate}}完成
+                                            </div>
+                                            <div v-else-if="task.uiEstimateDate">
+                                                {{getDevRealName(task.uiDesigner)}}预计于{{task.uiEstimateDate}}完成
+                                            </div>
+                                            <div v-else style="color: #ff5d5d;">尚未排期</div>
+                                        </div>
+                                        <div v-else>未指派，自动完成</div>
+                                    </el-form-item>
+                                    <el-form-item label="前端">
+                                        <div v-if="task.webRequired === true">
+                                            <div v-if="task.webFinishedDate">
+                                                {{getDevRealName(task.webDeveloper)}}于{{task.webFinishedDate}}完成
+                                            </div>
+                                            <div v-else-if="task.webEstimateDate">
+                                                {{getDevRealName(task.webDeveloper)}}预计于{{task.webEstimateDate}}完成
+                                            </div>
+                                            <div v-else style="color: #ff5d5d;">尚未排期</div>
+                                        </div>
+                                        <div v-else>未指派，自动完成</div>
+                                    </el-form-item>
+                                    <el-form-item label="安卓端">
+                                        <div v-if="task.androidRequired === true">
+                                            <div v-if="task.androidFinishedDate">
+                                                {{getDevRealName(task.androidDeveloper)}}于{{task.androidFinishedDate}}完成
+                                            </div>
+                                            <div v-else-if="task.androidEstimateDate">
+                                                {{getDevRealName(task.androidDeveloper)}}预计于{{task.androidEstimateDate}}完成
+                                            </div>
+                                            <div v-else style="color: #ff5d5d;">尚未排期</div>
+                                        </div>
+                                        <div v-else>未指派，自动完成</div>
+                                    </el-form-item>
+                                    <el-form-item label="苹果端">
+                                        <div v-if="task.iosRequired === true">
+                                            <div v-if="task.iosFinishedDate">
+                                                {{getDevRealName(task.iosDeveloper)}}于{{task.iosFinishedDate}}完成
+                                            </div>
+                                            <div v-else-if="task.iosEstimateDate">
+                                                {{getDevRealName(task.iosDeveloper)}}预计于{{task.iosEstimateDate}}完成
+                                            </div>
+                                            <div v-else style="color: #ff5d5d;">尚未排期</div>
+                                        </div>
+                                        <div v-else>未指派，自动完成</div>
+                                    </el-form-item>
+                                    <el-form-item label="后端">
+                                        <div v-if="task.serverRequired === true">
+                                            <div v-if="task.serverFinishedDate">
+                                                {{getDevRealName(task.serverDeveloper)}}于{{task.serverFinishedDate}}完成
+                                            </div>
+                                            <div v-else-if="task.serverEstimateDate">
+                                                {{getDevRealName(task.serverDeveloper)}}预计于{{task.serverEstimateDate}}完成
+                                            </div>
+                                            <div v-else style="color: #ff5d5d;">尚未排期</div>
+                                        </div>
+                                        <div v-else>未指派，自动完成</div>
+                                    </el-form-item>
+                                    <el-form-item label="测试">
+                                        <div v-if="task.testRequired === true">
+                                            <div v-if="task.testFinishedDate">
+                                                {{getDevRealName(task.tester)}}于{{task.testFinishedDate}}完成
+                                            </div>
+                                            <div v-else-if="task.testEstimateDate">
+                                                {{getDevRealName(task.tester)}}预计于{{task.testEstimateDate}}完成
+                                            </div>
+                                            <div v-else style="color: #ff5d5d;">尚未排期</div>
+                                        </div>
+                                        <div v-else>未指派，自动完成</div>
+                                    </el-form-item>
+                                    <el-form-item label="由谁取消">
+                                        <div v-if="task.canceledBy">{{getDevRealName(task.canceledBy)}}于{{task.canceledDate}}</div>
+                                        <div v-else>/</div>
+                                    </el-form-item>
+                                    <el-form-item label="由谁关闭">
+                                        <div v-if="task.closedBy">{{getDevRealName(task.closedBy)}}于{{task.closedDate}}</div>
+                                        <div v-else>/</div>
+                                    </el-form-item>
+                                    <el-form-item label="最后编辑">
+                                        <div v-if="task.lastEditedBy">{{getDevRealName(task.lastEditedBy)}}于{{task.lastEditedDate}}</div>
+                                        <div v-else>/</div>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                        </el-tabs>
                     </div>
                 </div>
             </div>
@@ -332,6 +356,13 @@
                 const res = await this.$service.getAdminList({pageNum: 1, pageSize: 10000});
                 if (res.code === 20000) {
                     this.adminList = res.data.result || [];
+                }
+            },
+            getDevRealName(userName) {
+                for (let item of this.adminList) {
+                    if (item.userName === userName) {
+                        return item.realName;
+                    }
                 }
             },
         },

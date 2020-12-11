@@ -339,7 +339,7 @@ textarea {
 
 .action-a-btn {
     height: 26px;
-    padding: 0 3px;
+    padding: 0 4px;
     display: inline;
     text-align: center;
     vertical-align: middle;
@@ -351,7 +351,7 @@ textarea {
 }
 
 .action-a-btn img {
-    width: 20px;
-    height: 20px;
-    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    margin-top: 4px;
 }
