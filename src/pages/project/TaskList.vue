@@ -1,11 +1,13 @@
 <template>
     <div class="container">
         <div class="search_box">
-            <a @click="onSearch('')" :class="formSearch.status === '' ? 'link-btn link-btn-active' : 'link-btn'">所有</a>
-            <a @click="onSearch('doing')" :class="formSearch.status === 'doing' ? 'link-btn link-btn-active' : 'link-btn'">进行中</a>
-            <a @click="onSearch('done')" :class="formSearch.status === 'done' ? 'link-btn link-btn-active' : 'link-btn'">已完成</a>
-            <a @click="onSearch('cancel')" :class="formSearch.status === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
-            <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
+            <a @click="onSearch('all')" :class="formSearch.searchType === 'all' ? 'link-btn link-btn-active' : 'link-btn'">所有</a>
+            <a @click="onSearch('assignMe')" :class="formSearch.searchType === 'assignMe' ? 'link-btn link-btn-active' : 'link-btn'">指派给我</a>
+            <a @click="onSearch('notClosed')" :class="formSearch.searchType === 'notClosed' ? 'link-btn link-btn-active' : 'link-btn'">未关闭</a>
+            <a @click="onSearch('doing')" :class="formSearch.searchType === 'doing' ? 'link-btn link-btn-active' : 'link-btn'">进行中</a>
+            <a @click="onSearch('done')" :class="formSearch.searchType === 'done' ? 'link-btn link-btn-active' : 'link-btn'">已完成</a>
+            <a @click="onSearch('cancel')" :class="formSearch.searchType === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
+            <a @click="onSearch('closed')" :class="formSearch.searchType === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
             <el-button type="primary" @click="jumpPage('', 'CreateTaskPage')" icon="el-icon-plus" style="float: right;">
                 创建任务
             </el-button>
@@ -50,10 +52,8 @@
                         label="状态"
                 >
                     <template slot-scope="scope">
-                        <div v-if="scope.row.status === 'wait'" style="color: #00AA55;">未开始</div>
                         <div v-if="scope.row.status === 'doing'" style="color: #ff5d5d;">进行中</div>
-                        <div v-if="scope.row.status === 'done'" style="color: #ff9800;">已完成</div>
-                        <div v-if="scope.row.status === 'pause'" style="color: #ff9800;">已暂停</div>
+                        <div v-if="scope.row.status === 'done'" style="color: #00AA55;">已完成</div>
                         <div v-if="scope.row.status === 'cancel'" style="color: #ff9800;">已取消</div>
                         <div v-if="scope.row.status === 'closed'" style="color: #AAAAAA;">已关闭</div>
                     </template>
@@ -172,7 +172,7 @@
         data() {
             return {
                 formSearch: {
-                    status: '',
+                    searchType: '',
                     pageNum: 1,
                     pageSize: 15
                 },
@@ -189,9 +189,9 @@
             }
         },
         methods: {
-            onSearch(status) {
+            onSearch(searchType) {
                 this.formSearch.pageNum = 1;
-                this.formSearch.status = status;
+                this.formSearch.searchType = searchType;
                 this.searchCommon()
             },
             //分页
@@ -206,7 +206,7 @@
             },
             async searchCommon() {
                 let searchParam = {
-                    status: this.formSearch.status,
+                    searchType: this.formSearch.searchType,
                     pageNum: this.formSearch.pageNum,
                     pageSize: this.formSearch.pageSize
                 };
