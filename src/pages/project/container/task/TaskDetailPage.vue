@@ -233,8 +233,8 @@
                     //返回到任务编辑页
                     this.$router.push({
                         name: 'edit-task.html',
-                        params: {
-                            id: this.task.id,
+                        query: {
+                            taskId: this.task.id,
                         }
                     })
                 }

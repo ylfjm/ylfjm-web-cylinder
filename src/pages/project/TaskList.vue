@@ -65,129 +65,41 @@
                         label="截止日期"
                 ></el-table-column>
                 <el-table-column
-                        prop="pdDesigner"
+                        prop="openedBy"
                         min-width="80"
                         show-overflow-tooltip
-                        label="产品设计"
+                        label="创建"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
-                        prop="pdEstimateDate"
-                        min-width="100"
+                        prop="openedDate"
+                        min-width="150"
                         show-overflow-tooltip
-                        label="产品逾期"
+                        label="创建日期"
+                ></el-table-column>
+                <el-table-column
+                        prop="devList"
+                        min-width="150"
+                        label="指派给"
                 >
                     <template slot-scope="scope">
-                        <div v-if="scope.row.pdOverdue === '是'" style="color: #FF0000;">{{scope.row.pdOverdue}}</div>
-                        <div v-else>{{scope.row.pdOverdue}}</div>
+                        <div v-if="scope.row.devList && scope.row.devList.length > 0">
+                            <span v-for="(item, index) in scope.row.devList" :key="index">
+                                {{item}}<span v-if="index < scope.row.devList.length - 1">、</span>
+                            </span>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column
-                        prop="uiDesigner"
-                        min-width="80"
-                        show-overflow-tooltip
-                        label="UI设计"
-                ></el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="uiEstimateDate"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="UI逾期"
+                        prop="overdueList"
+                        min-width="150"
+                        label="已逾期的"
                 >
                     <template slot-scope="scope">
-                        <div v-if="scope.row.uiOverdue === '是'" style="color: #FF0000;">{{scope.row.uiOverdue}}</div>
-                        <div v-else>{{scope.row.uiOverdue}}</div>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        prop="webDeveloper"
-                        min-width="80"
-                        show-overflow-tooltip
-                        label="前端开发"
-                ></el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="webEstimateDate"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="web逾期"
-                >
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.webOverdue === '是'" style="color: #FF0000;">{{scope.row.webOverdue}}</div>
-                        <div v-else>{{scope.row.webOverdue}}</div>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        prop="androidDeveloper"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="安卓开发"
-                ></el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="androidEstimateDate"
-                        min-width="120"
-                        show-overflow-tooltip
-                        label="安卓逾期"
-                >
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.androidOverdue === '是'" style="color: #FF0000;">{{scope.row.androidOverdue}}</div>
-                        <div v-else>{{scope.row.androidOverdue}}</div>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        prop="iosDeveloper"
-                        min-width="80"
-                        show-overflow-tooltip
-                        label="苹果开发"
-                ></el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="iosEstimateDate"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="苹果逾期"
-                >
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.iosOverdue === '是'" style="color: #FF0000;">{{scope.row.iosOverdue}}</div>
-                        <div v-else>{{scope.row.iosOverdue}}</div>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        prop="serverDeveloper"
-                        min-width="80"
-                        show-overflow-tooltip
-                        label="后端开发"
-                ></el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="serverEstimateDate"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="后端逾期"
-                >
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.serverOverdue === '是'" style="color: #FF0000;">{{scope.row.serverOverdue}}</div>
-                        <div v-else>{{scope.row.serverOverdue}}</div>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        prop="tester"
-                        min-width="80"
-                        show-overflow-tooltip
-                        label="测试人员"
-                ></el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="testEstimateDate"
-                        min-width="100"
-                        show-overflow-tooltip
-                        label="测试逾期"
-                >
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.testOverdue === '是'" style="color: #FF0000;">{{scope.row.testOverdue}}</div>
-                        <div v-else>{{scope.row.testOverdue}}</div>
+                        <div v-if="scope.row.overdueList && scope.row.overdueList.length > 0">
+                            <span v-for="(item, index) in scope.row.overdueList" :key="index">
+                                {{item}}<span v-if="index < scope.row.overdueList.length - 1">、</span>
+                            </span>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -308,29 +220,83 @@
                     this.pages = res.data.pages;
                     this.tableList = res.data.result || [];
                     this.tableList.map(item => {
-                        if (item.deadline) {
+                        /*if (item.deadline) {
                             item.deadline = moment(item.deadline).format('YYYY-MM-DD');
+                        }*/
+                        if (item.openedBy) {
+                            item.openedBy = this.getDevRealName(item.openedBy);
                         }
-                        if (item.pdEstimateDate && item.pdFinishedDate) {
-                            item.pdOverdue = new Date(item.pdFinishedDate).getTime() > new Date(item.pdEstimateDate).getTime() ? '是' : '否';
+                        item.devList = [];
+                        if (item.pdDesigner) {
+                            item.devList.push(this.getDevRealName(item.pdDesigner));
                         }
-                        if (item.uiEstimateDate && item.uiFinishedDate) {
-                            item.uiOverdue = new Date(item.uiFinishedDate).getTime() > new Date(item.uiEstimateDate).getTime() ? '是' : '否';
+                        if (item.uiDesigner) {
+                            item.devList.push(this.getDevRealName(item.uiDesigner));
                         }
-                        if (item.webEstimateDate && item.webFinishedDate) {
-                            item.webOverdue = new Date(item.webFinishedDate).getTime() > new Date(item.webEstimateDate).getTime() ? '是' : '否';
+                        if (item.webDeveloper) {
+                            item.devList.push(this.getDevRealName(item.webDeveloper));
                         }
-                        if (item.androidEstimateDate && item.androidFinishedDate) {
-                            item.androidOverdue = new Date(item.androidFinishedDate).getTime() > new Date(item.androidEstimateDate).getTime() ? '是' : '否';
+                        if (item.androidDeveloper) {
+                            item.devList.push(this.getDevRealName(item.androidDeveloper));
                         }
-                        if (item.iosEstimateDate && item.iosFinishedDate) {
-                            item.iosOverdue = new Date(item.iosFinishedDate).getTime() > new Date(item.iosEstimateDate).getTime() ? '是' : '否';
+                        if (item.iosDeveloper) {
+                            item.devList.push(this.getDevRealName(item.iosDeveloper));
                         }
-                        if (item.serverEstimateDate && item.serverFinishedDate) {
-                            item.serverOverdue = new Date(item.serverFinishedDate).getTime() > new Date(item.serverEstimateDate).getTime() ? '是' : '否';
+                        if (item.serverDeveloper) {
+                            item.devList.push(this.getDevRealName(item.serverDeveloper));
                         }
-                        if (item.testEstimateDate && item.testFinishedDate) {
-                            item.testOverdue = new Date(item.testFinishedDate).getTime() > new Date(item.testEstimateDate).getTime() ? '是' : '否';
+                        if (item.tester) {
+                            item.devList.push(this.getDevRealName(item.tester));
+                        }
+                        item.overdueList = [];
+                        if (item.pdRequired && item.pdEstimateDate) {
+                            if (item.pdFinishedDate && new Date(item.pdFinishedDate).getTime() > new Date(item.pdEstimateDate).getTime()) {
+                                item.overdueList.push("产品");
+                            } else if (!item.pdFinishedDate && new Date().getTime() > new Date(item.pdEstimateDate).getTime()) {
+                                item.overdueList.push("产品");
+                            }
+                        }
+                        if (item.uiRequired && item.uiEstimateDate) {
+                            if (item.uiFinishedDate && new Date(item.uiFinishedDate).getTime() > new Date(item.uiEstimateDate).getTime()) {
+                                item.overdueList.push("UI");
+                            } else if (!item.uiFinishedDate && new Date().getTime() > new Date(item.uiEstimateDate).getTime()) {
+                                item.overdueList.push("UI");
+                            }
+                        }
+                        if (item.webRequired && item.webEstimateDate) {
+                            if (item.webFinishedDate && new Date(item.webFinishedDate).getTime() > new Date(item.webEstimateDate).getTime()) {
+                                item.overdueList.push("前端");
+                            } else if (!item.webFinishedDate && new Date().getTime() > new Date(item.webEstimateDate).getTime()) {
+                                item.overdueList.push("前端");
+                            }
+                        }
+                        if (item.androidRequired && item.androidEstimateDate) {
+                            if (item.androidFinishedDate && new Date(item.androidFinishedDate).getTime() > new Date(item.androidEstimateDate).getTime()) {
+                                item.overdueList.push("安卓");
+                            } else if (!item.androidFinishedDate && new Date().getTime() > new Date(item.androidEstimateDate).getTime()) {
+                                item.overdueList.push("安卓");
+                            }
+                        }
+                        if (item.iosRequired && item.iosEstimateDate) {
+                            if (item.iosFinishedDate && new Date(item.iosFinishedDate).getTime() > new Date(item.iosEstimateDate).getTime()) {
+                                item.overdueList.push("苹果");
+                            } else if (!item.iosFinishedDate && new Date().getTime() > new Date(item.iosEstimateDate).getTime()) {
+                                item.overdueList.push("苹果");
+                            }
+                        }
+                        if (item.serverRequired && item.serverEstimateDate) {
+                            if (item.serverFinishedDate && new Date(item.serverFinishedDate).getTime() > new Date(item.serverEstimateDate).getTime()) {
+                                item.overdueList.push("后端");
+                            } else if (!item.serverFinishedDate && new Date().getTime() > new Date(item.serverEstimateDate).getTime()) {
+                                item.overdueList.push("后端");
+                            }
+                        }
+                        if (item.testRequired && item.testEstimateDate) {
+                            if (item.testFinishedDate && new Date(item.testFinishedDate).getTime() > new Date(item.testEstimateDate).getTime()) {
+                                item.overdueList.push("测试");
+                            } else if (!item.testFinishedDate && new Date().getTime() > new Date(item.testEstimateDate).getTime()) {
+                                item.overdueList.push("测试");
+                            }
                         }
                     })
                 } else {
@@ -338,6 +304,13 @@
                         title: '提示',
                         message: res.message ? res.message : '搜索失败',
                     })
+                }
+            },
+            getDevRealName(userName) {
+                for (let item of this.adminList) {
+                    if (item.userName === userName) {
+                        return item.realName;
+                    }
                 }
             },
             jumpPage(id, pageName) {
@@ -457,10 +430,10 @@
                 if (res.code === 20000) {
                     this.adminList = res.data.result || [];
                 }
+                this.searchCommon();
             },
         },
         created() {
-            this.searchCommon();
             this.getAdminList();
 
         },
