@@ -67,14 +67,26 @@
                 <el-table-column
                         align="center"
                         fixed="right"
-                        width="410"
+                        width="170"
                         label="操作"
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'user')">用户维护</el-button>
-                            <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'menu')">菜单维护</el-button>
-                            <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'permission')">权限维护</el-button>
+                            <el-tooltip effect="dark" content="用户" placement="bottom-start">
+                                <a @click="jumpPage(scope.row, 'user')" class="action-a-btn">
+                                    <img src="@/assets/images/user-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip effect="dark" content="菜单" placement="bottom-start">
+                                <a @click="jumpPage(scope.row, 'menu')" class="action-a-btn">
+                                    <img src="@/assets/images/menu-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip effect="dark" content="权限" placement="bottom-start">
+                                <a @click="jumpPage(scope.row, 'permission')" class="action-a-btn">
+                                    <img src="@/assets/images/permission-22.png">
+                                </a>
+                            </el-tooltip>
                             <el-tooltip effect="dark" content="编辑" placement="bottom-start">
                                 <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
                                     <img src="@/assets/images/edit-22.png">
@@ -85,7 +97,10 @@
                                     <img src="@/assets/images/delete-22.png">
                                 </a>
                             </el-tooltip>
-                            <!--<el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
+                            <!--<el-button type="primary" size="mini" @click="jumpPage(scope.row, 'user')">用户维护</el-button>
+                            <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'menu')">菜单维护</el-button>
+                            <el-button type="primary" size="mini" @click="jumpPage(scope.row, 'permission')">权限维护</el-button>
+                            <el-button type="primary" size="mini" @click="showDialog(scope.row, 'update')">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteRole(scope.row)">删除</el-button>-->
                         </el-row>
                     </template>
