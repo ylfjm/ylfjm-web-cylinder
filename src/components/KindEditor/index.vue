@@ -84,8 +84,9 @@
                 },
                 afterTab: _this.afterTab,
                 afterFocus: function () {//编辑器聚焦(focus)时执行的回调函数。
+                    console.log(this.pluginsPath)
                     // this.edit.iframe[0].contentDocument.firstChild.lastChild.style.display = "none";
-                    let _kecontainer = document.getElementsByClassName("ke-container")[0];
+                    let _kecontainer = this.srcElement[0].parentElement.getElementsByClassName("ke-container")[0];
                     _kecontainer.classList.add("ke-container-focus")
                     let _html = this.html();
                     if (_html === _span) {
@@ -99,7 +100,7 @@
                     // } else {
                     //     this.edit.iframe[0].contentDocument.firstChild.lastChild.style.display = "block";
                     // }
-                    let _kecontainer = document.getElementsByClassName("ke-container")[0];
+                    let _kecontainer = this.srcElement[0].parentElement.getElementsByClassName("ke-container")[0];
                     _kecontainer.classList.remove("ke-container-focus")
                     if (this.isEmpty()) {
                         this.html(_span);

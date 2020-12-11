@@ -46,6 +46,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        align="center"
                         prop="status"
                         min-width="60"
                         show-overflow-tooltip
@@ -59,26 +60,35 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        align="center"
                         prop="deadline"
                         min-width="100"
-                        show-overflow-tooltip
                         label="截止日期"
-                ></el-table-column>
+                >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.deadlineOverdue && scope.row.deadlineOverdue === true" style="color: #FF3300;">
+                            {{scope.row.deadline}}
+                        </div>
+                        <div v-else>
+                            {{scope.row.deadline}}
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column
+                        align="center"
                         prop="openedBy"
                         min-width="80"
-                        show-overflow-tooltip
                         label="创建"
                 ></el-table-column>
                 <el-table-column
+                        align="center"
                         prop="openedDate"
                         min-width="150"
-                        show-overflow-tooltip
                         label="创建日期"
                 ></el-table-column>
                 <el-table-column
                         prop="devList"
-                        min-width="150"
+                        min-width="420"
                         label="指派给"
                 >
                     <template slot-scope="scope">
@@ -91,7 +101,7 @@
                 </el-table-column>
                 <el-table-column
                         prop="overdueList"
-                        min-width="150"
+                        min-width="380"
                         label="已逾期的"
                 >
                     <template slot-scope="scope">
@@ -220,9 +230,11 @@
                     this.pages = res.data.pages;
                     this.tableList = res.data.result || [];
                     this.tableList.map(item => {
-                        /*if (item.deadline) {
-                            item.deadline = moment(item.deadline).format('YYYY-MM-DD');
-                        }*/
+                        if (new Date().getTime() > new Date(item.deadline).getTime()) {
+                            item.deadlineOverdue = true;
+                        } else {
+                            item.deadlineOverdue = false;
+                        }
                         if (item.openedBy) {
                             item.openedBy = this.getDevRealName(item.openedBy);
                         }
