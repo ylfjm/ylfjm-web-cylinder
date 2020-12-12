@@ -103,7 +103,9 @@
                     </el-form-item>
                     <el-form-item label="任务描述" prop="richText" style="width: 96%;">
                         <!--<QuillEditor @change="changeText" :editorContent="form.richText"></QuillEditor>-->
-                        <KindEditor id="editor_id" :content.sync="form.richText" @onContentChange="onContentChange"></KindEditor>
+                        <KindEditor id="editor_id" :content.sync="form.richText"
+                                    pluginsPath="/static/kindeditor/plugins/" @onContentChange="onContentChange">
+                        </KindEditor>
                     </el-form-item>
                     <el-form-item label="创建之后">
                         <el-radio-group v-model="afterCreateAction">

@@ -138,6 +138,6 @@
 <style scoped>
     /deep/ .ke-container-focus {
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6) !important;
-        border-color: #0c64eb !important;
+        border-color: #0000FF !important;
     }
 </style>

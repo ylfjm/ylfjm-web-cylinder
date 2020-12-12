@@ -5,18 +5,21 @@
                 <span>编辑任务</span>
             </div>
             <div class="container-box-body">
-                <el-form :label-width="'80px'" ref="form" :model="form">
+                <el-form :label-width="'80px'" ref="form" :model="form" :rules="rules">
                     <div class="dp-table">
                         <div class="dp-table-cell">
                             <el-form-item label="任务名称" prop="name" style="width: 100%;">
                                 <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
                             </el-form-item>
                             <el-form-item label="任务描述" prop="richText" style="width: 100%;">
-                                <KindEditor id="editor_desc" :content.sync="form.richText" @onContentChange="onContentChange"></KindEditor>
+                                <KindEditor id="editor_desc" :content.sync="form.richText"
+                                            pluginsPath="/static/kindeditor/plugins/" @onContentChange="onContentChange"></KindEditor>
                             </el-form-item>
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="备注" prop="richText" style="width: 100%;">
-                                <KindEditor id="editor_remark" :content.sync="form.remark" pluginsPath="../../../../../static/kindeditor/plugins/" @onContentChange="onRemarkChange"></KindEditor>
+                                <KindEditor id="editor_remark" :content.sync="form.remark"
+                                            pluginsPath="/static/kindeditor/plugins/" @onContentChange="onRemarkChange">
+                                </KindEditor>
                             </el-form-item>
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <div class="text-center" style="margin-top: 20px;">
@@ -346,11 +349,11 @@
                     remark: '',
                 },
                 rules: {
+                    name: [{required: true, message: '请填写任务名称', trigger: 'blur'}],
                     projectId: [{required: true, message: '请选择任务所属项目', trigger: 'blur'}],
                     type: [{required: true, message: '请选择任务类型', trigger: 'blur'}],
                     pri: [{required: true, message: '请选择任务优先级', trigger: 'blur'}],
                     deadline: [{required: true, message: '请选择任务截止日期', trigger: 'blur'}],
-                    name: [{required: true, message: '请填写任务名称', trigger: 'blur'}],
                 },
                 projectList: [],
                 adminList: [],

@@ -15,7 +15,7 @@ const items = [
     "justifyfull",//两端对齐
     "insertorderedlist",//编号
     "insertunorderedlist",//项目符号
-    // "emoticons",//插入表情
+    "emoticons",//插入表情
     "image",//图片
     "code",//插入程序代码
     "link",//超级链接

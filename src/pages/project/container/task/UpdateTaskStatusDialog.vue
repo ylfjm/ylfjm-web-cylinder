@@ -91,11 +91,10 @@
                 </div>
                 <div style="margin-left: 12px;">备注</div>
                 <div style="margin-top: 5px;">
-                    <KindEditor id="editor_id" :content.sync="form.remark" @onContentChange="onContentChange"></KindEditor>
+                    <KindEditor id="editor_id" :content.sync="form.remark"
+                                pluginsPath="/static/kindeditor/plugins/" @onContentChange="onContentChange">
+                    </KindEditor>
                 </div>
-                <!--<el-form-item label="备注" prop="content">-->
-                    <!--<KindEditor id="editor_id" @on-content-change="onContentChange"></KindEditor>-->
-                <!--</el-form-item>-->
             </el-form>
         </div>
         <div slot="footer" class="text-center">
