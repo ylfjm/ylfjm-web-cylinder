@@ -91,8 +91,7 @@
                 </div>
                 <div style="margin-left: 12px;">备注</div>
                 <div style="margin-top: 5px;">
-                    <KindEditor id="editor_id" :content.sync="form.remark"
-                                pluginsPath="/static/kindeditor/plugins/" @onContentChange="onContentChange">
+                    <KindEditor id="editor_id" :content.sync="form.remark" @onContentChange="onContentChange">
                     </KindEditor>
                 </div>
             </el-form>

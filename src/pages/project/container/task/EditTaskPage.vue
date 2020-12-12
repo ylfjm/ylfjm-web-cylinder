@@ -12,13 +12,13 @@
                                 <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
                             </el-form-item>
                             <el-form-item label="任务描述" prop="richText" style="width: 100%;">
-                                <KindEditor id="editor_desc" :content.sync="form.richText"
-                                            pluginsPath="/static/kindeditor/plugins/" @onContentChange="onContentChange"></KindEditor>
+                                <KindEditor id="editor_desc" :content.sync="form.richText" height="300px"
+                                            @onContentChange="onContentChange">
+                                </KindEditor>
                             </el-form-item>
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="备注" prop="richText" style="width: 100%;">
-                                <KindEditor id="editor_remark" :content.sync="form.remark"
-                                            pluginsPath="/static/kindeditor/plugins/" @onContentChange="onRemarkChange">
+                                <KindEditor id="editor_remark" :content.sync="form.remark" @onContentChange="onRemarkChange">
                                 </KindEditor>
                             </el-form-item>
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="dp-table-cell" style="width: 34%; padding: 0 15px 0 30px;">
+                        <div class="dp-table-cell" style="width: 34.2%; padding: 0 15px 0 30px;">
                             <el-form-item label="所属项目" prop="projectId" style="margin-bottom: 10px;">
                                 <el-select v-model="form.projectId" placeholder="请选择" style="width: 100%;">
                                     <el-option
@@ -81,7 +81,7 @@
                                 </el-date-picker>
                             </el-form-item>
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
-                            <el-form-item label="产品设计" style="margin-bottom: 10px;">
+                            <el-form-item label="产品设计" style="margin-bottom: 5px;">
                                 <el-select v-model="form.pdDesigner" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'po'">
@@ -106,7 +106,7 @@
                                         style="width: 170px;">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="UI设计" style="margin-bottom: 10px;">
+                            <el-form-item label="UI设计" style="margin-bottom: 5px;">
                                 <el-select v-model="form.uiDesigner" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'ui'">
@@ -131,7 +131,7 @@
                                         style="width: 170px;">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="前端开发" style="margin-bottom: 10px;">
+                            <el-form-item label="前端开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.webDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="['web','dev'].indexOf(item.postCode) > -1">
@@ -156,7 +156,7 @@
                                         style="width: 170px;">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="安卓开发" style="margin-bottom: 10px;">
+                            <el-form-item label="安卓开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.androidDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'android'">
@@ -181,7 +181,7 @@
                                         style="width: 170px;">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="苹果开发" style="margin-bottom: 10px;">
+                            <el-form-item label="苹果开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.iosDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'ios'">
@@ -206,7 +206,7 @@
                                         style="width: 170px;">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="后端开发" style="margin-bottom: 10px;">
+                            <el-form-item label="后端开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.serverDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'dev'">
@@ -231,7 +231,7 @@
                                         style="width: 170px;">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="测试人员" style="margin-bottom: 10px;">
+                            <el-form-item label="测试" style="margin-bottom: 5px;">
                                 <el-select v-model="form.tester" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'test'">

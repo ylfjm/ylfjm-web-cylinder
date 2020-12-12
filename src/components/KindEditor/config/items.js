@@ -22,6 +22,7 @@ const items = [
     "indent",//增加缩进
     "outdent",//减少缩进
     "hr",//插入横线
+    "pagebreak",//插入分页符
     "lineheight",//行距
     "removeformat",//删除格式
     "preview",//预览
@@ -46,7 +47,6 @@ const items = [
     // "map",//Google地图
     // "baidumap",//百度地图
     // "clearhtml",//清理HTML代码
-    // "pagebreak",//插入分页符
     // "quickformat",//一键排版
     // "insertfile",//插入文件
     // "template",//插入模板

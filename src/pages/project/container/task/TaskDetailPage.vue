@@ -448,7 +448,7 @@
     .white-divider--vertical {
         width: 2px;
         height: 1.3em;
-        margin: 0 10px 0 20px;
+        margin: 0 5px 0 10px;
     }
 
     .popup-btn-box {
@@ -469,7 +469,7 @@
 
     .popup-btn-box a {
         cursor: pointer;
-        margin: 4px 0 4px 10px;
+        margin: 4px 0 4px 5px;
         padding: 0 10px;
         height: 32px;
         line-height: 32px;
@@ -493,7 +493,7 @@
         border-radius: 4px;
     }
 
-    .el-icon-magic-stick, .el-icon-switch-button {
+    .el-icon-magic-stick {
         vertical-align: middle;
         display: inline;
         font-size: 18px;

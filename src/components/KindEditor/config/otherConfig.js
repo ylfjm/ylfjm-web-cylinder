@@ -25,7 +25,7 @@ const otherConfig = {
     },
     themeType: {
         type: String,
-        default: 'default'
+        default: 'simple'
     },
     fontSizeTable: {
         type: Array,
@@ -83,7 +83,7 @@ const otherConfig = {
     },
     pluginsPath: {
         type: String,
-        default: ""
+        default: "/static/kindeditor/plugins/"
     },
     langPath: {
         type: String

@@ -84,13 +84,14 @@
                 },
                 afterTab: _this.afterTab,
                 afterFocus: function () {//编辑器聚焦(focus)时执行的回调函数。
-                    console.log(this.pluginsPath)
                     // this.edit.iframe[0].contentDocument.firstChild.lastChild.style.display = "none";
-                    let _kecontainer = this.srcElement[0].parentElement.getElementsByClassName("ke-container")[0];
-                    _kecontainer.classList.add("ke-container-focus")
                     let _html = this.html();
-                    if (_html === _span) {
+                    if (_html.indexOf(_span) > -1) {
                         this.html(null)
+                    }
+                    let _kecontainer = this.srcElement[0].parentElement.getElementsByClassName("ke-container")[0];
+                    if (_kecontainer) {
+                        _kecontainer.classList.add("ke-container-focus")
                     }
                 },
                 afterBlur: function () {//编辑器失去焦点(blur)时执行的回调函数。
@@ -100,10 +101,12 @@
                     // } else {
                     //     this.edit.iframe[0].contentDocument.firstChild.lastChild.style.display = "block";
                     // }
-                    let _kecontainer = this.srcElement[0].parentElement.getElementsByClassName("ke-container")[0];
-                    _kecontainer.classList.remove("ke-container-focus")
                     if (this.isEmpty()) {
                         this.html(_span);
+                    }
+                    let _kecontainer = this.srcElement[0].parentElement.getElementsByClassName("ke-container")[0];
+                    if (_kecontainer) {
+                        _kecontainer.classList.remove("ke-container-focus")
                     }
                 },
                 afterUpload: _this.afterUpload,
