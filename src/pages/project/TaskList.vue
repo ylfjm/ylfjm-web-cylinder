@@ -96,7 +96,7 @@
                     <template slot-scope="scope">
                         <template v-if="scope.row.testRequired">
                             <div v-if="scope.row.tester === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.tester)}}</div>
-                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.tester)}}</div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.tester)}}</div>
                         </template>
                         <template v-else>-</template>
                     </template>
@@ -104,7 +104,7 @@
                 <el-table-column
                         align="center"
                         prop="testEstimateDate"
-                        min-width="100"
+                        min-width="80"
                         label="测试排期"
                 >
                     <template slot-scope="scope">
@@ -114,7 +114,7 @@
                 <el-table-column
                         align="center"
                         prop="testStatus"
-                        min-width="100"
+                        min-width="80"
                         label="测试状态"
                 >
                     <template slot-scope="scope">
@@ -130,7 +130,7 @@
                     <template slot-scope="scope">
                         <template v-if="scope.row.pdRequired">
                             <div v-if="scope.row.pdDesigner === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.pdDesigner)}}</div>
-                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.pdDesigner)}}</div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.pdDesigner)}}</div>
                         </template>
                         <template v-else>-</template>
                     </template>
@@ -148,7 +148,7 @@
                 <el-table-column
                         align="center"
                         prop="pdStatus"
-                        min-width="100"
+                        min-width="80"
                         label="产品状态"
                 >
                     <template slot-scope="scope">
@@ -164,7 +164,7 @@
                     <template slot-scope="scope">
                         <template v-if="scope.row.uiRequired">
                             <div v-if="scope.row.uiDesigner === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.uiDesigner)}}</div>
-                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.uiDesigner)}}</div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.uiDesigner)}}</div>
                         </template>
                         <template v-else>-</template>
                     </template>
@@ -182,7 +182,7 @@
                 <el-table-column
                         align="center"
                         prop="uiStatus"
-                        min-width="100"
+                        min-width="80"
                         label="UI状态"
                 >
                     <template slot-scope="scope">
@@ -198,7 +198,7 @@
                     <template slot-scope="scope">
                         <template v-if="scope.row.webRequired">
                             <div v-if="scope.row.webDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.webDeveloper)}}</div>
-                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.webDeveloper)}}</div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.webDeveloper)}}</div>
                         </template>
                         <template v-else>-</template>
                     </template>
@@ -216,7 +216,7 @@
                 <el-table-column
                         align="center"
                         prop="webStatus"
-                        min-width="100"
+                        min-width="80"
                         label="前端状态"
                 >
                     <template slot-scope="scope">
@@ -232,7 +232,7 @@
                     <template slot-scope="scope">
                         <template v-if="scope.row.androidRequired">
                             <div v-if="scope.row.androidDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.androidDeveloper)}}</div>
-                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.androidDeveloper)}}</div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.androidDeveloper)}}</div>
                         </template>
                         <template v-else>-</template>
                     </template>
@@ -250,7 +250,7 @@
                 <el-table-column
                         align="center"
                         prop="androidStatus"
-                        min-width="100"
+                        min-width="80"
                         label="安卓状态"
                 >
                     <template slot-scope="scope">
@@ -266,7 +266,7 @@
                     <template slot-scope="scope">
                         <template v-if="scope.row.iosRequired">
                             <div v-if="scope.row.iosDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.iosDeveloper)}}</div>
-                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.iosDeveloper)}}</div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.iosDeveloper)}}</div>
                         </template>
                         <template v-else>-</template>
                     </template>
@@ -284,7 +284,7 @@
                 <el-table-column
                         align="center"
                         prop="iosStatus"
-                        min-width="100"
+                        min-width="80"
                         label="苹果状态"
                 >
                     <template slot-scope="scope">
@@ -300,7 +300,7 @@
                     <template slot-scope="scope">
                         <template v-if="scope.row.serverRequired">
                             <div v-if="scope.row.serverDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.serverDeveloper)}}</div>
-                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.serverDeveloper)}}</div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.serverDeveloper)}}</div>
                         </template>
                         <template v-else>-</template>
                     </template>
@@ -318,7 +318,7 @@
                 <el-table-column
                         align="center"
                         prop="serverStatus"
-                        min-width="100"
+                        min-width="80"
                         label="后端状态"
                 >
                     <template slot-scope="scope">
@@ -481,78 +481,78 @@
                         if (item.createBy) {
                             item.createBy = this.getDevRealName(item.createBy);
                         }
-                        item.devList = [];
-                        if (item.pdDesigner) {
-                            item.devList.push(this.getDevRealName(item.pdDesigner));
-                        }
-                        if (item.uiDesigner) {
-                            item.devList.push(this.getDevRealName(item.uiDesigner));
-                        }
-                        if (item.webDeveloper) {
-                            item.devList.push(this.getDevRealName(item.webDeveloper));
-                        }
-                        if (item.androidDeveloper) {
-                            item.devList.push(this.getDevRealName(item.androidDeveloper));
-                        }
-                        if (item.iosDeveloper) {
-                            item.devList.push(this.getDevRealName(item.iosDeveloper));
-                        }
-                        if (item.serverDeveloper) {
-                            item.devList.push(this.getDevRealName(item.serverDeveloper));
-                        }
-                        if (item.tester) {
-                            item.devList.push(this.getDevRealName(item.tester));
-                        }
-                        item.overdueList = [];
-                        if (item.pdRequired && item.pdEstimateDate) {
-                            if (item.pdFinishedDate && new Date(item.pdFinishedDate).getTime() > new Date(item.pdEstimateDate).getTime()) {
-                                item.overdueList.push("产品");
-                            } else if (!item.pdFinishedDate && new Date().getTime() > new Date(item.pdEstimateDate).getTime()) {
-                                item.overdueList.push("产品");
-                            }
-                        }
-                        if (item.uiRequired && item.uiEstimateDate) {
-                            if (item.uiFinishedDate && new Date(item.uiFinishedDate).getTime() > new Date(item.uiEstimateDate).getTime()) {
-                                item.overdueList.push("UI");
-                            } else if (!item.uiFinishedDate && new Date().getTime() > new Date(item.uiEstimateDate).getTime()) {
-                                item.overdueList.push("UI");
-                            }
-                        }
-                        if (item.webRequired && item.webEstimateDate) {
-                            if (item.webFinishedDate && new Date(item.webFinishedDate).getTime() > new Date(item.webEstimateDate).getTime()) {
-                                item.overdueList.push("前端");
-                            } else if (!item.webFinishedDate && new Date().getTime() > new Date(item.webEstimateDate).getTime()) {
-                                item.overdueList.push("前端");
-                            }
-                        }
-                        if (item.androidRequired && item.androidEstimateDate) {
-                            if (item.androidFinishedDate && new Date(item.androidFinishedDate).getTime() > new Date(item.androidEstimateDate).getTime()) {
-                                item.overdueList.push("安卓");
-                            } else if (!item.androidFinishedDate && new Date().getTime() > new Date(item.androidEstimateDate).getTime()) {
-                                item.overdueList.push("安卓");
-                            }
-                        }
-                        if (item.iosRequired && item.iosEstimateDate) {
-                            if (item.iosFinishedDate && new Date(item.iosFinishedDate).getTime() > new Date(item.iosEstimateDate).getTime()) {
-                                item.overdueList.push("苹果");
-                            } else if (!item.iosFinishedDate && new Date().getTime() > new Date(item.iosEstimateDate).getTime()) {
-                                item.overdueList.push("苹果");
-                            }
-                        }
-                        if (item.serverRequired && item.serverEstimateDate) {
-                            if (item.serverFinishedDate && new Date(item.serverFinishedDate).getTime() > new Date(item.serverEstimateDate).getTime()) {
-                                item.overdueList.push("后端");
-                            } else if (!item.serverFinishedDate && new Date().getTime() > new Date(item.serverEstimateDate).getTime()) {
-                                item.overdueList.push("后端");
-                            }
-                        }
-                        if (item.testRequired && item.testEstimateDate) {
-                            if (item.testFinishedDate && new Date(item.testFinishedDate).getTime() > new Date(item.testEstimateDate).getTime()) {
-                                item.overdueList.push("测试");
-                            } else if (!item.testFinishedDate && new Date().getTime() > new Date(item.testEstimateDate).getTime()) {
-                                item.overdueList.push("测试");
-                            }
-                        }
+                        // item.devList = [];
+                        // if (item.pdDesigner) {
+                        //     item.devList.push(this.getDevRealName(item.pdDesigner));
+                        // }
+                        // if (item.uiDesigner) {
+                        //     item.devList.push(this.getDevRealName(item.uiDesigner));
+                        // }
+                        // if (item.webDeveloper) {
+                        //     item.devList.push(this.getDevRealName(item.webDeveloper));
+                        // }
+                        // if (item.androidDeveloper) {
+                        //     item.devList.push(this.getDevRealName(item.androidDeveloper));
+                        // }
+                        // if (item.iosDeveloper) {
+                        //     item.devList.push(this.getDevRealName(item.iosDeveloper));
+                        // }
+                        // if (item.serverDeveloper) {
+                        //     item.devList.push(this.getDevRealName(item.serverDeveloper));
+                        // }
+                        // if (item.tester) {
+                        //     item.devList.push(this.getDevRealName(item.tester));
+                        // }
+                        // item.overdueList = [];
+                        // if (item.pdRequired && item.pdEstimateDate) {
+                        //     if (item.pdFinishedDate && new Date(item.pdFinishedDate).getTime() > new Date(item.pdEstimateDate).getTime()) {
+                        //         item.overdueList.push("产品");
+                        //     } else if (!item.pdFinishedDate && new Date().getTime() > new Date(item.pdEstimateDate).getTime()) {
+                        //         item.overdueList.push("产品");
+                        //     }
+                        // }
+                        // if (item.uiRequired && item.uiEstimateDate) {
+                        //     if (item.uiFinishedDate && new Date(item.uiFinishedDate).getTime() > new Date(item.uiEstimateDate).getTime()) {
+                        //         item.overdueList.push("UI");
+                        //     } else if (!item.uiFinishedDate && new Date().getTime() > new Date(item.uiEstimateDate).getTime()) {
+                        //         item.overdueList.push("UI");
+                        //     }
+                        // }
+                        // if (item.webRequired && item.webEstimateDate) {
+                        //     if (item.webFinishedDate && new Date(item.webFinishedDate).getTime() > new Date(item.webEstimateDate).getTime()) {
+                        //         item.overdueList.push("前端");
+                        //     } else if (!item.webFinishedDate && new Date().getTime() > new Date(item.webEstimateDate).getTime()) {
+                        //         item.overdueList.push("前端");
+                        //     }
+                        // }
+                        // if (item.androidRequired && item.androidEstimateDate) {
+                        //     if (item.androidFinishedDate && new Date(item.androidFinishedDate).getTime() > new Date(item.androidEstimateDate).getTime()) {
+                        //         item.overdueList.push("安卓");
+                        //     } else if (!item.androidFinishedDate && new Date().getTime() > new Date(item.androidEstimateDate).getTime()) {
+                        //         item.overdueList.push("安卓");
+                        //     }
+                        // }
+                        // if (item.iosRequired && item.iosEstimateDate) {
+                        //     if (item.iosFinishedDate && new Date(item.iosFinishedDate).getTime() > new Date(item.iosEstimateDate).getTime()) {
+                        //         item.overdueList.push("苹果");
+                        //     } else if (!item.iosFinishedDate && new Date().getTime() > new Date(item.iosEstimateDate).getTime()) {
+                        //         item.overdueList.push("苹果");
+                        //     }
+                        // }
+                        // if (item.serverRequired && item.serverEstimateDate) {
+                        //     if (item.serverFinishedDate && new Date(item.serverFinishedDate).getTime() > new Date(item.serverEstimateDate).getTime()) {
+                        //         item.overdueList.push("后端");
+                        //     } else if (!item.serverFinishedDate && new Date().getTime() > new Date(item.serverEstimateDate).getTime()) {
+                        //         item.overdueList.push("后端");
+                        //     }
+                        // }
+                        // if (item.testRequired && item.testEstimateDate) {
+                        //     if (item.testFinishedDate && new Date(item.testFinishedDate).getTime() > new Date(item.testEstimateDate).getTime()) {
+                        //         item.overdueList.push("测试");
+                        //     } else if (!item.testFinishedDate && new Date().getTime() > new Date(item.testEstimateDate).getTime()) {
+                        //         item.overdueList.push("测试");
+                        //     }
+                        // }
 
                         if (item.pdRequired) {
                             if (!item.pdEstimateDate) {
