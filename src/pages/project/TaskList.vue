@@ -2,8 +2,8 @@
     <div class="container">
         <div class="search_box">
             <a @click="onSearch('all')" :class="formSearch.searchType === 'all' ? 'link-btn link-btn-active' : 'link-btn'">所有</a>
-            <a @click="onSearch('assignMe')" :class="formSearch.searchType === 'assignMe' ? 'link-btn link-btn-active' : 'link-btn'">指派给我</a>
             <a @click="onSearch('notClosed')" :class="formSearch.searchType === 'notClosed' ? 'link-btn link-btn-active' : 'link-btn'">未关闭</a>
+            <a @click="onSearch('assignMe')" :class="formSearch.searchType === 'assignMe' ? 'link-btn link-btn-active' : 'link-btn'">我参与的</a>
             <a @click="onSearch('doing')" :class="formSearch.searchType === 'doing' ? 'link-btn link-btn-active' : 'link-btn'">进行中</a>
             <a @click="onSearch('done')" :class="formSearch.searchType === 'done' ? 'link-btn link-btn-active' : 'link-btn'">已完成</a>
             <a @click="onSearch('cancel')" :class="formSearch.searchType === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
@@ -55,10 +55,23 @@
                     <template slot-scope="scope">
                         <div v-if="scope.row.status === 'doing'" style="color: #ff5d5d;">进行中</div>
                         <div v-if="scope.row.status === 'done'" style="color: #00AA55;">已完成</div>
-                        <div v-if="scope.row.status === 'cancel'" style="color: #ff9800;">已取消</div>
+                        <!--<div v-if="scope.row.status === 'cancel'" style="color: #ff9800;">已取消</div>-->
+                        <div v-if="scope.row.status === 'cancel'" style="color: #AAAAAA;">已取消</div>
                         <div v-if="scope.row.status === 'closed'" style="color: #AAAAAA;">已关闭</div>
                     </template>
                 </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="createBy"
+                        min-width="70"
+                        label="创建"
+                ></el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="createDate"
+                        min-width="100"
+                        label="创建日期"
+                ></el-table-column>
                 <el-table-column
                         align="center"
                         prop="deadline"
@@ -66,30 +79,256 @@
                         label="截止日期"
                 >
                     <template slot-scope="scope">
-                        <div v-if="scope.row.deadlineOverdue && scope.row.deadlineOverdue === true" style="color: #FF3300;">
+                        <!--<div v-if="scope.row.deadlineOverdue && scope.row.deadlineOverdue === true" style="color: #FF3300;">
                             {{scope.row.deadline}}
                         </div>
-                        <div v-else>
+                        <div v-else>-->
                             {{scope.row.deadline}}
-                        </div>
+                        <!--</div>-->
                     </template>
                 </el-table-column>
                 <el-table-column
                         align="center"
-                        prop="openedBy"
-                        min-width="80"
-                        label="创建"
-                ></el-table-column>
+                        prop="tester"
+                        min-width="70"
+                        label="测试"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.testRequired">
+                            <div v-if="scope.row.tester === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.tester)}}</div>
+                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.tester)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
                 <el-table-column
                         align="center"
-                        prop="openedDate"
-                        min-width="150"
-                        label="创建日期"
-                ></el-table-column>
+                        prop="testEstimateDate"
+                        min-width="100"
+                        label="测试排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.testRequired ? scope.row.testEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
                 <el-table-column
+                        align="center"
+                        prop="testStatus"
+                        min-width="100"
+                        label="测试状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.testStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="pdDesigner"
+                        min-width="70"
+                        label="产品"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.pdRequired">
+                            <div v-if="scope.row.pdDesigner === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.pdDesigner)}}</div>
+                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.pdDesigner)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="pdEstimateDate"
+                        min-width="100"
+                        label="产品排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.pdRequired ? scope.row.pdEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="pdStatus"
+                        min-width="100"
+                        label="产品状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.pdStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="uiDesigner"
+                        min-width="70"
+                        label="UI"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.uiRequired">
+                            <div v-if="scope.row.uiDesigner === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.uiDesigner)}}</div>
+                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.uiDesigner)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="uiEstimateDate"
+                        min-width="100"
+                        label="UI排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.uiRequired ? scope.row.uiEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="uiStatus"
+                        min-width="100"
+                        label="UI状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.uiStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="webDeveloper"
+                        min-width="70"
+                        label="前端"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.webRequired">
+                            <div v-if="scope.row.webDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.webDeveloper)}}</div>
+                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.webDeveloper)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="webEstimateDate"
+                        min-width="100"
+                        label="前端排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.webRequired ? scope.row.webEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="webStatus"
+                        min-width="100"
+                        label="前端状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.webStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="androidDeveloper"
+                        min-width="70"
+                        label="安卓"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.androidRequired">
+                            <div v-if="scope.row.androidDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.androidDeveloper)}}</div>
+                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.androidDeveloper)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="androidEstimateDate"
+                        min-width="100"
+                        label="安卓排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.androidRequired ? scope.row.androidEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="androidStatus"
+                        min-width="100"
+                        label="安卓状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.androidStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="iosDeveloper"
+                        min-width="70"
+                        label="苹果"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.iosRequired">
+                            <div v-if="scope.row.iosDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.iosDeveloper)}}</div>
+                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.iosDeveloper)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="iosEstimateDate"
+                        min-width="100"
+                        label="苹果排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.iosRequired ? scope.row.iosEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="iosStatus"
+                        min-width="100"
+                        label="苹果状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.iosStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="serverDeveloper"
+                        min-width="70"
+                        label="后端"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.serverRequired">
+                            <div v-if="scope.row.serverDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.serverDeveloper)}}</div>
+                            <div v-else style="color: #0c60e1;">{{getDevRealName(scope.row.serverDeveloper)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="serverEstimateDate"
+                        min-width="100"
+                        label="后端排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.serverRequired ? scope.row.serverEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="serverStatus"
+                        min-width="100"
+                        label="后端状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.serverStatus}}
+                    </template>
+                </el-table-column>
+                <!--<el-table-column
                         prop="devList"
                         min-width="420"
-                        label="指派给"
+                        label="指派列表"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.devList && scope.row.devList.length > 0">
@@ -102,7 +341,7 @@
                 <el-table-column
                         prop="overdueList"
                         min-width="380"
-                        label="已逾期的"
+                        label="逾期列表"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.overdueList && scope.row.overdueList.length > 0">
@@ -111,7 +350,7 @@
                             </span>
                         </div>
                     </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                         align="center"
                         fixed="right"
@@ -179,10 +418,11 @@
 
     export default {
         name: 'TaskList',
+        inject: ['reload'],
         data() {
             return {
                 formSearch: {
-                    searchType: '',
+                    searchType: 'notClosed',
                     pageNum: 1,
                     pageSize: 15
                 },
@@ -191,6 +431,9 @@
                 tableList: [],
                 adminList: [],
                 searchLoading: false,
+
+                currentPostCode: localStorage.getItem('currentPostCode'),
+                currentUserName: localStorage.getItem('currentUserName'),
 
                 task: {},
                 dialogVisible: false,
@@ -235,8 +478,8 @@
                         } else {
                             item.deadlineOverdue = false;
                         }
-                        if (item.openedBy) {
-                            item.openedBy = this.getDevRealName(item.openedBy);
+                        if (item.createBy) {
+                            item.createBy = this.getDevRealName(item.createBy);
                         }
                         item.devList = [];
                         if (item.pdDesigner) {
@@ -309,6 +552,140 @@
                             } else if (!item.testFinishedDate && new Date().getTime() > new Date(item.testEstimateDate).getTime()) {
                                 item.overdueList.push("测试");
                             }
+                        }
+
+                        if (item.pdRequired) {
+                            if (!item.pdEstimateDate) {
+                                item.pdStatus = '待排期';
+                            } else if (!item.pdFinishedDate) {
+                                if (moment(new Date()).format('YYYY-MM-DD') > item.pdEstimateDate) {
+                                    item.pdStatus = '已逾期';
+                                } else {
+                                    item.pdStatus = '进行中';
+                                }
+                            } else if (item.pdFinishedDate) {
+                                if (item.pdFinishedDate > item.pdEstimateDate) {
+                                    item.pdStatus = '逾期完成';
+                                } else {
+                                    item.pdStatus = '正常完成';
+                                }
+                            }
+                        } else {
+                            item.pdStatus = '-';
+                        }
+                        if (item.uiRequired) {
+                            if (!item.uiEstimateDate) {
+                                item.uiStatus = '待排期';
+                            } else if (!item.uiFinishedDate) {
+                                if (moment(new Date()).format('YYYY-MM-DD') > item.uiEstimateDate) {
+                                    item.uiStatus = '已逾期';
+                                } else {
+                                    item.uiStatus = '进行中';
+                                }
+                            } else if (item.uiFinishedDate) {
+                                if (item.uiFinishedDate > item.uiEstimateDate) {
+                                    item.uiStatus = '逾期完成';
+                                } else {
+                                    item.uiStatus = '正常完成';
+                                }
+                            }
+                        } else {
+                            item.uiStatus = '-';
+                        }
+                        if (item.webRequired) {
+                            if (!item.webEstimateDate) {
+                                item.webStatus = '待排期';
+                            } else if (!item.webFinishedDate) {
+                                if (moment(new Date()).format('YYYY-MM-DD') > item.webEstimateDate) {
+                                    item.webStatus = '已逾期';
+                                } else {
+                                    item.webStatus = '进行中';
+                                }
+                            } else if (item.webFinishedDate) {
+                                if (item.webFinishedDate > item.webEstimateDate) {
+                                    item.webStatus = '逾期完成';
+                                } else {
+                                    item.webStatus = '正常完成';
+                                }
+                            }
+                        } else {
+                            item.webStatus = '-';
+                        }
+                        if (item.androidRequired) {
+                            if (!item.androidEstimateDate) {
+                                item.androidStatus = '待排期';
+                            } else if (!item.androidFinishedDate) {
+                                if (moment(new Date()).format('YYYY-MM-DD') > item.androidEstimateDate) {
+                                    item.androidStatus = '已逾期';
+                                } else {
+                                    item.androidStatus = '进行中';
+                                }
+                            } else if (item.androidFinishedDate) {
+                                if (item.androidFinishedDate > item.androidEstimateDate) {
+                                    item.androidStatus = '逾期完成';
+                                } else {
+                                    item.androidStatus = '正常完成';
+                                }
+                            }
+                        } else {
+                            item.androidStatus = '-';
+                        }
+                        if (item.iosRequired) {
+                            if (!item.iosEstimateDate) {
+                                item.iosStatus = '待排期';
+                            } else if (!item.iosFinishedDate) {
+                                if (moment(new Date()).format('YYYY-MM-DD') > item.iosEstimateDate) {
+                                    item.iosStatus = '已逾期';
+                                } else {
+                                    item.iosStatus = '进行中';
+                                }
+                            } else if (item.iosFinishedDate) {
+                                if (item.iosFinishedDate > item.iosEstimateDate) {
+                                    item.iosStatus = '逾期完成';
+                                } else {
+                                    item.iosStatus = '正常完成';
+                                }
+                            }
+                        } else {
+                            item.iosStatus = '-';
+                        }
+                        if (item.serverRequired) {
+                            if (!item.serverEstimateDate) {
+                                item.serverStatus = '待排期';
+                            } else if (!item.serverFinishedDate) {
+                                if (moment(new Date()).format('YYYY-MM-DD') > item.serverEstimateDate) {
+                                    item.serverStatus = '已逾期';
+                                } else {
+                                    item.serverStatus = '进行中';
+                                }
+                            } else if (item.serverFinishedDate) {
+                                if (item.serverFinishedDate > item.serverEstimateDate) {
+                                    item.serverStatus = '逾期完成';
+                                } else {
+                                    item.serverStatus = '正常完成';
+                                }
+                            }
+                        } else {
+                            item.serverStatus = '-';
+                        }
+                        if (item.testRequired) {
+                            if (!item.testEstimateDate) {
+                                item.testStatus = '待排期';
+                            } else if (!item.testFinishedDate) {
+                                if (moment(new Date()).format('YYYY-MM-DD') > item.testEstimateDate) {
+                                    item.testStatus = '已逾期';
+                                } else {
+                                    item.testStatus = '进行中';
+                                }
+                            } else if (item.testFinishedDate) {
+                                if (item.testFinishedDate > item.testEstimateDate) {
+                                    item.testStatus = '逾期完成';
+                                } else {
+                                    item.testStatus = '正常完成';
+                                }
+                            }
+                        } else {
+                            item.testStatus = '-';
                         }
                     })
                 } else {
@@ -388,25 +765,28 @@
                 if (this.actionType === 'assign') {
                     formData = {
                         id: this.task.id,
-                        pdDesigner: data.pdDesigner && data.pdDesigner.length > 0 ? data.pdDesigner.join(",") : null,
-                        uiDesigner: data.uiDesigner && data.uiDesigner.length > 0 ? data.uiDesigner.join(",") : null,
-                        webDeveloper: data.webDeveloper && data.webDeveloper.length > 0 ? data.webDeveloper.join(",") : null,
-                        androidDeveloper: data.androidDeveloper && data.androidDeveloper.length > 0 ? data.androidDeveloper.join(",") : null,
-                        iosDeveloper: data.iosDeveloper && data.iosDeveloper.length > 0 ? data.iosDeveloper.join(",") : null,
-                        serverDeveloper: data.serverDeveloper && data.serverDeveloper.length > 0 ? data.serverDeveloper.join(",") : null,
-                        tester: data.tester && data.tester.length > 0 ? data.tester.join(",") : null,
-                        remark: data.remark
+                        ...data,
+                        // pdDesigner: data.pdDesigner && data.pdDesigner.length > 0 ? data.pdDesigner.join(",") : null,
+                        // uiDesigner: data.uiDesigner && data.uiDesigner.length > 0 ? data.uiDesigner.join(",") : null,
+                        // webDeveloper: data.webDeveloper && data.webDeveloper.length > 0 ? data.webDeveloper.join(",") : null,
+                        // androidDeveloper: data.androidDeveloper && data.androidDeveloper.length > 0 ? data.androidDeveloper.join(",") : null,
+                        // iosDeveloper: data.iosDeveloper && data.iosDeveloper.length > 0 ? data.iosDeveloper.join(",") : null,
+                        // serverDeveloper: data.serverDeveloper && data.serverDeveloper.length > 0 ? data.serverDeveloper.join(",") : null,
+                        // tester: data.tester && data.tester.length > 0 ? data.tester.join(",") : null,
+                        // remark: data.remark
                     };
                 } else if (this.actionType === 'estimate') {
                     formData = {
                         id: this.task.id,
                         estimateDate: moment(data.estimateDate).format('YYYY-MM-DD'),
+                        currentPostCode: localStorage.getItem('currentPostCode'),
                         remark: data.remark
                     };
                 } else if (this.actionType === 'complete') {
                     formData = {
                         id: this.task.id,
                         finishedDate: data.finishedDate ? moment(data.finishedDate).format('YYYY-MM-DD') : null,
+                        currentPostCode: localStorage.getItem('currentPostCode'),
                         remark: data.remark
                     };
                 } else if (this.actionType === 'activate' || this.actionType === 'cancel' || this.actionType === 'close') {
@@ -415,7 +795,7 @@
                         remark: data.remark
                     };
                 }
-                res = await this.$service.updateTaskStatus({
+                res = await this.$service.taskAction({
                     ...formData,
                     actionType: this.actionType
                 });

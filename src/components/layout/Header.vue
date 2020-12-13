@@ -13,14 +13,28 @@
                         </template>
                     </ul>
                 </nav>
+                <div id="postCode">
+                    <el-dropdown trigger="click" @command="switchCommand">
+                    <span class="el-dropdown-link">
+                        当前身份：{{ currentPostCodeName }}<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <template v-for="item in postList">
+                                <template v-if="admin.postCode.indexOf(item.code) > -1">
+                                    <el-dropdown-item :command="item.code">{{item.name}}</el-dropdown-item>
+                                </template>
+                            </template>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
                 <div id="toolBar">
                     <el-dropdown trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
                         {{ admin.realName }}<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>个人资料</el-dropdown-item>
-                            <el-dropdown-item class="el-dropdown-menu-divided"></el-dropdown-item>
+                            <!--<el-dropdown-item command="switchPostCode">切换身份</el-dropdown-item>-->
+                            <!--<el-dropdown-item class="el-dropdown-menu-divided"></el-dropdown-item>-->
                             <el-dropdown-item command="loginOut">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -47,17 +61,21 @@
         name: "HeaderPage",
         data() {
             return {
+                admin: {},
+                menuList: [],
                 activeMenuId: localStorage.getItem('activeMenuId'),
                 activeSubMenuId: localStorage.getItem('activeSubMenuId'),
                 subMenuList: [],
+                currentPostCodeName: '',
+                postList: [],
             }
         },
-        computed: {
+        /*computed: {
             ...mapState({
                 admin: state => state.admin,
                 menuList: state => state.menuList,
             })
-        },
+        },*/
         methods: {
             clickMenu(id) {
                 this.activeMenuId = id;
@@ -95,17 +113,42 @@
                     }
                 }
             },
-            //注销
+            //切换身份
+            switchCommand(command) {
+                for (let item of this.postList) {
+                    if (item.code === command) {
+                        this.currentPostCodeName = item.name;
+                        localStorage.setItem('currentPostCode', item.code);
+                        return;
+                    }
+                }
+            },
+            //退出登录
             handleCommand(command) {
-                localStorage.removeItem('admin');
-                localStorage.removeItem('admin_token');
-                localStorage.removeItem('menuList');
-                localStorage.removeItem('activeMenuId');
-                localStorage.removeItem('activeSubMenuId');
-                this.$router.push('/login.html')
+                if (command === 'loginOut') {
+                    localStorage.removeItem('admin');
+                    localStorage.removeItem('admin_token');
+                    localStorage.removeItem('menuList');
+                    localStorage.removeItem('activeMenuId');
+                    localStorage.removeItem('activeSubMenuId');
+                    localStorage.removeItem('currentPostCode');
+                    localStorage.removeItem('currentUserName');
+                    this.$router.push('/login.html')
+                }
+            },
+            async getPositionList() {
+                const res = await this.$service.getPositionList({});
+                if (res.code === 20000) {
+                    this.postList = res.data || [];
+                    this.switchCommand(this.admin.postCode.split(',')[0]);
+                }
             },
         },
         created() {
+            this.admin = localStorage.getItem('admin') ? JSON.parse(localStorage.getItem('admin')) : {};
+            localStorage.setItem('currentUserName', this.admin.userName);
+            this.menuList = localStorage.getItem('menuList') ? JSON.parse(localStorage.getItem('menuList')) : [];
+            this.getPositionList();
             this.activeMenuId = Number.parseInt(localStorage.getItem('activeMenuId'));
             this.activeSubMenuId = Number.parseInt(localStorage.getItem('activeSubMenuId'));
             for (let item of this.menuList) {
@@ -199,13 +242,22 @@
         background: rgba(255, 255, 255, .4);
     }
 
+    #postCode {
+        position: absolute;
+        top: 0;
+        right: 130px;
+        font-size: 9px;
+        color: #fff;
+        opacity: .8;
+    }
+
     #toolBar {
         position: absolute;
         top: 0;
         right: 40px;
         font-size: 13px;
         color: #fff;
-        opacity: .9;
+        opacity: .8;
     }
 
     .el-dropdown-link {

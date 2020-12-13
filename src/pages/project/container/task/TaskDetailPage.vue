@@ -63,7 +63,7 @@
                             <el-tab-pane label="任务的生命周期">
                                 <el-form :label-width="'70px'" class="task-info-form">
                                     <el-form-item label="由谁创建">
-                                        <div v-if="task.openedBy">{{getDevRealName(task.openedBy)}}于{{task.openedDate}}</div>
+                                        <div v-if="task.createBy">{{getDevRealName(task.createBy)}}于{{task.createDate}}</div>
                                         <div v-else>/</div>
                                     </el-form-item>
                                     <el-form-item label="产品设计">
@@ -316,12 +316,14 @@
                     formData = {
                         id: this.task.id,
                         estimateDate: moment(data.estimateDate).format('YYYY-MM-DD'),
+                        currentPostCode: localStorage.getItem('currentPostCode'),
                         remark: data.remark
                     };
                 } else if (this.actionType === 'complete') {
                     formData = {
                         id: this.task.id,
                         finishedDate: data.finishedDate ? moment(data.finishedDate).format('YYYY-MM-DD') : null,
+                        currentPostCode: localStorage.getItem('currentPostCode'),
                         remark: data.remark
                     };
                 } else if (this.actionType === 'activate' || this.actionType === 'cancel' || this.actionType === 'close') {
@@ -330,7 +332,7 @@
                         remark: data.remark
                     };
                 }
-                res = await this.$service.updateTaskStatus({
+                res = await this.$service.taskAction({
                     ...formData,
                     actionType: this.actionType
                 });
@@ -432,7 +434,7 @@
         margin-bottom: 0;
     }
 
-    .black-divider--vertical {
+    /*.black-divider--vertical {
         background-color: #F5F5F5;
         width: 2px;
         height: 1.3em;
@@ -443,7 +445,7 @@
         background-color: #F5F5F5;
         height: 2px;
         margin: 10px 0;
-    }
+    }*/
 
     .white-divider--vertical {
         width: 2px;

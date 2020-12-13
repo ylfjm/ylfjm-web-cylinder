@@ -258,10 +258,10 @@
                             </el-form-item>
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="由谁创建" style="margin-bottom: 0;">
-                                {{getDevRealName(form.openedBy)}}
+                                {{getDevRealName(form.createBy)}}
                             </el-form-item>
                             <el-form-item label="创建时间" style="margin-bottom: 0;">
-                                {{form.openedDate}}
+                                {{form.createDate}}
                             </el-form-item>
                             <el-form-item label="最后编辑" style="margin-bottom: 0;">
                                 {{getDevRealName(form.lastEditedBy)}}

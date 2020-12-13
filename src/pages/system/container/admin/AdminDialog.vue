@@ -17,7 +17,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="职位" prop="postCode">
-                    <el-select v-model="form.postCode" clearable placeholder="请选择">
+                    <el-select v-model="form.postCode" clearable multiple placeholder="请选择" style="width: 100%;">
                         <el-option v-for="item in postList" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
                 </el-form-item>
@@ -48,7 +48,7 @@
                     password: '',
                     realName: '',
                     deptId: '',
-                    postCode: '',
+                    postCode: [],
                     roleIds: [],
                     remark: '',
                 },
@@ -108,7 +108,7 @@
                         this.form.password = '';
                         this.form.realName = '';
                         this.form.deptId = '';
-                        this.form.postCode = '';
+                        this.form.postCode = [];
                         this.form.roleIds = [];
                         this.form.remark = '';
                     }

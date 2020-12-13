@@ -74,8 +74,8 @@
             handleChecked(value) {
             },
             async initData() {
-                if (this.$route.params.id) {
-                    this.roleId = this.$route.params.id;
+                this.roleId = this.$route.query.roleId;
+                if (this.roleId) {
                     const res = await this.$service.getMenuWithPermissionByRoleId({roleId: this.roleId});
                     if (res.code === 20000) {
                         this.menuList = res.data;

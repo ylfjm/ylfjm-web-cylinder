@@ -258,22 +258,22 @@
                 if (page === 'user') {
                     this.$router.push({
                         name: 'role-user.html',
-                        params: {
-                            id: data.id
+                        query: {
+                            roleId: data.id
                         }
                     })
                 } else if (page === 'menu') {
                     this.$router.push({
                         name: 'role-menu.html',
-                        params: {
-                            id: data.id
+                        query: {
+                            roleId: data.id
                         }
                     })
                 } else if (page === 'permission') {
                     this.$router.push({
                         name: 'role-permission.html',
-                        params: {
-                            id: data.id
+                        query: {
+                            roleId: data.id
                         }
                     })
                 }

@@ -78,7 +78,7 @@
                         show-overflow-tooltip
                         label="姓名"
                 ></el-table-column>
-                <el-table-column
+                <!--<el-table-column
                         prop="roleNameList"
                         min-width="150"
                         show-overflow-tooltip
@@ -89,13 +89,37 @@
                             {{item}}<br/>
                         </div>
                     </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                         prop="deptName"
                         min-width="150"
                         show-overflow-tooltip
                         label="部门"
                 ></el-table-column>
+                <el-table-column
+                        prop="postCode"
+                        min-width="150"
+                        show-overflow-tooltip
+                        label="职位"
+                >
+                    <template slot-scope="scope">
+                        <!--<div v-if="scope.row.postCode === 'po'">产品经理</div>
+                        <div v-if="scope.row.postCode === 'ui'">UI设计师</div>
+                        <div v-if="scope.row.postCode === 'web'">前端开发</div>
+                        <div v-if="scope.row.postCode === 'android'">安卓开发</div>
+                        <div v-if="scope.row.postCode === 'ios'">苹果开发</div>
+                        <div v-if="scope.row.postCode === 'dev'">后端开发</div>
+                        <div v-if="scope.row.postCode === 'test'">测试</div>
+                        <div v-if="scope.row.postCode === 'pm'">项目经理</div>
+                        <div v-if="scope.row.postCode === 'td'">研发经理</div>
+                        <div v-if="scope.row.postCode === 'others'">其他</div>-->
+                        <div v-for="item in postList" :key="item.id">
+                            <div v-if="scope.row.postCode.indexOf(item.code) > -1">
+                                {{item.name}}<br/>
+                            </div>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column
                         prop="enable"
                         min-width="100"
@@ -242,6 +266,9 @@
                     this.total = res.data.total;
                     this.pages = res.data.pages;
                     this.tableList = res.data.result || [];
+                    this.tableList.map(item => {
+                        item.postCode = item.postCode.split(',');
+                    });
                 } else {
                     this.$notify.error({
                         title: '提示',
@@ -272,11 +299,15 @@
                 if (this.actionType === 'create') {
                     formData = {
                         ...data,
+                        postCode: data.postCode.join(','),
                         password: CryptoJS.MD5(data.password.trim()).toString()
                     };
                     res = await this.$service.addAdmin(formData);
                 } else if (this.actionType === 'update') {
-                    formData = {...data};
+                    formData = {
+                        ...data,
+                        postCode: data.postCode.join(',')
+                    };
                     if (formData.password && formData.password !== '' && formData.password !== this.oldObj.password) {
                         formData.password = CryptoJS.MD5(formData.password).toString()
                     } else {

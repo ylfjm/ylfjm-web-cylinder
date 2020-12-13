@@ -7,9 +7,33 @@
             <div class="container-box-body">
                 <el-form :label-width="'80px'" ref="form" :rules="rules" :model="form">
                     <div class="dp-table">
-                        <div class="dp-table-cell col-6">
+                        <div class="dp-table-cell">
+                            <el-form-item label="任务名称" prop="name" style="width: 100%;">
+                                <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
+                            </el-form-item>
+                            <el-form-item label="任务描述" prop="richText" style="width: 100%;">
+                                <!--<QuillEditor @change="changeText" :editorContent="form.richText"></QuillEditor>-->
+                                <KindEditor id="editor_id" :content.sync="form.richText" height="400px" @onContentChange="onContentChange">
+                                </KindEditor>
+                            </el-form-item>
+                            <el-form-item label="创建之后">
+                                <el-radio-group v-model="afterCreateAction">
+                                    <el-radio :label="1">继续为该项目创建任务</el-radio>
+                                    <el-radio :label="2">返回任务列表</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+
+                            <div class="text-center" style="margin-top: 20px;">
+                                <el-button type="primary" @click="currentSubmit('form')" :loading="createLoading" style="width: 100px;">保 存
+                                </el-button>
+                                <router-link :to="'/task-list.html'">
+                                    <el-button style="margin-left: 30px; width: 100px;">返 回</el-button>
+                                </router-link>
+                            </div>
+                        </div>
+                        <div class="dp-table-cell" style="width: 35%; padding: 0 15px 0 30px;">
                             <el-form-item label="所属项目" prop="projectId">
-                                <el-select v-model="form.projectId" placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.projectId" placeholder="请选择" style="width: 100%;">
                                     <el-option
                                             v-for="item in projectList"
                                             :key="item.id"
@@ -19,7 +43,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="任务类型" prop="type">
-                                <el-select v-model="form.type" placeholder="请选择" style="width: 150px;">
+                                <el-select v-model="form.type" placeholder="请选择" style="width: 210px;">
                                     <el-option
                                             v-for="item in typeOptions"
                                             :key="item.value"
@@ -33,7 +57,7 @@
                                         v-model="form.pri"
                                         :min="1"
                                         :max="3"
-                                        style="width: 150px;">
+                                        style="width: 210px;">
                                 </el-input-number>
                             </el-form-item>
                             <el-form-item label="截止日期" prop="deadline">
@@ -41,84 +65,61 @@
                                         v-model="form.deadline"
                                         type="date"
                                         :clearable="false"
-                                        style="width: 150px;"
+                                        style="width: 210px;"
                                         placeholder="选择日期">
                                 </el-date-picker>
                             </el-form-item>
+                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="产品设计">
-                                <el-select v-model="form.pdDesigner" clearable placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.pdDesigner" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'po'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="UI设计">
-                                <el-select v-model="form.uiDesigner" clearable placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.uiDesigner" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'ui'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                        </div>
-                        <div class="dp-table-cell col-6">
                             <el-form-item label="前端开发">
-                                <el-select v-model="form.webDeveloper" clearable placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.webDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="['web','dev'].indexOf(item.postCode) > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="安卓开发">
-                                <el-select v-model="form.androidDeveloper" clearable placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.androidDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'android'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="苹果开发">
-                                <el-select v-model="form.iosDeveloper" clearable placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.iosDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'ios'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="后端开发">
-                                <el-select v-model="form.serverDeveloper" clearable placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.serverDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'dev'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="测试人员">
-                                <el-select v-model="form.tester" clearable placeholder="请选择" style="width: 90%;">
+                                <el-select v-model="form.tester" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
                                                v-show="item.postCode === 'test'">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                         </div>
-                    </div>
-                    <el-form-item label="任务名称" prop="name" style="width: 96%;">
-                        <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
-                    </el-form-item>
-                    <el-form-item label="任务描述" prop="richText" style="width: 96%;">
-                        <!--<QuillEditor @change="changeText" :editorContent="form.richText"></QuillEditor>-->
-                        <KindEditor id="editor_id" :content.sync="form.richText" @onContentChange="onContentChange">
-                        </KindEditor>
-                    </el-form-item>
-                    <el-form-item label="创建之后">
-                        <el-radio-group v-model="afterCreateAction">
-                            <el-radio :label="1">继续为该项目创建任务</el-radio>
-                            <el-radio :label="2">返回任务列表</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-
-                    <div class="text-center" style="margin-top: 20px;">
-                        <el-button type="primary" @click="currentSubmit('form')" :loading="createLoading" style="width: 100px;">保 存
-                        </el-button>
-                        <router-link :to="'/task-list.html'">
-                            <el-button style="margin-left: 30px; width: 100px;">返 回</el-button>
-                        </router-link>
                     </div>
                 </el-form>
             </div>
@@ -256,7 +257,7 @@
 <style scoped>
     .container {
         margin: 0 100px;
-        padding: 20px 80px;
+        padding: 20px 30px;
         background-color: white;
         border-radius: 4px;
     }
@@ -270,7 +271,7 @@
     }
 
     .container-box-header {
-        padding: 15px 20px;
+        padding: 10px 20px;
         border-bottom: 1px solid #EBEEF5;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
