@@ -8,9 +8,87 @@
             <a @click="onSearch('done')" :class="formSearch.searchType === 'done' ? 'link-btn link-btn-active' : 'link-btn'">已完成</a>
             <a @click="onSearch('cancel')" :class="formSearch.searchType === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
             <a @click="onSearch('closed')" :class="formSearch.searchType === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
-            <el-button type="primary" @click="jumpPage('', 'CreateTaskPage')" icon="el-icon-plus" style="float: right;">
-                创建任务
-            </el-button>
+            <div class="" style=" float: right; display: inline-block; text-align: right; position: relative;">
+                <el-button type="primary" @click="jumpPage('', 'CreateTaskPage')" icon="el-icon-plus" style="margin-right: 10px;">
+                    创建任务
+                </el-button>
+                <el-popover placement="bottom-end" width="330" trigger="click"
+                            style="position:absolute;top:53px;left:82px;z-index:20;cursor:pointer;">
+                    <el-col :span="6">
+                        <el-checkbox v-model="createByColumnVisible" @change="showOrHide">创建</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="createDateColumnVisible" @change="showOrHide">创建日期</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="deadlineColumnVisible" @change="showOrHide">截止日期</el-checkbox>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-checkbox v-model="pdDesignerColumnVisible" @change="showOrHide">产品</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="pdEstimateDateColumnVisible" @change="showOrHide">产品排期</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="pdStatusColumnVisible" @change="showOrHide">产品状态</el-checkbox>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-checkbox v-model="uiDesignerColumnVisible" @change="showOrHide">UI</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="uiEstimateDateColumnVisible" @change="showOrHide">UI排期</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="uiStatusColumnVisible" @change="showOrHide">UI状态</el-checkbox>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-checkbox v-model="webDeveloperColumnVisible" @change="showOrHide">前端</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="webEstimateDateColumnVisible" @change="showOrHide">前端排期</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="webStatusColumnVisible" @change="showOrHide">前端状态</el-checkbox>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-checkbox v-model="androidDeveloperColumnVisible" @change="showOrHide">安卓</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="androidEstimateDateColumnVisible" @change="showOrHide">安卓排期</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="androidStatusColumnVisible" @change="showOrHide">安卓状态</el-checkbox>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-checkbox v-model="iosDeveloperColumnVisible" @change="showOrHide">苹果</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="iosEstimateDateColumnVisible" @change="showOrHide">苹果排期</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="iosStatusColumnVisible" @change="showOrHide">苹果状态</el-checkbox>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-checkbox v-model="serverDeveloperColumnVisible" @change="showOrHide">后端</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="serverEstimateDateColumnVisible" @change="showOrHide">后端排期</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="serverStatusColumnVisible" @change="showOrHide">后端状态</el-checkbox>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-checkbox v-model="testerColumnVisible" @change="showOrHide">测试</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="testEstimateDateColumnVisible" @change="showOrHide">测试排期</el-checkbox>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-checkbox v-model="testStatusColumnVisible" @change="showOrHide">测试状态</el-checkbox>
+                    </el-col>
+                    <img slot="reference" src="@/assets/images/setting-18.png">
+                </el-popover>
+            </div>
         </div>
         <div class="table-content">
             <el-table
@@ -19,6 +97,7 @@
                     v-loading="searchLoading"
                     :header-cell-style="{fontSize: '14px', color: '#333333'}"
                     stripe
+                    @sort-change="sortChange"
             >
                 <el-table-column
                         prop="id"
@@ -55,39 +134,274 @@
                     <template slot-scope="scope">
                         <div v-if="scope.row.status === 'doing'" style="color: #ff5d5d;">进行中</div>
                         <div v-if="scope.row.status === 'done'" style="color: #00AA55;">已完成</div>
-                        <!--<div v-if="scope.row.status === 'cancel'" style="color: #ff9800;">已取消</div>-->
                         <div v-if="scope.row.status === 'cancel'" style="color: #AAAAAA;">已取消</div>
                         <div v-if="scope.row.status === 'closed'" style="color: #AAAAAA;">已关闭</div>
                     </template>
                 </el-table-column>
                 <el-table-column
+                        v-if="createByColumnVisible"
                         align="center"
                         prop="createBy"
                         min-width="70"
                         label="创建"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
+                        v-if="createDateColumnVisible"
                         prop="createDate"
                         min-width="100"
                         label="创建日期"
+                        sortable="custom"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
+                        v-if="deadlineColumnVisible"
                         prop="deadline"
                         min-width="100"
                         label="截止日期"
+                        sortable="custom"
                 >
                     <template slot-scope="scope">
                         <!--<div v-if="scope.row.deadlineOverdue && scope.row.deadlineOverdue === true" style="color: #FF3300;">
                             {{scope.row.deadline}}
                         </div>
                         <div v-else>-->
-                            {{scope.row.deadline}}
+                        {{scope.row.deadline}}
                         <!--</div>-->
                     </template>
                 </el-table-column>
                 <el-table-column
+                        v-if="pdDesignerColumnVisible"
+                        align="center"
+                        prop="pdDesigner"
+                        min-width="70"
+                        label="产品"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.pdRequired">
+                            <div v-if="scope.row.pdDesigner === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.pdDesigner)}}
+                            </div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.pdDesigner)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="pdEstimateDateColumnVisible"
+                        align="center"
+                        prop="pdEstimateDate"
+                        min-width="100"
+                        label="产品排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.pdRequired ? scope.row.pdEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="pdStatusColumnVisible"
+                        align="center"
+                        prop="pdStatus"
+                        min-width="80"
+                        label="产品状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.pdStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="uiDesignerColumnVisible"
+                        align="center"
+                        prop="uiDesigner"
+                        min-width="70"
+                        label="UI"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.uiRequired">
+                            <div v-if="scope.row.uiDesigner === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.uiDesigner)}}
+                            </div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.uiDesigner)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="uiEstimateDateColumnVisible"
+                        align="center"
+                        prop="uiEstimateDate"
+                        min-width="100"
+                        label="UI排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.uiRequired ? scope.row.uiEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="uiStatusColumnVisible"
+                        align="center"
+                        prop="uiStatus"
+                        min-width="80"
+                        label="UI状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.uiStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="webDeveloperColumnVisible"
+                        align="center"
+                        prop="webDeveloper"
+                        min-width="70"
+                        label="前端"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.webRequired">
+                            <div v-if="scope.row.webDeveloper === currentUserName" style="color: #ff5d5d;">
+                                {{getDevRealName(scope.row.webDeveloper)}}
+                            </div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.webDeveloper)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="webEstimateDateColumnVisible"
+                        align="center"
+                        prop="webEstimateDate"
+                        min-width="100"
+                        label="前端排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.webRequired ? scope.row.webEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="webStatusColumnVisible"
+                        align="center"
+                        prop="webStatus"
+                        min-width="80"
+                        label="前端状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.webStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="androidDeveloperColumnVisible"
+                        align="center"
+                        prop="androidDeveloper"
+                        min-width="70"
+                        label="安卓"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.androidRequired">
+                            <div v-if="scope.row.androidDeveloper === currentUserName" style="color: #ff5d5d;">
+                                {{getDevRealName(scope.row.androidDeveloper)}}
+                            </div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.androidDeveloper)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="androidEstimateDateColumnVisible"
+                        align="center"
+                        prop="androidEstimateDate"
+                        min-width="100"
+                        label="安卓排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.androidRequired ? scope.row.androidEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="androidStatusColumnVisible"
+                        align="center"
+                        prop="androidStatus"
+                        min-width="80"
+                        label="安卓状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.androidStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="iosDeveloperColumnVisible"
+                        align="center"
+                        prop="iosDeveloper"
+                        min-width="70"
+                        label="苹果"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.iosRequired">
+                            <div v-if="scope.row.iosDeveloper === currentUserName" style="color: #ff5d5d;">
+                                {{getDevRealName(scope.row.iosDeveloper)}}
+                            </div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.iosDeveloper)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="iosEstimateDateColumnVisible"
+                        align="center"
+                        prop="iosEstimateDate"
+                        min-width="100"
+                        label="苹果排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.iosRequired ? scope.row.iosEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="iosStatusColumnVisible"
+                        align="center"
+                        prop="iosStatus"
+                        min-width="80"
+                        label="苹果状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.iosStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="serverDeveloperColumnVisible"
+                        align="center"
+                        prop="serverDeveloper"
+                        min-width="70"
+                        label="后端"
+                >
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.serverRequired">
+                            <div v-if="scope.row.serverDeveloper === currentUserName" style="color: #ff5d5d;">
+                                {{getDevRealName(scope.row.serverDeveloper)}}
+                            </div>
+                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.serverDeveloper)}}</div>
+                        </template>
+                        <template v-else>-</template>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="serverEstimateDateColumnVisible"
+                        align="center"
+                        prop="serverEstimateDate"
+                        min-width="100"
+                        label="后端排期"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.serverRequired ? scope.row.serverEstimateDate : '-'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="serverStatusColumnVisible"
+                        align="center"
+                        prop="serverStatus"
+                        min-width="80"
+                        label="后端状态"
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.serverStatus}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="testerColumnVisible"
                         align="center"
                         prop="tester"
                         min-width="70"
@@ -102,6 +416,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        v-if="testEstimateDateColumnVisible"
                         align="center"
                         prop="testEstimateDate"
                         min-width="80"
@@ -112,6 +427,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        v-if="testStatusColumnVisible"
                         align="center"
                         prop="testStatus"
                         min-width="80"
@@ -119,210 +435,6 @@
                 >
                     <template slot-scope="scope">
                         {{scope.row.testStatus}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="pdDesigner"
-                        min-width="70"
-                        label="产品"
-                >
-                    <template slot-scope="scope">
-                        <template v-if="scope.row.pdRequired">
-                            <div v-if="scope.row.pdDesigner === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.pdDesigner)}}</div>
-                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.pdDesigner)}}</div>
-                        </template>
-                        <template v-else>-</template>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="pdEstimateDate"
-                        min-width="100"
-                        label="产品排期"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.pdRequired ? scope.row.pdEstimateDate : '-'}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="pdStatus"
-                        min-width="80"
-                        label="产品状态"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.pdStatus}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="uiDesigner"
-                        min-width="70"
-                        label="UI"
-                >
-                    <template slot-scope="scope">
-                        <template v-if="scope.row.uiRequired">
-                            <div v-if="scope.row.uiDesigner === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.uiDesigner)}}</div>
-                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.uiDesigner)}}</div>
-                        </template>
-                        <template v-else>-</template>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="uiEstimateDate"
-                        min-width="100"
-                        label="UI排期"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.uiRequired ? scope.row.uiEstimateDate : '-'}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="uiStatus"
-                        min-width="80"
-                        label="UI状态"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.uiStatus}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="webDeveloper"
-                        min-width="70"
-                        label="前端"
-                >
-                    <template slot-scope="scope">
-                        <template v-if="scope.row.webRequired">
-                            <div v-if="scope.row.webDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.webDeveloper)}}</div>
-                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.webDeveloper)}}</div>
-                        </template>
-                        <template v-else>-</template>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="webEstimateDate"
-                        min-width="100"
-                        label="前端排期"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.webRequired ? scope.row.webEstimateDate : '-'}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="webStatus"
-                        min-width="80"
-                        label="前端状态"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.webStatus}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="androidDeveloper"
-                        min-width="70"
-                        label="安卓"
-                >
-                    <template slot-scope="scope">
-                        <template v-if="scope.row.androidRequired">
-                            <div v-if="scope.row.androidDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.androidDeveloper)}}</div>
-                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.androidDeveloper)}}</div>
-                        </template>
-                        <template v-else>-</template>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="androidEstimateDate"
-                        min-width="100"
-                        label="安卓排期"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.androidRequired ? scope.row.androidEstimateDate : '-'}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="androidStatus"
-                        min-width="80"
-                        label="安卓状态"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.androidStatus}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="iosDeveloper"
-                        min-width="70"
-                        label="苹果"
-                >
-                    <template slot-scope="scope">
-                        <template v-if="scope.row.iosRequired">
-                            <div v-if="scope.row.iosDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.iosDeveloper)}}</div>
-                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.iosDeveloper)}}</div>
-                        </template>
-                        <template v-else>-</template>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="iosEstimateDate"
-                        min-width="100"
-                        label="苹果排期"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.iosRequired ? scope.row.iosEstimateDate : '-'}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="iosStatus"
-                        min-width="80"
-                        label="苹果状态"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.iosStatus}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="serverDeveloper"
-                        min-width="70"
-                        label="后端"
-                >
-                    <template slot-scope="scope">
-                        <template v-if="scope.row.serverRequired">
-                            <div v-if="scope.row.serverDeveloper === currentUserName" style="color: #ff5d5d;">{{getDevRealName(scope.row.serverDeveloper)}}</div>
-                            <div v-else style="color: #0066CC;">{{getDevRealName(scope.row.serverDeveloper)}}</div>
-                        </template>
-                        <template v-else>-</template>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="serverEstimateDate"
-                        min-width="100"
-                        label="后端排期"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.serverRequired ? scope.row.serverEstimateDate : '-'}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="serverStatus"
-                        min-width="80"
-                        label="后端状态"
-                >
-                    <template slot-scope="scope">
-                        {{scope.row.serverStatus}}
                     </template>
                 </el-table-column>
                 <!--<el-table-column
@@ -392,6 +504,7 @@
             </el-table>
             <div class="pagination_box">
                 <el-pagination
+                        background
                         @current-change="handleCurrentChange"
                         @size-change="handleSizeChange"
                         class="pagination_content"
@@ -426,6 +539,31 @@
                     pageNum: 1,
                     pageSize: 15
                 },
+                createByColumnVisible: JSON.parse(localStorage.getItem('createByColumnVisible')),
+                createDateColumnVisible: JSON.parse(localStorage.getItem('createDateColumnVisible')),
+                deadlineColumnVisible: JSON.parse(localStorage.getItem('deadlineColumnVisible')),
+                pdDesignerColumnVisible: JSON.parse(localStorage.getItem('pdDesignerColumnVisible')),
+                pdEstimateDateColumnVisible: JSON.parse(localStorage.getItem('pdEstimateDateColumnVisible')),
+                pdStatusColumnVisible: JSON.parse(localStorage.getItem('pdStatusColumnVisible')),
+                uiDesignerColumnVisible: JSON.parse(localStorage.getItem('uiDesignerColumnVisible')),
+                uiEstimateDateColumnVisible: JSON.parse(localStorage.getItem('uiEstimateDateColumnVisible')),
+                uiStatusColumnVisible: JSON.parse(localStorage.getItem('uiStatusColumnVisible')),
+                webDeveloperColumnVisible: JSON.parse(localStorage.getItem('webDeveloperColumnVisible')),
+                webEstimateDateColumnVisible: JSON.parse(localStorage.getItem('webEstimateDateColumnVisible')),
+                webStatusColumnVisible: JSON.parse(localStorage.getItem('webStatusColumnVisible')),
+                androidDeveloperColumnVisible: JSON.parse(localStorage.getItem('androidDeveloperColumnVisible')),
+                androidEstimateDateColumnVisible: JSON.parse(localStorage.getItem('androidEstimateDateColumnVisible')),
+                androidStatusColumnVisible: JSON.parse(localStorage.getItem('androidStatusColumnVisible')),
+                iosDeveloperColumnVisible: JSON.parse(localStorage.getItem('iosDeveloperColumnVisible')),
+                iosEstimateDateColumnVisible: JSON.parse(localStorage.getItem('iosEstimateDateColumnVisible')),
+                iosStatusColumnVisible: JSON.parse(localStorage.getItem('iosStatusColumnVisible')),
+                serverDeveloperColumnVisible: JSON.parse(localStorage.getItem('serverDeveloperColumnVisible')),
+                serverEstimateDateColumnVisible: JSON.parse(localStorage.getItem('serverEstimateDateColumnVisible')),
+                serverStatusColumnVisible: JSON.parse(localStorage.getItem('serverStatusColumnVisible')),
+                testerColumnVisible: JSON.parse(localStorage.getItem('testerColumnVisible')),
+                testEstimateDateColumnVisible: JSON.parse(localStorage.getItem('testEstimateDateColumnVisible')),
+                testStatusColumnVisible: JSON.parse(localStorage.getItem('testStatusColumnVisible')),
+
                 total: 0,
                 pages: 0,
                 tableList: [],
@@ -473,87 +611,9 @@
                     this.pages = res.data.pages;
                     this.tableList = res.data.result || [];
                     this.tableList.map(item => {
-                        if (new Date().getTime() > new Date(item.deadline).getTime()) {
-                            item.deadlineOverdue = true;
-                        } else {
-                            item.deadlineOverdue = false;
-                        }
                         if (item.createBy) {
                             item.createBy = this.getDevRealName(item.createBy);
                         }
-                        // item.devList = [];
-                        // if (item.pdDesigner) {
-                        //     item.devList.push(this.getDevRealName(item.pdDesigner));
-                        // }
-                        // if (item.uiDesigner) {
-                        //     item.devList.push(this.getDevRealName(item.uiDesigner));
-                        // }
-                        // if (item.webDeveloper) {
-                        //     item.devList.push(this.getDevRealName(item.webDeveloper));
-                        // }
-                        // if (item.androidDeveloper) {
-                        //     item.devList.push(this.getDevRealName(item.androidDeveloper));
-                        // }
-                        // if (item.iosDeveloper) {
-                        //     item.devList.push(this.getDevRealName(item.iosDeveloper));
-                        // }
-                        // if (item.serverDeveloper) {
-                        //     item.devList.push(this.getDevRealName(item.serverDeveloper));
-                        // }
-                        // if (item.tester) {
-                        //     item.devList.push(this.getDevRealName(item.tester));
-                        // }
-                        // item.overdueList = [];
-                        // if (item.pdRequired && item.pdEstimateDate) {
-                        //     if (item.pdFinishedDate && new Date(item.pdFinishedDate).getTime() > new Date(item.pdEstimateDate).getTime()) {
-                        //         item.overdueList.push("产品");
-                        //     } else if (!item.pdFinishedDate && new Date().getTime() > new Date(item.pdEstimateDate).getTime()) {
-                        //         item.overdueList.push("产品");
-                        //     }
-                        // }
-                        // if (item.uiRequired && item.uiEstimateDate) {
-                        //     if (item.uiFinishedDate && new Date(item.uiFinishedDate).getTime() > new Date(item.uiEstimateDate).getTime()) {
-                        //         item.overdueList.push("UI");
-                        //     } else if (!item.uiFinishedDate && new Date().getTime() > new Date(item.uiEstimateDate).getTime()) {
-                        //         item.overdueList.push("UI");
-                        //     }
-                        // }
-                        // if (item.webRequired && item.webEstimateDate) {
-                        //     if (item.webFinishedDate && new Date(item.webFinishedDate).getTime() > new Date(item.webEstimateDate).getTime()) {
-                        //         item.overdueList.push("前端");
-                        //     } else if (!item.webFinishedDate && new Date().getTime() > new Date(item.webEstimateDate).getTime()) {
-                        //         item.overdueList.push("前端");
-                        //     }
-                        // }
-                        // if (item.androidRequired && item.androidEstimateDate) {
-                        //     if (item.androidFinishedDate && new Date(item.androidFinishedDate).getTime() > new Date(item.androidEstimateDate).getTime()) {
-                        //         item.overdueList.push("安卓");
-                        //     } else if (!item.androidFinishedDate && new Date().getTime() > new Date(item.androidEstimateDate).getTime()) {
-                        //         item.overdueList.push("安卓");
-                        //     }
-                        // }
-                        // if (item.iosRequired && item.iosEstimateDate) {
-                        //     if (item.iosFinishedDate && new Date(item.iosFinishedDate).getTime() > new Date(item.iosEstimateDate).getTime()) {
-                        //         item.overdueList.push("苹果");
-                        //     } else if (!item.iosFinishedDate && new Date().getTime() > new Date(item.iosEstimateDate).getTime()) {
-                        //         item.overdueList.push("苹果");
-                        //     }
-                        // }
-                        // if (item.serverRequired && item.serverEstimateDate) {
-                        //     if (item.serverFinishedDate && new Date(item.serverFinishedDate).getTime() > new Date(item.serverEstimateDate).getTime()) {
-                        //         item.overdueList.push("后端");
-                        //     } else if (!item.serverFinishedDate && new Date().getTime() > new Date(item.serverEstimateDate).getTime()) {
-                        //         item.overdueList.push("后端");
-                        //     }
-                        // }
-                        // if (item.testRequired && item.testEstimateDate) {
-                        //     if (item.testFinishedDate && new Date(item.testFinishedDate).getTime() > new Date(item.testEstimateDate).getTime()) {
-                        //         item.overdueList.push("测试");
-                        //     } else if (!item.testFinishedDate && new Date().getTime() > new Date(item.testEstimateDate).getTime()) {
-                        //         item.overdueList.push("测试");
-                        //     }
-                        // }
-
                         if (item.pdRequired) {
                             if (!item.pdEstimateDate) {
                                 item.pdStatus = '待排期';
@@ -695,6 +755,41 @@
                     })
                 }
             },
+            sortChange(data) {
+                console.log("column=" + JSON.stringify(data.column))
+                console.log("prop=" + JSON.stringify(data.prop))
+                console.log("order=" + JSON.stringify(data.order))
+            },
+            showOrHide() {
+                localStorage.removeItem('showCreateByColumn');
+                localStorage.removeItem('showCreateDateColumn');
+                localStorage.removeItem('showDeadlineColumn');
+
+                localStorage.setItem('createByColumnVisible', this.createByColumnVisible);
+                localStorage.setItem('createDateColumnVisible', this.createDateColumnVisible);
+                localStorage.setItem('deadlineColumnVisible', this.deadlineColumnVisible);
+                localStorage.setItem('pdDesignerColumnVisible', this.pdDesignerColumnVisible);
+                localStorage.setItem('pdEstimateDateColumnVisible', this.pdEstimateDateColumnVisible);
+                localStorage.setItem('pdStatusColumnVisible', this.pdStatusColumnVisible);
+                localStorage.setItem('uiDesignerColumnVisible', this.uiDesignerColumnVisible);
+                localStorage.setItem('uiEstimateDateColumnVisible', this.uiEstimateDateColumnVisible);
+                localStorage.setItem('uiStatusColumnVisible', this.uiStatusColumnVisible);
+                localStorage.setItem('webDeveloperColumnVisible', this.webDeveloperColumnVisible);
+                localStorage.setItem('webEstimateDateColumnVisible', this.webEstimateDateColumnVisible);
+                localStorage.setItem('webStatusColumnVisible', this.webStatusColumnVisible);
+                localStorage.setItem('androidDeveloperColumnVisible', this.androidDeveloperColumnVisible);
+                localStorage.setItem('androidEstimateDateColumnVisible', this.androidEstimateDateColumnVisible);
+                localStorage.setItem('androidStatusColumnVisible', this.androidStatusColumnVisible);
+                localStorage.setItem('iosDeveloperColumnVisible', this.iosDeveloperColumnVisible);
+                localStorage.setItem('iosEstimateDateColumnVisible', this.iosEstimateDateColumnVisible);
+                localStorage.setItem('iosStatusColumnVisible', this.iosStatusColumnVisible);
+                localStorage.setItem('serverDeveloperColumnVisible', this.serverDeveloperColumnVisible);
+                localStorage.setItem('serverEstimateDateColumnVisible', this.serverEstimateDateColumnVisible);
+                localStorage.setItem('serverStatusColumnVisible', this.serverStatusColumnVisible);
+                localStorage.setItem('testerColumnVisible', this.testerColumnVisible);
+                localStorage.setItem('testEstimateDateColumnVisible', this.testEstimateDateColumnVisible);
+                localStorage.setItem('testStatusColumnVisible', this.testStatusColumnVisible);
+            },
             getDevRealName(userName) {
                 for (let item of this.adminList) {
                     if (item.userName === userName) {
@@ -827,11 +922,12 @@
         },
         created() {
             this.getAdminList();
-
         },
         mounted() {
         },
-        computed: {},
+        computed: {
+
+        },
         components: {
             UpdateTaskStatusDialog
         }
