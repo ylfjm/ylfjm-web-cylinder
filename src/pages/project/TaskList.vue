@@ -13,7 +13,7 @@
                     创建任务
                 </el-button>
                 <el-popover placement="bottom-end" width="330" trigger="click"
-                            style="position:absolute;top:53px;left:82px;z-index:20;cursor:pointer;">
+                            style="position:absolute;top:54px;left:85px;z-index:20;cursor:pointer;">
                     <el-col :span="6">
                         <el-checkbox v-model="createByColumnVisible" @change="showOrHide">创建</el-checkbox>
                     </el-col>
@@ -101,21 +101,22 @@
             >
                 <el-table-column
                         prop="id"
-                        min-width="80"
-                        show-overflow-tooltip
+                        min-width="60"
                         label="ID"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 ></el-table-column>
                 <el-table-column
                         align="center"
                         prop="pri"
                         min-width="80"
-                        show-overflow-tooltip
                         label="优先级"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 ></el-table-column>
                 <el-table-column
                         prop="name"
                         min-width="450"
-                        show-overflow-tooltip
                         label="任务名称"
                 >
                     <template slot-scope="scope">
@@ -128,8 +129,9 @@
                         align="center"
                         prop="status"
                         min-width="60"
-                        show-overflow-tooltip
                         label="状态"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.status === 'doing'" style="color: #ff5d5d;">进行中</div>
@@ -144,6 +146,8 @@
                         prop="createBy"
                         min-width="70"
                         label="创建"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 ></el-table-column>
                 <el-table-column
                         v-if="createDateColumnVisible"
@@ -151,6 +155,7 @@
                         min-width="100"
                         label="创建日期"
                         sortable="custom"
+                        :sort-orders="sortOrders"
                 ></el-table-column>
                 <el-table-column
                         v-if="deadlineColumnVisible"
@@ -158,6 +163,7 @@
                         min-width="100"
                         label="截止日期"
                         sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <!--<div v-if="scope.row.deadlineOverdue && scope.row.deadlineOverdue === true" style="color: #FF3300;">
@@ -174,6 +180,8 @@
                         prop="pdDesigner"
                         min-width="70"
                         label="产品"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <template v-if="scope.row.pdRequired">
@@ -190,6 +198,8 @@
                         prop="pdEstimateDate"
                         min-width="100"
                         label="产品排期"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         {{scope.row.pdRequired ? scope.row.pdEstimateDate : '-'}}
@@ -212,6 +222,8 @@
                         prop="uiDesigner"
                         min-width="70"
                         label="UI"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <template v-if="scope.row.uiRequired">
@@ -228,6 +240,8 @@
                         prop="uiEstimateDate"
                         min-width="100"
                         label="UI排期"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         {{scope.row.uiRequired ? scope.row.uiEstimateDate : '-'}}
@@ -250,6 +264,8 @@
                         prop="webDeveloper"
                         min-width="70"
                         label="前端"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <template v-if="scope.row.webRequired">
@@ -267,6 +283,8 @@
                         prop="webEstimateDate"
                         min-width="100"
                         label="前端排期"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         {{scope.row.webRequired ? scope.row.webEstimateDate : '-'}}
@@ -289,6 +307,8 @@
                         prop="androidDeveloper"
                         min-width="70"
                         label="安卓"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <template v-if="scope.row.androidRequired">
@@ -306,6 +326,8 @@
                         prop="androidEstimateDate"
                         min-width="100"
                         label="安卓排期"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         {{scope.row.androidRequired ? scope.row.androidEstimateDate : '-'}}
@@ -328,6 +350,8 @@
                         prop="iosDeveloper"
                         min-width="70"
                         label="苹果"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <template v-if="scope.row.iosRequired">
@@ -345,6 +369,8 @@
                         prop="iosEstimateDate"
                         min-width="100"
                         label="苹果排期"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         {{scope.row.iosRequired ? scope.row.iosEstimateDate : '-'}}
@@ -367,6 +393,8 @@
                         prop="serverDeveloper"
                         min-width="70"
                         label="后端"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <template v-if="scope.row.serverRequired">
@@ -384,6 +412,8 @@
                         prop="serverEstimateDate"
                         min-width="100"
                         label="后端排期"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         {{scope.row.serverRequired ? scope.row.serverEstimateDate : '-'}}
@@ -406,6 +436,8 @@
                         prop="tester"
                         min-width="70"
                         label="测试"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         <template v-if="scope.row.testRequired">
@@ -421,6 +453,8 @@
                         prop="testEstimateDate"
                         min-width="80"
                         label="测试排期"
+                        sortable="custom"
+                        :sort-orders="sortOrders"
                 >
                     <template slot-scope="scope">
                         {{scope.row.testRequired ? scope.row.testEstimateDate : '-'}}
@@ -537,8 +571,29 @@
                 formSearch: {
                     searchType: 'notClosed',
                     pageNum: 1,
-                    pageSize: 15
+                    pageSize: 15,
+                    idSortBy: null,
+                    priSortBy: null,
+                    statusSortBy: null,
+                    createBySortBy: null,
+                    createDateSortBy: 'descending',
+                    deadlineSortBy: null,
+                    pdDesignerSortBy: null,
+                    pdEstimateDateSortBy: null,
+                    uiDesignerSortBy: null,
+                    uiEstimateDateSortBy: null,
+                    webDeveloperSortBy: null,
+                    webEstimateDateSortBy: null,
+                    androidDeveloperSortBy: null,
+                    androidEstimateDateSortBy: null,
+                    iosDeveloperSortBy: null,
+                    iosEstimateDateSortBy: null,
+                    serverDeveloperSortBy: null,
+                    serverEstimateDateSortBy: null,
+                    testerSortBy: null,
+                    testEstimateDateSortBy: null,
                 },
+                sortOrders: ['ascending', 'descending'],
                 createByColumnVisible: JSON.parse(localStorage.getItem('createByColumnVisible')),
                 createDateColumnVisible: JSON.parse(localStorage.getItem('createDateColumnVisible')),
                 deadlineColumnVisible: JSON.parse(localStorage.getItem('deadlineColumnVisible')),
@@ -599,7 +654,27 @@
                 let searchParam = {
                     searchType: this.formSearch.searchType,
                     pageNum: this.formSearch.pageNum,
-                    pageSize: this.formSearch.pageSize
+                    pageSize: this.formSearch.pageSize,
+                    idSortBy: this.formSearch.idSortBy,
+                    priSortBy: this.formSearch.priSortBy,
+                    statusSortBy: this.formSearch.statusSortBy,
+                    createBySortBy: this.formSearch.createBySortBy,
+                    createDateSortBy: this.formSearch.createDateSortBy,
+                    deadlineSortBy: this.formSearch.deadlineSortBy,
+                    pdDesignerSortBy: this.formSearch.pdDesignerSortBy,
+                    pdEstimateDateSortBy: this.formSearch.pdEstimateDateSortBy,
+                    uiDesignerSortBy: this.formSearch.uiDesignerSortBy,
+                    uiEstimateDateSortBy: this.formSearch.uiEstimateDateSortBy,
+                    webDeveloperSortBy: this.formSearch.webDeveloperSortBy,
+                    webEstimateDateSortBy: this.formSearch.webEstimateDateSortBy,
+                    androidDeveloperSortBy: this.formSearch.androidDeveloperSortBy,
+                    androidEstimateDateSortBy: this.formSearch.androidEstimateDateSortBy,
+                    iosDeveloperSortBy: this.formSearch.iosDeveloperSortBy,
+                    iosEstimateDateSortBy: this.formSearch.iosEstimateDateSortBy,
+                    serverDeveloperSortBy: this.formSearch.serverDeveloperSortBy,
+                    serverEstimateDateSortBy: this.formSearch.serverEstimateDateSortBy,
+                    testerSortBy: this.formSearch.testerSortBy,
+                    testEstimateDateSortBy: this.formSearch.testEstimateDateSortBy,
                 };
                 this.searchLoading = true;
                 const res = await this.$service.getTaskList(searchParam);
@@ -756,15 +831,34 @@
                 }
             },
             sortChange(data) {
-                console.log("column=" + JSON.stringify(data.column))
-                console.log("prop=" + JSON.stringify(data.prop))
-                console.log("order=" + JSON.stringify(data.order))
+                this.formSearch.idSortBy = null;
+                this.formSearch.priSortBy = null;
+                this.formSearch.statusSortBy = null;
+                this.formSearch.createBySortBy = null;
+                this.formSearch.createDateSortBy = null;
+                this.formSearch.deadlineSortBy = null;
+                this.formSearch.pdDesignerSortBy = null;
+                this.formSearch.pdEstimateDateSortBy = null;
+                this.formSearch.uiDesignerSortBy = null;
+                this.formSearch.uiEstimateDateSortBy = null;
+                this.formSearch.webDeveloperSortBy = null;
+                this.formSearch.webEstimateDateSortBy = null;
+                this.formSearch.androidDeveloperSortBy = null;
+                this.formSearch.androidEstimateDateSortBy = null;
+                this.formSearch.iosDeveloperSortBy = null;
+                this.formSearch.iosEstimateDateSortBy = null;
+                this.formSearch.serverDeveloperSortBy = null;
+                this.formSearch.serverEstimateDateSortBy = null;
+                this.formSearch.testerSortBy = null;
+                this.formSearch.testEstimateDateSortBy = null;
+                if (data.order === null) {
+                    this.formSearch.createDateSortBy = 'descending';
+                } else {
+                    this.formSearch[data.prop + 'SortBy'] = data.order;
+                }
+                this.searchCommon();
             },
             showOrHide() {
-                localStorage.removeItem('showCreateByColumn');
-                localStorage.removeItem('showCreateDateColumn');
-                localStorage.removeItem('showDeadlineColumn');
-
                 localStorage.setItem('createByColumnVisible', this.createByColumnVisible);
                 localStorage.setItem('createDateColumnVisible', this.createDateColumnVisible);
                 localStorage.setItem('deadlineColumnVisible', this.deadlineColumnVisible);
@@ -925,9 +1019,7 @@
         },
         mounted() {
         },
-        computed: {
-
-        },
+        computed: {},
         components: {
             UpdateTaskStatusDialog
         }
