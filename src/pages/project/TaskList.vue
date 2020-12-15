@@ -107,9 +107,8 @@
                         :sort-orders="sortOrders"
                 ></el-table-column>
                 <el-table-column
-                        align="center"
                         prop="pri"
-                        min-width="80"
+                        min-width="90"
                         label="优先级"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -126,9 +125,8 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                        align="center"
                         prop="status"
-                        min-width="60"
+                        min-width="75"
                         label="状态"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -142,9 +140,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="createByColumnVisible"
-                        align="center"
                         prop="createBy"
-                        min-width="70"
+                        min-width="80"
                         label="创建"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -176,9 +173,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="pdDesignerColumnVisible"
-                        align="center"
                         prop="pdDesigner"
-                        min-width="70"
+                        min-width="75"
                         label="产品"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -194,7 +190,6 @@
                 </el-table-column>
                 <el-table-column
                         v-if="pdEstimateDateColumnVisible"
-                        align="center"
                         prop="pdEstimateDate"
                         min-width="100"
                         label="产品排期"
@@ -218,9 +213,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="uiDesignerColumnVisible"
-                        align="center"
                         prop="uiDesigner"
-                        min-width="70"
+                        min-width="75"
                         label="UI"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -236,7 +230,6 @@
                 </el-table-column>
                 <el-table-column
                         v-if="uiEstimateDateColumnVisible"
-                        align="center"
                         prop="uiEstimateDate"
                         min-width="100"
                         label="UI排期"
@@ -260,9 +253,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="webDeveloperColumnVisible"
-                        align="center"
                         prop="webDeveloper"
-                        min-width="70"
+                        min-width="75"
                         label="前端"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -279,7 +271,6 @@
                 </el-table-column>
                 <el-table-column
                         v-if="webEstimateDateColumnVisible"
-                        align="center"
                         prop="webEstimateDate"
                         min-width="100"
                         label="前端排期"
@@ -303,9 +294,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="androidDeveloperColumnVisible"
-                        align="center"
                         prop="androidDeveloper"
-                        min-width="70"
+                        min-width="75"
                         label="安卓"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -322,7 +312,6 @@
                 </el-table-column>
                 <el-table-column
                         v-if="androidEstimateDateColumnVisible"
-                        align="center"
                         prop="androidEstimateDate"
                         min-width="100"
                         label="安卓排期"
@@ -346,9 +335,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="iosDeveloperColumnVisible"
-                        align="center"
                         prop="iosDeveloper"
-                        min-width="70"
+                        min-width="75"
                         label="苹果"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -365,7 +353,6 @@
                 </el-table-column>
                 <el-table-column
                         v-if="iosEstimateDateColumnVisible"
-                        align="center"
                         prop="iosEstimateDate"
                         min-width="100"
                         label="苹果排期"
@@ -389,9 +376,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="serverDeveloperColumnVisible"
-                        align="center"
                         prop="serverDeveloper"
-                        min-width="70"
+                        min-width="75"
                         label="后端"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -408,7 +394,6 @@
                 </el-table-column>
                 <el-table-column
                         v-if="serverEstimateDateColumnVisible"
-                        align="center"
                         prop="serverEstimateDate"
                         min-width="100"
                         label="后端排期"
@@ -432,9 +417,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="testerColumnVisible"
-                        align="center"
                         prop="tester"
-                        min-width="70"
+                        min-width="75"
                         label="测试"
                         sortable="custom"
                         :sort-orders="sortOrders"
@@ -449,9 +433,8 @@
                 </el-table-column>
                 <el-table-column
                         v-if="testEstimateDateColumnVisible"
-                        align="center"
                         prop="testEstimateDate"
-                        min-width="80"
+                        min-width="100"
                         label="测试排期"
                         sortable="custom"
                         :sort-orders="sortOrders"
