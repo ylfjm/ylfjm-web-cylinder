@@ -16,12 +16,12 @@
                                             @onContentChange="onContentChange">
                                 </KindEditor>
                             </el-form-item>
-                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
+                            <el-divider direction="horizontal"></el-divider>
                             <el-form-item label="备注" prop="richText" style="width: 100%;">
                                 <KindEditor id="editor_remark" :content.sync="form.remark" @onContentChange="onRemarkChange">
                                 </KindEditor>
                             </el-form-item>
-                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
+                            <el-divider direction="horizontal"></el-divider>
                             <div class="text-center" style="margin-top: 20px;">
                                 <el-button type="primary" @click="currentSubmit('form')" :loading="updateLoading" style="width: 100px;">保 存
                                 </el-button>
@@ -29,7 +29,7 @@
                                     <el-button style="margin-left: 30px; width: 100px;">返 回</el-button>
                                 </router-link>
                             </div>
-                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
+                            <el-divider direction="horizontal"></el-divider>
                             <div class="history-record">
                                 <div style="font-weight: bold; margin: 30px 0 10px 0;">历史记录</div>
                                 <div v-for="(item, index) in taskRemarkList">
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="dp-table-cell" style="width: 34.2%; padding: 0 15px 0 30px;">
+                        <div class="dp-table-cell" style="width: 30.5%; padding: 0 15px 0 30px;">
                             <el-form-item label="所属项目" prop="projectId" style="margin-bottom: 10px;">
                                 <el-select v-model="form.projectId" placeholder="请选择" style="width: 100%;">
                                     <el-option
@@ -80,7 +80,7 @@
                                         placeholder="选择日期">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
+                            <el-divider direction="horizontal"></el-divider>
                             <el-form-item label="产品设计" style="margin-bottom: 5px;">
                                 <el-select v-model="form.pdDesigner" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
@@ -91,21 +91,20 @@
                             <el-form-item label="预计完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.pdEstimateDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
                             <el-form-item label="实际完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.pdFinishedDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
+                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="UI设计" style="margin-bottom: 5px;">
                                 <el-select v-model="form.uiDesigner" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
@@ -116,21 +115,20 @@
                             <el-form-item label="预计完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.uiEstimateDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
                             <el-form-item label="实际完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.uiFinishedDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
+                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="前端开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.webDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
@@ -141,21 +139,20 @@
                             <el-form-item label="预计完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.webEstimateDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
                             <el-form-item label="实际完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.webFinishedDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
+                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="安卓开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.androidDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
@@ -166,21 +163,20 @@
                             <el-form-item label="预计完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.androidEstimateDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
                             <el-form-item label="实际完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.androidFinishedDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
+                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="苹果开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.iosDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
@@ -191,21 +187,20 @@
                             <el-form-item label="预计完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.iosEstimateDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
                             <el-form-item label="实际完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.iosFinishedDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
+                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="后端开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.serverDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
@@ -216,21 +211,20 @@
                             <el-form-item label="预计完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.serverEstimateDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
                             <el-form-item label="实际完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.serverFinishedDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
+                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="测试" style="margin-bottom: 5px;">
                                 <el-select v-model="form.tester" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
@@ -241,22 +235,20 @@
                             <el-form-item label="预计完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.testEstimateDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
                             <el-form-item label="实际完成" style="margin-bottom: 10px; display: inline-block">
                                 <el-date-picker
                                         v-model="form.testFinishedDate"
-                                        type="datetime"
-                                        format="yyyy-MM-dd HH:mm"
+                                        type="date"
                                         :clearable="false"
-                                        style="width: 170px;">
+                                        style="width: 140px;">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
+                            <el-divider direction="horizontal"></el-divider>
                             <el-form-item label="由谁创建" style="margin-bottom: 0;">
                                 {{getDevRealName(form.createBy)}}
                             </el-form-item>
@@ -389,20 +381,20 @@
             async updateTask() {
                 this.updateLoading = true;
                 this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
-                this.form.pdEstimateDate = this.form.pdEstimateDate ? moment(this.form.pdEstimateDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.pdFinishedDate = this.form.pdFinishedDate ? moment(this.form.pdFinishedDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.uiEstimateDate = this.form.uiEstimateDate ? moment(this.form.uiEstimateDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.uiFinishedDate = this.form.uiFinishedDate ? moment(this.form.uiFinishedDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.webEstimateDate = this.form.webEstimateDate ? moment(this.form.webEstimateDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.webFinishedDate = this.form.webFinishedDate ? moment(this.form.webFinishedDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.androidEstimateDate = this.form.androidEstimateDate ? moment(this.form.androidEstimateDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.androidFinishedDate = this.form.androidFinishedDate ? moment(this.form.androidFinishedDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.iosEstimateDate = this.form.iosEstimateDate ? moment(this.form.iosEstimateDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.iosFinishedDate = this.form.iosFinishedDate ? moment(this.form.iosFinishedDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.serverEstimateDate = this.form.serverEstimateDate ? moment(this.form.serverEstimateDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.serverFinishedDate = this.form.serverFinishedDate ? moment(this.form.serverFinishedDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.testEstimateDate = this.form.testEstimateDate ? moment(this.form.testEstimateDate).format('YYYY-MM-DD HH:mm') : null;
-                this.form.testFinishedDate = this.form.testFinishedDate ? moment(this.form.testFinishedDate).format('YYYY-MM-DD HH:mm') : null;
+                this.form.pdEstimateDate = this.form.pdEstimateDate ? moment(this.form.pdEstimateDate).format('YYYY-MM-DD') : null;
+                this.form.pdFinishedDate = this.form.pdFinishedDate ? moment(this.form.pdFinishedDate).format('YYYY-MM-DD') : null;
+                this.form.uiEstimateDate = this.form.uiEstimateDate ? moment(this.form.uiEstimateDate).format('YYYY-MM-DD') : null;
+                this.form.uiFinishedDate = this.form.uiFinishedDate ? moment(this.form.uiFinishedDate).format('YYYY-MM-DD') : null;
+                this.form.webEstimateDate = this.form.webEstimateDate ? moment(this.form.webEstimateDate).format('YYYY-MM-DD') : null;
+                this.form.webFinishedDate = this.form.webFinishedDate ? moment(this.form.webFinishedDate).format('YYYY-MM-DD') : null;
+                this.form.androidEstimateDate = this.form.androidEstimateDate ? moment(this.form.androidEstimateDate).format('YYYY-MM-DD') : null;
+                this.form.androidFinishedDate = this.form.androidFinishedDate ? moment(this.form.androidFinishedDate).format('YYYY-MM-DD') : null;
+                this.form.iosEstimateDate = this.form.iosEstimateDate ? moment(this.form.iosEstimateDate).format('YYYY-MM-DD') : null;
+                this.form.iosFinishedDate = this.form.iosFinishedDate ? moment(this.form.iosFinishedDate).format('YYYY-MM-DD') : null;
+                this.form.serverEstimateDate = this.form.serverEstimateDate ? moment(this.form.serverEstimateDate).format('YYYY-MM-DD') : null;
+                this.form.serverFinishedDate = this.form.serverFinishedDate ? moment(this.form.serverFinishedDate).format('YYYY-MM-DD') : null;
+                this.form.testEstimateDate = this.form.testEstimateDate ? moment(this.form.testEstimateDate).format('YYYY-MM-DD') : null;
+                this.form.testFinishedDate = this.form.testFinishedDate ? moment(this.form.testFinishedDate).format('YYYY-MM-DD') : null;
                 this.form.canceledDate = this.form.canceledDate ? moment(this.form.canceledDate).format('YYYY-MM-DD HH:mm:ss') : null;
                 this.form.closedDate = this.form.closedDate ? moment(this.form.closedDate).format('YYYY-MM-DD HH:mm:ss') : null;
                 const res = await this.$service.updateTask(this.form);
@@ -503,5 +495,9 @@
         padding: 5px 10px 5px 15px;
         margin: 5px 10px;
         background-color: rgba(0, 0, 0, .025);
+    }
+
+    .black-divider--horizontal {
+        margin: 5px 0 15px 0;
     }
 </style>

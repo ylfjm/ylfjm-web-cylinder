@@ -206,7 +206,7 @@
                     <a @click="jumpPage(2)" title="编辑">
                         <i class="el-icon-edit-outline"></i>
                     </a>
-                    <a title="复制任务">
+                    <a @click="jumpPage(3)" title="复制任务">
                         <i class="el-icon-copy-document"></i>
                     </a>
                     <a @click="deleteTask" title="删除" style="margin-right: 10px;">
@@ -259,6 +259,14 @@
                         name: 'edit-task.html',
                         query: {
                             taskId: this.task.id,
+                        }
+                    })
+                } else if (type === 3) {
+                    //跳转到创建任务页
+                    this.$router.push({
+                        name: 'create-task.html',
+                        params: {
+                            task: this.task,
                         }
                     })
                 }

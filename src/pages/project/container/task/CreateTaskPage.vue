@@ -246,6 +246,22 @@
         async mounted() {
             this.getProjectList();
             this.getAdminList();
+            let task = this.$route.params.task;
+            if (task) {
+                this.form.name = task.name;
+                this.form.projectId = task.projectId;
+                this.form.pri = task.pri;
+                this.form.type = task.type;
+                this.form.deadline = task.deadline;
+                this.form.richText = task.richText;
+                this.form.pdDesigner = task.pdDesigner;
+                this.form.uiDesigner = task.uiDesigner;
+                this.form.webDeveloper = task.webDeveloper;
+                this.form.androidDeveloper = task.androidDeveloper;
+                this.form.iosDeveloper = task.iosDeveloper;
+                this.form.serverDeveloper = task.serverDeveloper;
+                this.form.tester = task.tester;
+            }
         },
         components: {
             // QuillEditor,
