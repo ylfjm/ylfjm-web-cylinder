@@ -1,5 +1,5 @@
 <template>
-    <div class="panel">
+    <div class="panel" style="margin-left: 10px;">
         <div class="panel-header">
             <div class="panel-title">项目总览</div>
             <nav class="panel-dropdown">

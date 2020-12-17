@@ -41,7 +41,8 @@
                 </div>
             </div>
         </div>
-        <div id="subHeader" v-show="subMenuList && subMenuList.length > 0">
+        <!--<div id="subHeader" v-show="subMenuList && subMenuList.length > 0">-->
+        <div id="subHeader">
             <div class="container">
                 <div id="subMenuBar">
                     <ul>

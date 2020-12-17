@@ -1,10 +1,5 @@
 <template>
-    <el-dialog
-            width="692px"
-            :title="title"
-            :visible.sync="visible"
-            :before-close="hideDialog"
-    >
+    <el-dialog width="30%" :title="title" :visible.sync="visible" :before-close="hideDialog">
         <div class="dialog-form">
             <el-form :label-width="'90px'" ref="form" :rules="rules" :model="form">
                 <el-form-item label="项目名称" prop="name">
@@ -65,8 +60,8 @@
             </el-form>
         </div>
         <div slot="footer" class="text-center">
-            <el-button type="primary" size="medium" @click="currentSubmit('form')" :loading="loading">保 存</el-button>
-            <el-button size="medium" style="margin-left: 30px;" @click="hideDialog">取 消</el-button>
+            <el-button type="primary" @click="currentSubmit('form')" :loading="loading">保 存</el-button>
+            <el-button style="margin-left: 30px;" @click="hideDialog">取 消</el-button>
         </div>
     </el-dialog>
 </template>
@@ -76,7 +71,7 @@
     import commonUtil from '@/common/js/commonUtil'
 
     export default {
-        name: "CreateProjectDialog",
+        name: "ProjectDialog",
         data() {
             const dateValidator = async (rule, value, callback) => {
                 if (!this.form.dateRange || this.form.dateRange.length === 0) {
@@ -85,6 +80,7 @@
                 return callback();
             };
             return {
+                title: '',
                 form: {
                     name: '',
                     code: '',
@@ -119,21 +115,21 @@
                         text: '一个月',
                         onClick(picker) {
                             const start = new Date();
-                            const end = commonUtil.getMonthAfter(1);
+                            const end = commonUtil.getDayAfter(29);
                             picker.$emit('pick', [start, end]);
                         }
                     }, {
                         text: '两个月',
                         onClick(picker) {
                             const start = new Date();
-                            const end = commonUtil.getMonthAfter(2);
+                            const end = commonUtil.getDayAfter(59);
                             picker.$emit('pick', [start, end]);
                         }
                     }, {
                         text: '三个月',
                         onClick(picker) {
                             const start = new Date();
-                            const end = commonUtil.getMonthAfter(26);
+                            const end = commonUtil.getDayAfter(89);
                             picker.$emit('pick', [start, end]);
                         }
                     }]
@@ -145,19 +141,17 @@
             }
         },
         props: {
-            title: String,
             visible: Boolean,
             hideDialog: Function,
             submit: Function,
             loading: Boolean,
+            error: {},
+            updateObj: Object,
         },
         methods: {
             countDays() {
+                // console.log(JSON.stringify(this.form.dateRange))
                 if (this.form.dateRange) {
-                    // const d1 = this.form.dateRange[0];
-                    // const d2 = this.form.dateRange[1];
-                    // const time = d2.getTime() - d1.getTime();
-                    // this.form.days = parseInt(time / (1000 * 60 * 60 * 24));
                     this.form.days = commonUtil.countWorkDays(this.form.dateRange[0], this.form.dateRange[1]);
                 } else {
                     this.form.days = '';
@@ -180,7 +174,49 @@
                 });
             },
         },
-        created() {
+        watch: {
+            visible: function (n) {
+                if (n) {
+                    this.title = '新增项目';
+                    if (this.updateObj && this.updateObj.id) {
+                        this.form = this.updateObj;
+                        // this.form.dateRange = [new Date(), new Date()];
+                        // console.log(JSON.stringify(this.form.dateRange))
+                        this.title = '修改项目';
+                    } else {
+                        this.form.name = '';
+                        this.form.code = '';
+                        this.form.begin = '';
+                        this.form.end = '';
+                        this.form.dateRange = [];
+                        this.form.days = '';
+                        this.form.type = 'short';
+                        this.form.acl = 'open';
+                    }
+                    if (this.$refs['form']) {
+                        this.$refs['form'].clearValidate();
+                    }
+                }
+            },
+            loading: function (n, o) {
+                if (o && !n) {
+                    if (this.error) {
+                        this.$notify.error({
+                            title: '提示',
+                            message: typeof this.error === 'boolean' ? '操作失败' : this.error,
+                            duration: 2000
+                        })
+                    } else {
+                        this.$notify({
+                            title: '提示',
+                            type: 'success',
+                            message: '操作成功',
+                            duration: 2000
+                        });
+                        this.$refs['form'].resetFields()
+                    }
+                }
+            },
         },
     }
 </script>

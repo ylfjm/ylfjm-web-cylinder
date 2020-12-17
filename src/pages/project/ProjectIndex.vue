@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <div class="dashboard">
-            <div class="col-main">
+        <div class="dp-table">
+            <div class="dp-table-cell">
                 <ProjectStatisticPanel></ProjectStatisticPanel>
                 <ProcessingProjectPanel></ProcessingProjectPanel>
             </div>
-            <div class="col-side">
+            <div class="dp-table-cell" style="width: 40%;">
                 <ProjectOverviewPanel></ProjectOverviewPanel>
                 <ProjectTaskPanel></ProjectTaskPanel>
             </div>

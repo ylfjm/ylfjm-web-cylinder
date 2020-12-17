@@ -7,9 +7,9 @@
             <a @click="onSearch('suspended')" :class="formSearch.status === 'suspended' ? 'link-btn link-btn-active' : 'link-btn'">已挂起</a>
             <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
             <!--<router-link :to="'/create-project.html'">-->
-                <el-button @click="showCreateDialog" type="primary" icon="el-icon-plus" style="float: right;">
-                    添加项目
-                </el-button>
+            <el-button @click="showDialog(null, 'create')" type="primary" icon="el-icon-plus" style="float: right;">
+                添加项目
+            </el-button>
             <!--</router-link>-->
         </div>
         <div class="table-content">
@@ -20,14 +20,6 @@
                     :header-cell-style="{fontSize: '14px', color: '#333333'}"
                     stripe
             >
-                <!--<el-table-column
-                        type="index"
-                        :index="index => index + 1 + (formSearch.pageNum - 1) * formSearch.pageSize"
-                        align="center"
-                        fixed="left"
-                        min-width="70"
-                        label="序号"
-                ></el-table-column>-->
                 <el-table-column
                         prop="id"
                         min-width="50"
@@ -102,15 +94,28 @@
                         label="操作"
                 >
                     <template slot-scope="scope">
-                        <el-row type="flex" justify="center">
+                        <!--<el-row type="flex" justify="center">
                             <el-button type="primary" size="mini" @click="">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteProject(scope.row.id)">删除</el-button>
+                        </el-row>-->
+                        <!--<el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                            <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
+                                <img src="@/assets/images/edit-22.png">
+                            </a>
+                        </el-tooltip>-->
+                        <el-row type="flex" justify="center">
+                            <el-tooltip effect="dark" content="删除" placement="bottom-start">
+                                <a @click="deleteProject(scope.row.id)" class="action-a-btn">
+                                    <img src="@/assets/images/delete-22.png">
+                                </a>
+                            </el-tooltip>
                         </el-row>
                     </template>
                 </el-table-column>
             </el-table>
             <div class="pagination_box">
                 <el-pagination
+                        background
                         @current-change="handleCurrentChange"
                         @size-change="handleSizeChange"
                         class="pagination_content"
@@ -121,19 +126,28 @@
             </div>
         </div>
 
-        <CreateProjectDialog
+        <!--<CreateProjectDialog
                 width="50%"
                 title="添加项目"
                 :visible="createDialogVisible"
                 :hideDialog="hideCreateDialog"
                 :submit="createProject"
                 :loading="createLoading"
-        ></CreateProjectDialog>
+        ></CreateProjectDialog>-->
+
+        <ProjectDialog
+                :visible="dialogVisible"
+                :hideDialog="hideDialog"
+                :submit="addOrUpdateRole"
+                :loading="dialogSubmitLoading"
+                :error="error"
+                :updateObj="updateObj"
+        />
     </div>
 </template>
 <script>
     import moment from 'moment'
-    import CreateProjectDialog from './container/project/CreateProjectDialog'
+    import ProjectDialog from './container/project/ProjectDialog'
 
     export default {
         name: 'ProjectList',
@@ -149,8 +163,11 @@
                 tableList: [],
                 searchLoading: false,
 
-                createDialogVisible: false,
-                createLoading: false,
+                error: false,
+                dialogVisible: false,
+                dialogSubmitLoading: false,
+                actionType: '',
+                updateObj: {},
             }
         },
         methods: {
@@ -199,29 +216,34 @@
                     })
                 }
             },
-            showCreateDialog() {
-                this.createDialogVisible = true
+            showDialog(row, actionType) {
+                this.dialogVisible = true;
+                this.error = false;
+                this.actionType = actionType;
+                if (this.actionType === 'update') {
+                    this.updateObj = {...row};
+                }
             },
-            hideCreateDialog() {
-                this.createDialogVisible = false
+            hideDialog() {
+                this.dialogVisible = false;
+                this.error = false;
+                this.updateObj = {};
             },
-            async createProject(data) {
-                this.createLoading = true;
-                const res = await this.$service.addProject(data);
-                this.createLoading = false;
+            async addOrUpdateRole(data) {
+                let formData = {...data};
+                let res;
+                this.dialogSubmitLoading = true;
+                if (this.actionType === 'create') {
+                    res = await this.$service.addProject(formData);
+                } else if (this.actionType === 'update') {
+                    res = await this.$service.updateRole(formData);
+                }
+                this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
-                    this.createDialogVisible = false;
-                    this.$notify({
-                        title: '提示',
-                        type: 'success',
-                        message: '添加项目成功',
-                    });
-                    this.searchCommon()
+                    this.hideDialog();
+                    this.searchCommon();
                 } else {
-                    this.$notify.error({
-                        title: '提示',
-                        message: res.message ? res.message : '添加项目失败',
-                    })
+                    this.error = res.message || true;
                 }
             },
             //删除
@@ -259,7 +281,7 @@
         },
         computed: {},
         components: {
-            CreateProjectDialog,
+            ProjectDialog,
         }
     }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="panel">
+    <div class="panel" style="margin-right: 10px;">
         <div class="panel-header">
             <div class="panel-title">进行中的项目</div>
             <nav class="panel-dropdown">

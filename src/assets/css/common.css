@@ -171,7 +171,7 @@ textarea {
     vertical-align: top;
 }
 
-.dashboard {
+/*.dashboard {
     display: table;
     width: 100%;
     margin: 0;
@@ -199,9 +199,9 @@ textarea {
     padding: 0 0 0 10px;
     vertical-align: top;
     width: 450px;
-    /*min-width: 450px;*/
+    !*min-width: 450px;*!
     max-width: 450px;
-}
+}*/
 
 .panel {
     position: relative;
@@ -213,7 +213,7 @@ textarea {
     box-shadow: 0 1px 1px rgba(0, 0, 0, .05), 0 2px 6px 0 rgba(0, 0, 0, .045);
 }
 
-.dashboard .panel-header {
+.panel-header {
     cursor: move;
     padding: 12px 75px 12px 0;
     border-bottom: 1px solid transparent;
@@ -221,13 +221,13 @@ textarea {
     border-top-right-radius: 3px;
 }
 
-.dashboard .panel-title {
+.panel-title {
     font-size: 14px;
     font-weight: 700;
     line-height: 20px;
 }
 
-.dashboard .panel-dropdown {
+.panel-dropdown {
     position: absolute;
     top: 0;
     right: 0;
