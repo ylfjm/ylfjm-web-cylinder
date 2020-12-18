@@ -10,7 +10,7 @@
             <a @click="onSearch('closed')" :class="formSearch.searchType === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
             <div class="" style=" float: right; display: inline-block; text-align: right; position: relative;">
                 <el-button type="primary" @click="jumpPage('', 'CreateTaskPage')" style="margin-right: 10px;">
-                    <i class="el-icon-plus" style="font-weight: bold;"></i>
+                    <i class="el-icon-plus"></i>
                     创建任务
                 </el-button>
                 <el-popover placement="bottom-end" width="330" trigger="click"

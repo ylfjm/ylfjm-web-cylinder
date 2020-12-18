@@ -19,7 +19,7 @@
                         <i class="el-icon-search"></i> 搜索
                     </a>
                     <el-button @click="showDialog(null, 'create')" type="primary" style="float: right;">
-                        <i class="el-icon-plus" style="font-weight: bold;"></i>
+                        <i class="el-icon-plus"></i>
                         添加菜单
                     </el-button>
                 </div>

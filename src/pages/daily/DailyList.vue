@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="search_box">
-            <el-button @click="showDialog(null, 'create')" type="primary" style="float: right;">
-                <i class="el-icon-plus" style="font-weight: bold;"></i>
+            <el-button @click="showDialog" type="primary" style="float: right;">
+                <i class="el-icon-plus"></i>
                 填写日报
             </el-button>
         </div>
@@ -11,12 +11,21 @@
                 123
             </div>
         </div>
+        <DailyDialog
+                :visible="dialogVisible"
+                :hideDialog="hideDialog"
+                :submit="addDaily"
+                :loading="dialogSubmitLoading"
+                :error="error"
+        />
     </div>
 </template>
 
 <script>
+    import DailyDialog from './container/daily/DailyDialog'
+
     export default {
-        name: "Daily",
+        name: "DailyList",
         data() {
             return {
                 formSearch: {
@@ -31,8 +40,6 @@
                 error: false,
                 dialogVisible: false,
                 dialogSubmitLoading: false,
-                actionType: '',
-                updateObj: {},
             }
         },
         methods: {
@@ -46,13 +53,8 @@
                 this.searchCommon()
             },
             async searchCommon() {
-                let searchParams = {
-                    status: this.formSearch.status,
-                    pageNum: this.formSearch.pageNum,
-                    pageSize: this.formSearch.pageSize
-                };
                 this.searchLoading = true;
-                const res = await this.$service.getDailyList(searchParams);
+                const res = await this.$service.getDailyList(this.formSearch);
                 this.searchLoading = false;
                 if (res.code === 20000) {
                     this.formSearch.pageNum = res.data.pageNum;
@@ -67,28 +69,17 @@
                     })
                 }
             },
-            showDialog(row, actionType) {
+            showDialog() {
                 this.dialogVisible = true;
                 this.error = false;
-                this.actionType = actionType;
-                if (this.actionType === 'update') {
-                    this.updateObj = {...row};
-                }
             },
             hideDialog() {
                 this.dialogVisible = false;
                 this.error = false;
-                this.updateObj = {};
             },
-            async addOrUpdateRole(data) {
-                let formData = {...data};
-                let res;
+            async addDaily(data) {
                 this.dialogSubmitLoading = true;
-                if (this.actionType === 'create') {
-                    res = await this.$service.addDaily(formData);
-                } else if (this.actionType === 'update') {
-                    res = await this.$service.updateDaily(formData);
-                }
+                const res = await this.$service.addDaily(data);
                 this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
                     this.hideDialog();
@@ -104,7 +95,9 @@
         mounted() {
         },
         computed: {},
-        components: {}
+        components: {
+            DailyDialog
+        }
     }
 </script>
 

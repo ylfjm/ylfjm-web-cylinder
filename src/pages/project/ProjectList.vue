@@ -8,7 +8,7 @@
             <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
             <!--<router-link :to="'/create-project.html'">-->
             <el-button @click="showDialog(null, 'create')" type="primary" style="float: right;">
-                <i class="el-icon-plus" style="font-weight: bold;"></i>
+                <i class="el-icon-plus"></i>
                 添加项目
             </el-button>
             <!--</router-link>-->
