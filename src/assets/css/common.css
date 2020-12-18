@@ -256,6 +256,12 @@ textarea {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.search_box {
+    position: relative;
+    box-shadow: none;
+    display: inline-block;
+    width: 100%;
+}
 
 .link-btn {
     position: relative;

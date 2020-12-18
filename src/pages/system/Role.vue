@@ -4,7 +4,8 @@
             <a @click="changeSearchBox" :class="searchBoxVisible ? 'link-search-btn link-search-btn-active' : 'link-search-btn'">
                 <i class="el-icon-search"></i> 搜索
             </a>
-            <el-button @click="showDialog(null, 'create')" type="primary" icon="el-icon-plus" style="float: right;">
+            <el-button @click="showDialog(null, 'create')" type="primary" style="float: right;">
+                <i class="el-icon-plus" style="font-weight: bold;"></i>
                 新增角色
             </el-button>
         </div>

@@ -7,7 +7,8 @@
             <a @click="onSearch('suspended')" :class="formSearch.status === 'suspended' ? 'link-btn link-btn-active' : 'link-btn'">已挂起</a>
             <a @click="onSearch('closed')" :class="formSearch.status === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
             <!--<router-link :to="'/create-project.html'">-->
-            <el-button @click="showDialog(null, 'create')" type="primary" icon="el-icon-plus" style="float: right;">
+            <el-button @click="showDialog(null, 'create')" type="primary" style="float: right;">
+                <i class="el-icon-plus" style="font-weight: bold;"></i>
                 添加项目
             </el-button>
             <!--</router-link>-->
@@ -236,7 +237,7 @@
                 if (this.actionType === 'create') {
                     res = await this.$service.addProject(formData);
                 } else if (this.actionType === 'update') {
-                    res = await this.$service.updateRole(formData);
+                    res = await this.$service.updateProject(formData);
                 }
                 this.dialogSubmitLoading = false;
                 if (res.code === 20000) {

@@ -179,14 +179,6 @@ const router = new VueRouter({
             }
         },
         {
-            path: "/daily-index.html",
-            name: "daily-index.html",
-            component: DailyIndex,
-            meta: {
-                title: '日报 - 首页'
-            }
-        },
-        {
             path: "/daily-list.html",
             name: "daily-list.html",
             component: DailyList,
