@@ -9,7 +9,7 @@
                     <div class="dp-table">
                         <div class="dp-table-cell">
                             <el-form-item label="任务名称" prop="name" style="width: 100%;">
-                                <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（长度<=30位）"></el-input>
+                                <el-input v-model="form.name" maxlength="30" placeholder="请输入任务名称（字数<=30）"></el-input>
                             </el-form-item>
                             <el-form-item label="任务描述" prop="richText" style="width: 100%;">
                                 <!--<QuillEditor @change="changeText" :editorContent="form.richText"></QuillEditor>-->

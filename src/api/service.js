@@ -51,6 +51,9 @@ const Service = {
     taskAction: data => api.axiosPut(baseUrl + '/api/task/' + data.actionType + '/action', data, null),
     getTaskRemarkList: data => api.axiosGet(baseUrl + '/api/task/' + data.taskId + '/remark', null, null),
 
+    getDailyList: data => api.axiosGet(baseUrl + '/api/daily/' + data.pageNum + '/' + data.pageSize, null, data),
+    addDaily: data => api.axiosPost(baseUrl + '/api/daily', data, null),
+
 };
 
 export default Service

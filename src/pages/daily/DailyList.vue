@@ -8,7 +8,18 @@
         </div>
         <div class="table-content">
             <div class="panel">
-                123
+                <div>
+                    <el-timeline>
+                        <template v-for="item in tableList">
+                            <el-timeline-item :timestamp="item" placement="top">
+                                <el-card>
+                                    <h4>更新 Github 模板</h4>
+                                    <p>王小虎 提交于 2018/4/12 20:46</p>
+                                </el-card>
+                            </el-timeline-item>
+                        </template>
+                    </el-timeline>
+                </div>
             </div>
         </div>
         <DailyDialog
@@ -61,7 +72,8 @@
                     this.formSearch.pageSize = res.data.pageSize;
                     this.total = res.data.total;
                     this.pages = res.data.pages;
-                    this.tableList = res.data.result || [];
+                    this.tableList = res.data || [];
+                    // console.log(JSON.stringify(this.tableList))
                 } else {
                     this.$notify.error({
                         title: '提示',
@@ -78,8 +90,12 @@
                 this.error = false;
             },
             async addDaily(data) {
+                let submitData = {
+                    dailyList: data,
+                    currentPostCode: localStorage.getItem('currentPostCode'),
+                }
                 this.dialogSubmitLoading = true;
-                const res = await this.$service.addDaily(data);
+                const res = await this.$service.addDaily(submitData);
                 this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
                     this.hideDialog();
