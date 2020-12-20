@@ -20,7 +20,7 @@
                     >
                         <el-table-column
                                 prop="id"
-                                min-width="60"
+                                width="60"
                                 label="ID"
                         ></el-table-column>
                         <el-table-column
