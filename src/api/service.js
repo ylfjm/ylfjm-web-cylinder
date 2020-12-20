@@ -51,6 +51,11 @@ const Service = {
     taskAction: data => api.axiosPut(baseUrl + '/api/task/' + data.actionType + '/action', data, null),
     getTaskRemarkList: data => api.axiosGet(baseUrl + '/api/task/' + data.taskId + '/remark', null, null),
 
+    getDailyProjectList: data => api.axiosGet(baseUrl + '/api/dailyProject/' + data.pageNum + '/' + data.pageSize, null, data),
+    addDailyProject: data => api.axiosPost(baseUrl + '/api/dailyProject', data, null),
+    updateDailyProject: data => api.axiosPut(baseUrl + '/api/dailyProject', data, null),
+    deleteDailyProject: data => api.axiosDelete(baseUrl + '/api/dailyProject/' + data.id, null, null),
+
     getDailyList: data => api.axiosGet(baseUrl + '/api/daily/' + data.pageNum + '/' + data.pageSize, null, data),
     addDaily: data => api.axiosPost(baseUrl + '/api/daily', data, null),
 

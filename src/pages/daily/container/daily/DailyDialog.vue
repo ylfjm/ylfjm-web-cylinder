@@ -1,11 +1,11 @@
 <template>
-    <el-dialog width="60%" title="填写日报" :visible.sync="visible" :before-close="hideDialog">
+    <el-dialog width="70%" title="填写日报" :visible.sync="visible" :before-close="hideDialog">
         <div class="dialog-form">
             <div class="dp-table" v-for="(item, index) in domList" style="margin-bottom: 10px;">
                 <div class="dp-table-cell" style="width: 20px;">
                     <div style="height: 36px; line-height: 36px; font-size: 18px;">{{(index+1)+'.'}}</div>
                 </div>
-                <div class="dp-table-cell" style="width: 26%; padding-right: 10px;">
+                <div class="dp-table-cell" style="width: 32%; padding-right: 10px;">
                     <el-select v-model="domList[index].projectId" size="medium" clearable placeholder="请选择项目" style="width: 100%;">
                         <el-option v-for="p in projectList" :key="p.id" :label="p.name" :value="p.id"></el-option>
                     </el-select>
@@ -41,7 +41,6 @@
                     {projectId: '', content: ''},
                     {projectId: '', content: ''},
                 ],
-                projectList: [],
             }
         },
         props: {
@@ -50,6 +49,7 @@
             submit: Function,
             loading: Boolean,
             error: {},
+            projectList: Array,
         },
         methods: {
             currentSubmit(formName) {
@@ -69,12 +69,6 @@
                 }
                 this.submit(this.domList);
             },
-            async getProjectList() {
-                const res = await this.$service.getProjectList({pageNum: 1, pageSize: 10000});
-                if (res.code === 20000) {
-                    this.projectList = res.data.result || [];
-                }
-            },
             addNode(index) {
                 this.domList.splice(index + 1, 0, {projectId: this.domList[index].projectId, content: ''});
             },
@@ -93,7 +87,6 @@
         watch: {
             visible: function (n) {
                 if (n) {
-                    this.getProjectList();
                 }
             },
             loading: function (n, o) {
