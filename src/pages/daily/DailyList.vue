@@ -202,6 +202,7 @@
                 if (res.code === 20000) {
                     this.hideLeftDialog();
                     this.leftSearchCommon();
+                    this.searchCommon();
                 } else {
                     this.leftError = res.message || true;
                 }
