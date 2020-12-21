@@ -64,7 +64,7 @@
     </header>
 </template>
 <script>
-    import {mapState} from 'vuex'
+    import CryptoJS from 'crypto-js'
     import ChangePasswordDialog from './ChangePasswordDialog'
 
     export default {
@@ -166,7 +166,7 @@
             async changeAdminPassword(data) {
                 this.dialogSubmitLoading = true;
                 let formData = {
-                    id: this.admin.id,
+                    adminId: this.admin.id,
                     password: CryptoJS.MD5(data.password.trim()).toString(),
                     newPassword: CryptoJS.MD5(data.newPassword.trim()).toString(),
                     newPasswordConfirm: CryptoJS.MD5(data.newPasswordConfirm.trim()).toString(),

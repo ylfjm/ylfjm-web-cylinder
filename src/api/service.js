@@ -10,6 +10,7 @@ const Service = {
     updateAdmin: data => api.axiosPut(baseUrl + '/api/admin', data, null),
     changeAdminStatus: data => api.axiosPatch(baseUrl + '/api/admin/' + data.id + '/forbidden', null, null),
     deleteAdmin: data => api.axiosDelete(baseUrl + '/api/admin/' + data.id, null, null),
+    changeAdminPassword: data => api.axiosPost(baseUrl + '/api/admin/changePassword', null, data),
     //部门管理
     getDepartmentList: data => api.axiosGet(baseUrl + '/api/department/' + data.pageNum + '/' + data.pageSize, null, data),
     addDepartment: data => api.axiosPost(baseUrl + '/api/department', data, null),

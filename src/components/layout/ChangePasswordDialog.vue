@@ -51,14 +51,13 @@
                 if (!value) {
                     return callback(new Error('密码不能为空'))
                 }
-                if (value.trim() === this.password.trim()) {
+                if (value.trim() === this.form.password.trim()) {
                     return callback(new Error('新密码不能与旧密码一致'))
                 }
                 if (phoneReg.test(value) && value.length > 7) {
-
-                    callback()
+                    return callback()
                 } else {
-                    callback(new Error('密码需要大小写字母、数字、特殊字符任意两组组成且长度最少八位'))
+                    return callback(new Error('密码需要大小写字母、数字、特殊字符任意两组组成且长度最少八位'))
                 }
             },
             checkPassword2(rule, value, callback) {
@@ -68,7 +67,7 @@
                 if (value.trim() !== this.form.newPassword.trim()) {
                     return callback(new Error('2次填写的密码不一致'))
                 }
-                callback()
+                return callback()
             },
             currentSubmit(formName) {
                 this.$refs[formName].validate(valid => {
