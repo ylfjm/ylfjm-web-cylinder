@@ -36,7 +36,7 @@
                 <el-table-column
                         prop="createBy"
                         width="150"
-                        label="有谁创建"
+                        label="由谁创建"
                 ></el-table-column>
                 <el-table-column
                         prop="createDate"

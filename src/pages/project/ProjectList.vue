@@ -99,12 +99,12 @@
                             <el-button type="primary" size="mini" @click="">编辑</el-button>
                             <el-button type="danger" size="mini" @click="deleteProject(scope.row.id)">删除</el-button>
                         </el-row>-->
-                        <!--<el-tooltip effect="dark" content="编辑" placement="bottom-start">
-                            <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
-                                <img src="@/assets/images/edit-22.png">
-                            </a>
-                        </el-tooltip>-->
                         <el-row type="flex" justify="center">
+                            <el-tooltip content="编辑" placement="bottom-start">
+                                <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
+                                    <img src="@/assets/images/edit-22.png">
+                                </a>
+                            </el-tooltip>
                             <el-tooltip content="删除" placement="bottom-start">
                                 <a @click="deleteProject(scope.row.id)" class="action-a-btn">
                                     <img src="@/assets/images/delete-22.png">

@@ -26,6 +26,7 @@
                     <el-date-picker
                             v-model="form.dateRange"
                             type="daterange"
+                            value-format="yyyy-MM-dd"
                             align="center"
                             unlink-panels
                             range-separator="至"
@@ -150,9 +151,10 @@
         },
         methods: {
             countDays() {
-                // console.log(JSON.stringify(this.form.dateRange))
                 if (this.form.dateRange) {
-                    this.form.days = commonUtil.countWorkDays(this.form.dateRange[0], this.form.dateRange[1]);
+                    const start = new Date(moment(this.form.dateRange[0]).format('YYYY-MM-DD HH:mm:ss'));
+                    const end = new Date(moment(this.form.dateRange[1]).format('YYYY-MM-DD HH:mm:ss'));
+                    this.form.days = commonUtil.countWorkDays(start, end);
                 } else {
                     this.form.days = '';
                 }
@@ -180,8 +182,9 @@
                     this.title = '新增项目';
                     if (this.updateObj && this.updateObj.id) {
                         this.form = this.updateObj;
-                        // this.form.dateRange = [new Date(), new Date()];
-                        // console.log(JSON.stringify(this.form.dateRange))
+                        // this.form.dateRange = [moment(this.form.begin).format('YYYY-MM-DD'), moment(this.form.end).format('YYYY-MM-DD')];
+                        // this.form.dateRange = [new Date('2020-12-01'), new Date('2020-12-20')];
+                        this.$set(this.form, 'dateRange', [this.form.begin, this.form.end]);
                         this.title = '修改项目';
                     } else {
                         this.form.name = '';
