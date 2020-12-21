@@ -105,7 +105,7 @@
                             </a>
                         </el-tooltip>-->
                         <el-row type="flex" justify="center">
-                            <el-tooltip effect="dark" content="删除" placement="bottom-start">
+                            <el-tooltip content="删除" placement="bottom-start">
                                 <a @click="deleteProject(scope.row.id)" class="action-a-btn">
                                     <img src="@/assets/images/delete-22.png">
                                 </a>

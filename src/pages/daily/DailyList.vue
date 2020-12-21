@@ -6,7 +6,7 @@
                     <div style="float: right;">
                         <el-button @click="showLeftDialog(null, 'create')" type="primary">
                             <i class="el-icon-plus"></i>
-                            添加项目
+                            添加日报项目
                         </el-button>
                     </div>
                 </div>
@@ -35,12 +35,12 @@
                         >
                             <template slot-scope="scope">
                                 <el-row type="flex" justify="center">
-                                    <el-tooltip effect="dark" content="编辑" placement="bottom-start" :enterable="false" open-delay="600">
+                                    <el-tooltip content="编辑" placement="bottom-start">
                                         <a @click="showLeftDialog(scope.row, 'update')" class="action-a-btn">
                                             <img src="@/assets/images/edit-22.png">
                                         </a>
                                     </el-tooltip>
-                                    <el-tooltip effect="dark" content="删除" placement="bottom-start" :enterable="false" open-delay="600">
+                                    <el-tooltip content="删除" placement="bottom-start">
                                         <a @click="deleteDailyProject(scope.row.id)" class="action-a-btn">
                                             <img src="@/assets/images/delete-22.png">
                                         </a>
@@ -51,6 +51,7 @@
                     </el-table>
                     <div class="pagination_box">
                         <el-pagination
+                                background
                                 @current-change="leftHandleCurrentChange"
                                 @size-change="leftHandleSizeChange"
                                 class="pagination_content"
@@ -138,7 +139,7 @@
                 },
                 formSearch: {
                     pageNum: 1,
-                    pageSize: 15
+                    pageSize: 2
                 },
                 total: 0,
                 pages: 0,
@@ -411,7 +412,7 @@
     }
 
     .panel-body {
-        margin: 20px;
+        margin: 20px 0;
     }
 
     .daily-project-name {
@@ -425,5 +426,11 @@
 
     .daily-content {
         font-size: 15px;
+    }
+
+    /deep/ .el-timeline-item__timestamp {
+        font-size: 18px;
+        padding-top: 2px;
+        color: #409EFF;
     }
 </style>

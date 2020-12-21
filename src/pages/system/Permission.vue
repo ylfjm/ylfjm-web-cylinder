@@ -99,12 +99,12 @@
                         >
                             <template slot-scope="scope">
                                 <el-row type="flex" justify="center">
-                                    <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                                    <el-tooltip content="编辑" placement="bottom-start">
                                         <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
                                             <img src="@/assets/images/edit-22.png">
                                         </a>
                                     </el-tooltip>
-                                    <el-tooltip effect="dark" content="删除" placement="bottom-start">
+                                    <el-tooltip content="删除" placement="bottom-start">
                                         <a @click="deletePermission(scope.row)" class="action-a-btn">
                                             <img src="@/assets/images/delete-22.png">
                                         </a>

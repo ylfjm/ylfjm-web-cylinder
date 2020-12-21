@@ -73,27 +73,27 @@
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-tooltip effect="dark" content="用户" placement="bottom-start">
+                            <el-tooltip content="用户" placement="bottom-start">
                                 <a @click="jumpPage(scope.row, 'user')" class="action-a-btn">
                                     <img src="@/assets/images/user-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="菜单" placement="bottom-start">
+                            <el-tooltip content="菜单" placement="bottom-start">
                                 <a @click="jumpPage(scope.row, 'menu')" class="action-a-btn">
                                     <img src="@/assets/images/menu-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="权限" placement="bottom-start">
+                            <el-tooltip content="权限" placement="bottom-start">
                                 <a @click="jumpPage(scope.row, 'permission')" class="action-a-btn">
                                     <img src="@/assets/images/permission-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                            <el-tooltip content="编辑" placement="bottom-start">
                                 <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
                                     <img src="@/assets/images/edit-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="删除" placement="bottom-start">
+                            <el-tooltip content="删除" placement="bottom-start">
                                 <a @click="deleteRole(scope.row)" class="action-a-btn">
                                     <img src="@/assets/images/delete-22.png">
                                 </a>

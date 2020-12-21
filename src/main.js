@@ -26,8 +26,11 @@ ElementUI.Dialog.props.lockScroll.default = false;
 // 分页默认
 ElementUI.Pagination.props.layout.default = "total, sizes, prev, pager, next";
 ElementUI.Pagination.props.pageSizes.default = function () {
-    return [3, 15, 20, 30, 50, 100];
+    return [2, 15, 20, 30, 50, 100];
 };
+
+ElementUI.Tooltip.props.enterable.default = false;
+ElementUI.Tooltip.props.openDelay.default = 600;
 
 Vue.use(ElementUI, {size: 'small'});
 Vue.prototype.$service = Service;

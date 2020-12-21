@@ -33,8 +33,8 @@
                         {{ admin.realName }}<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                         <el-dropdown-menu slot="dropdown">
-                            <!--<el-dropdown-item command="switchPostCode">切换身份</el-dropdown-item>-->
-                            <!--<el-dropdown-item class="el-dropdown-menu-divided"></el-dropdown-item>-->
+                            <el-dropdown-item command="changePassword">修改密码</el-dropdown-item>
+                            <el-dropdown-item class="el-dropdown-menu-divided"></el-dropdown-item>
                             <el-dropdown-item command="loginOut">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -53,10 +53,19 @@
                 </div>
             </div>
         </div>
+        <ChangePasswordDialog
+                :visible="dialogVisible"
+                :hideDialog="hideDialog"
+                :submit="changeAdminPassword"
+                :loading="dialogSubmitLoading"
+                :error="error"
+                :updateObj="updateObj"
+        />
     </header>
 </template>
 <script>
     import {mapState} from 'vuex'
+    import ChangePasswordDialog from './ChangePasswordDialog'
 
     export default {
         name: "HeaderPage",
@@ -69,6 +78,11 @@
                 subMenuList: [],
                 currentPostCodeName: '',
                 postList: [],
+
+                error: false,
+                dialogVisible: false,
+                dialogSubmitLoading: false,
+                updateObj: {},
             }
         },
         /*computed: {
@@ -135,6 +149,34 @@
                     localStorage.removeItem('currentPostCode');
                     localStorage.removeItem('currentUserName');
                     this.$router.push('/login.html')
+                } else if (command === 'changePassword') {
+                    this.showDialog();
+                }
+            },
+            showDialog(row) {
+                this.dialogVisible = true;
+                this.error = false;
+                this.updateObj = {...row};
+            },
+            hideDialog() {
+                this.dialogVisible = false;
+                this.error = false;
+                this.updateObj = {};
+            },
+            async changeAdminPassword(data) {
+                this.dialogSubmitLoading = true;
+                let formData = {
+                    id: this.admin.id,
+                    password: CryptoJS.MD5(data.password.trim()).toString(),
+                    newPassword: CryptoJS.MD5(data.newPassword.trim()).toString(),
+                    newPasswordConfirm: CryptoJS.MD5(data.newPasswordConfirm.trim()).toString(),
+                };
+                const res = await this.$service.changeAdminPassword(formData);
+                this.dialogSubmitLoading = false;
+                if (res.code === 20000) {
+                    this.hideDialog();
+                } else {
+                    this.error = res.message || true;
                 }
             },
             async getPositionList() {
@@ -169,6 +211,9 @@
                 }
             }
         },
+        components: {
+            ChangePasswordDialog
+        }
     }
 </script>
 <style scoped>

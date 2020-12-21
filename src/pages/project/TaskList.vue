@@ -120,7 +120,7 @@
                         label="任务名称"
                 >
                     <template slot-scope="scope">
-                        <el-tooltip effect="dark" :content="scope.row.name" placement="right-start">
+                        <el-tooltip :content="scope.row.name" placement="right-start">
                             <el-link :underline="false" @click="jumpPage(scope.row.id, 'TaskDetailPage')">{{scope.row.name}}</el-link>
                         </el-tooltip>
                     </template>
@@ -489,27 +489,27 @@
                 >
                     <template slot-scope="scope">
                         <el-row type="flex" justify="center">
-                            <el-tooltip effect="dark" content="指派" placement="bottom-start">
+                            <el-tooltip content="指派" placement="bottom-start">
                                 <a @click="showDialog(scope.row, 'assign')" class="action-a-btn">
                                     <img src="@/assets/images/assign-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="排期" placement="bottom-start">
+                            <el-tooltip content="排期" placement="bottom-start">
                                 <a @click="showDialog(scope.row, 'estimate')" class="action-a-btn">
                                     <img src="@/assets/images/estimate-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="关闭" placement="bottom-start">
+                            <el-tooltip content="关闭" placement="bottom-start">
                                 <a @click="showDialog(scope.row, 'close')" class="action-a-btn">
                                     <img src="@/assets/images/close-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="完成" placement="bottom-start">
+                            <el-tooltip content="完成" placement="bottom-start">
                                 <a @click="showDialog(scope.row, 'complete')" class="action-a-btn">
                                     <img src="@/assets/images/complete-22.png">
                                 </a>
                             </el-tooltip>
-                            <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                            <el-tooltip content="编辑" placement="bottom-start">
                                 <a @click="jumpPage(scope.row.id, 'EditTaskPage')" class="action-a-btn">
                                     <img src="@/assets/images/edit-22.png">
                                 </a>
