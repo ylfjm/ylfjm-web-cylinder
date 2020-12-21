@@ -35,12 +35,12 @@
                         >
                             <template slot-scope="scope">
                                 <el-row type="flex" justify="center">
-                                    <el-tooltip effect="dark" content="编辑" placement="bottom-start">
+                                    <el-tooltip effect="dark" content="编辑" placement="bottom-start" :enterable="false" open-delay="600">
                                         <a @click="showLeftDialog(scope.row, 'update')" class="action-a-btn">
                                             <img src="@/assets/images/edit-22.png">
                                         </a>
                                     </el-tooltip>
-                                    <el-tooltip effect="dark" content="删除" placement="bottom-start">
+                                    <el-tooltip effect="dark" content="删除" placement="bottom-start" :enterable="false" open-delay="600">
                                         <a @click="deleteDailyProject(scope.row.id)" class="action-a-btn">
                                             <img src="@/assets/images/delete-22.png">
                                         </a>
@@ -90,6 +90,17 @@
                                 </template>
                             </el-timeline>
                         </div>
+                    </div>
+                    <div class="pagination_box">
+                        <el-pagination
+                                background
+                                @current-change="handleCurrentChange"
+                                @size-change="handleSizeChange"
+                                class="pagination_content"
+                                :current-page="formSearch.pageNum"
+                                :page-size="formSearch.pageSize"
+                                :total="total"
+                        ></el-pagination>
                     </div>
                 </div>
             </div>
@@ -393,6 +404,12 @@
 </script>
 
 <style scoped>
+    .panel {
+        margin-bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
     .panel-body {
         margin: 20px;
     }

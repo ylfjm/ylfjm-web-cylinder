@@ -183,7 +183,7 @@ const router = new VueRouter({
             name: "daily-list.html",
             component: DailyList,
             meta: {
-                title: '日报 - 日报'
+                title: '系统 - 日报'
             }
         },
     ]
