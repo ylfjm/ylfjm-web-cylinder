@@ -1,12 +1,10 @@
 <template>
     <div class="container">
         <div class="search_box">
-            <a @click="onSearch('')" :class="formSearch.searchType === '' ? 'link-btn link-btn-active' : 'link-btn'">所有</a>
-            <a @click="onSearch('me')" :class="formSearch.searchType === 'me' ? 'link-btn link-btn-active' : 'link-btn'">我的</a>
             <div style="float: right;">
-                <el-button @click="showDialog" type="primary">
+                <el-button @click="showDialog(null, 'create')" type="primary">
                     <i class="el-icon-plus"></i>
-                    填写日报
+                    添加日报项目
                 </el-button>
             </div>
         </div>
@@ -20,29 +18,34 @@
             >
                 <el-table-column
                         prop="id"
-                        width="60"
+                        width="100"
                         label="ID"
                 ></el-table-column>
                 <el-table-column
-                        prop="projectName"
-                        width="400"
-                        show-overflow-tooltip
-                        label="项目名称"
+                        prop="name"
+                        label="名称"
                 ></el-table-column>
                 <el-table-column
-                        prop="content"
-                        label="日报内容"
-                ></el-table-column>
-                <el-table-column
-                        prop="createBy"
-                        width="150"
-                        label="有谁创建"
-                ></el-table-column>
-                <el-table-column
-                        prop="createDate"
-                        width="150"
-                        label="创建日期"
-                ></el-table-column>
+                        align="center"
+                        fixed="right"
+                        width="80"
+                        label="操作"
+                >
+                    <template slot-scope="scope">
+                        <el-row type="flex" justify="center">
+                            <el-tooltip content="编辑" placement="bottom-start">
+                                <a @click="showDialog(scope.row, 'update')" class="action-a-btn">
+                                    <img src="@/assets/images/edit-22.png">
+                                </a>
+                            </el-tooltip>
+                            <el-tooltip content="删除" placement="bottom-start">
+                                <a @click="deleteDailyProject(scope.row.id)" class="action-a-btn">
+                                    <img src="@/assets/images/delete-22.png">
+                                </a>
+                            </el-tooltip>
+                        </el-row>
+                    </template>
+                </el-table-column>
             </el-table>
             <div class="pagination_box">
                 <el-pagination
@@ -56,25 +59,25 @@
                 ></el-pagination>
             </div>
         </div>
-        <DailyDialog
+        <DailyProjectDialog
                 :visible="dialogVisible"
                 :hideDialog="hideDialog"
-                :submit="addDaily"
+                :submit="addOrUpdate"
                 :loading="dialogSubmitLoading"
                 :error="error"
+                :updateObj="updateObj"
         />
     </div>
 </template>
 
 <script>
-    import DailyDialog from './container/daily/DailyDialog'
+    import DailyProjectDialog from './container/daily/DailyProjectDialog'
 
     export default {
         name: "DailyList",
         data() {
             return {
                 formSearch: {
-                    searchType: 'me',
                     pageNum: 1,
                     pageSize: 15
                 },
@@ -86,14 +89,11 @@
                 error: false,
                 dialogVisible: false,
                 dialogSubmitLoading: false,
+                actionType: '',
+                updateObj: {},
             }
         },
         methods: {
-            onSearch(searchType) {
-                this.formSearch.pageNum = 1;
-                this.formSearch.searchType = searchType;
-                this.searchCommon()
-            },
             handleCurrentChange(pageNum) {
                 this.formSearch.pageNum = pageNum;
                 this.searchCommon()
@@ -105,7 +105,7 @@
             },
             async searchCommon() {
                 this.searchLoading = true;
-                const res = await this.$service.getDailyList(this.formSearch);
+                const res = await this.$service.getDailyProjectList(this.formSearch);
                 this.searchLoading = false;
                 if (res.code === 20000) {
                     this.formSearch.pageNum = res.data.pageNum;
@@ -120,21 +120,28 @@
                     })
                 }
             },
-            showDialog() {
+            showDialog(row, actionType) {
                 this.dialogVisible = true;
                 this.error = false;
+                this.actionType = actionType;
+                if (this.actionType === 'update') {
+                    this.updateObj = {...row};
+                }
             },
             hideDialog() {
                 this.dialogVisible = false;
                 this.error = false;
+                this.updateObj = {};
             },
-            async addDaily(data) {
-                let submitData = {
-                    dailyList: data,
-                    currentPostCode: localStorage.getItem('currentPostCode'),
-                };
+            async addOrUpdate(data) {
+                let formData = {...data};
+                let res;
                 this.dialogSubmitLoading = true;
-                const res = await this.$service.addDaily(submitData);
+                if (this.actionType === 'create') {
+                    res = await this.$service.addDailyProject(formData);
+                } else if (this.actionType === 'update') {
+                    res = await this.$service.updateDailyProject(formData);
+                }
                 this.dialogSubmitLoading = false;
                 if (res.code === 20000) {
                     this.hideDialog();
@@ -143,12 +150,40 @@
                     this.error = res.message || true;
                 }
             },
+            deleteDailyProject(id) {
+                this.$confirm('您选择了1条数据，是否确认删除?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    lockScroll: false
+                }).then(async () => {
+                    const res = await this.$service.deleteDailyProject({
+                        id: id
+                    });
+                    if (res.code === 20000) {
+                        this.$notify({
+                            title: '提示',
+                            type: 'success',
+                            message: '删除成功',
+                            duration: 2000
+                        });
+                        this.searchCommon();
+                    } else {
+                        this.$notify.error({
+                            title: '提示',
+                            message: res.message ? res.message : '删除失败',
+                            duration: 2000
+                        })
+                    }
+                }).catch(() => {
+                });
+            },
         },
         created() {
             this.searchCommon();
         },
         components: {
-            DailyDialog,
+            DailyProjectDialog,
         }
     }
 </script>

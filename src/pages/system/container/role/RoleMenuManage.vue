@@ -2,23 +2,29 @@
     <div class="container">
         <div class="container-border">
             <div class="dp-table">
-                <div class="dp-table-cell text-right" style="width: 10%; padding-right: 30px;">
-                    <div>菜单</div>
+                <div class="dp-table-cell text-center" style="width: 10%;">
+                    <div>一级菜单</div>
                 </div>
-                <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
-                    <el-checkbox-group v-model="checkedBox" @change="handleChecked">
-                        <template v-for="menu in menuList">
-                            <el-checkbox :label="menu.id" :key="menu.id" :checked="menu.have" style="width: 60px;">{{menu.name}}</el-checkbox>
-                            <template v-if="menu.subMenus && menu.subMenus.length > 0">
-                                <template v-for="subMenu in menu.subMenus">
-                                    <el-checkbox :label="subMenu.id" :key="subMenu.id" :checked="subMenu.have" style="width: 60px;">{{subMenu.name}}
-                                    </el-checkbox>
-                                </template>
-                            </template>
-                        </template>
-                    </el-checkbox-group>
+                <div class="dp-table-cell text-center" style="width: 90%;">
+                    <div>二级菜单</div>
                 </div>
             </div>
+            <template v-for="menu in menuList">
+                <el-checkbox-group v-model="checkedBox" @change="handleChecked">
+                    <div class="dp-table">
+                        <div class="dp-table-cell text-right" style="width: 10%; padding-right: 30px;">
+                            <el-checkbox :label="menu.id" :key="menu.id" :checked="menu.have" style="width: 60px;">{{menu.name}}</el-checkbox>
+                        </div>
+                        <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
+                            <template v-for="subMenu in menu.subMenus">
+                                <el-checkbox :label="subMenu.id" :key="subMenu.id" :checked="subMenu.have" style="width: 60px;">
+                                    {{subMenu.name}}
+                                </el-checkbox>
+                            </template>
+                        </div>
+                    </div>
+                </el-checkbox-group>
+            </template>
             <div class="dp-table">
                 <div class="dp-table-cell text-right" style="width: 10%; padding-right: 30px;">
                 </div>

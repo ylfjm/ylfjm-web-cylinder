@@ -59,7 +59,6 @@
                 :submit="changeAdminPassword"
                 :loading="dialogSubmitLoading"
                 :error="error"
-                :updateObj="updateObj"
         />
     </header>
 </template>
@@ -82,7 +81,6 @@
                 error: false,
                 dialogVisible: false,
                 dialogSubmitLoading: false,
-                updateObj: {},
             }
         },
         /*computed: {
@@ -153,15 +151,13 @@
                     this.showDialog();
                 }
             },
-            showDialog(row) {
+            showDialog() {
                 this.dialogVisible = true;
                 this.error = false;
-                this.updateObj = {...row};
             },
             hideDialog() {
                 this.dialogVisible = false;
                 this.error = false;
-                this.updateObj = {};
             },
             async changeAdminPassword(data) {
                 this.dialogSubmitLoading = true;

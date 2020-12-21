@@ -42,7 +42,6 @@
             submit: Function,
             loading: Boolean,
             error: {},
-            updateObj: Object,
         },
         methods: {
             //密码校验
@@ -82,9 +81,6 @@
         watch: {
             visible: function (n) {
                 if (n) {
-                    if (this.updateObj && this.updateObj.id) {
-                        this.form = this.updateObj;
-                    }
                     if (this.$refs['form']) {
                         this.$refs['form'].clearValidate();
                     }

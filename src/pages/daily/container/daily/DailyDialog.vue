@@ -7,7 +7,7 @@
                 </div>
                 <div class="dp-table-cell" style="width: 32%; padding-right: 10px;">
                     <el-select v-model="domList[index].projectId" size="medium" clearable placeholder="请选择项目" style="width: 100%;">
-                        <el-option v-for="p in projectList" :key="p.id" :label="p.name" :value="p.id"></el-option>
+                        <el-option v-for="p in dailyProjectList" :key="p.id" :label="p.name" :value="p.id"></el-option>
                     </el-select>
                 </div>
                 <div class="dp-table-cell">
@@ -41,6 +41,7 @@
                     {projectId: '', content: ''},
                     {projectId: '', content: ''},
                 ],
+                dailyProjectList: [],
             }
         },
         props: {
@@ -49,7 +50,6 @@
             submit: Function,
             loading: Boolean,
             error: {},
-            projectList: Array,
         },
         methods: {
             currentSubmit(formName) {
@@ -83,10 +83,17 @@
                     this.domList.splice(index, 1);//删除index为i,位置的数组元素
                 }
             },
+            async getDailyProjectList() {
+                const res = await this.$service.getDailyProjectList({pageNum: 1, pageSize: 10000});
+                if (res.code === 20000) {
+                    this.dailyProjectList = res.data.result || [];
+                }
+            },
         },
         watch: {
             visible: function (n) {
                 if (n) {
+                    this.getDailyProjectList();
                 }
             },
             loading: function (n, o) {

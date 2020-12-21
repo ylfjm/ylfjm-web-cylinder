@@ -28,6 +28,7 @@ import TaskDetailPage from "./pages/project/container/task/TaskDetailPage";
 //日报模块
 import DailyIndex from "./pages/daily/DailyIndex"
 import DailyList from "./pages/daily/DailyList"
+import DailyProjectList from "./pages/daily/DailyProjectList"
 
 Vue.use(VueRouter);
 
@@ -179,11 +180,27 @@ const router = new VueRouter({
             }
         },
         {
+            path: "/daily-index.html",
+            name: "daily-index.html",
+            component: DailyIndex,
+            meta: {
+                title: '系统 - 首页'
+            }
+        },
+        {
             path: "/daily-list.html",
             name: "daily-list.html",
             component: DailyList,
             meta: {
                 title: '系统 - 日报'
+            }
+        },
+        {
+            path: "/daily-project.html",
+            name: "daily-project.html",
+            component: DailyProjectList,
+            meta: {
+                title: '系统 - 日报项目'
             }
         },
     ]

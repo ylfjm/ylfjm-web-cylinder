@@ -57,6 +57,7 @@ const Service = {
     updateDailyProject: data => api.axiosPut(baseUrl + '/api/dailyProject', data, null),
     deleteDailyProject: data => api.axiosDelete(baseUrl + '/api/dailyProject/' + data.id, null, null),
 
+    getDailyShowList: data => api.axiosGet(baseUrl + '/api/daily/show/' + data.pageNum + '/' + data.pageSize, null, data),
     getDailyList: data => api.axiosGet(baseUrl + '/api/daily/' + data.pageNum + '/' + data.pageSize, null, data),
     addDaily: data => api.axiosPost(baseUrl + '/api/daily', data, null),
 
