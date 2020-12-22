@@ -14,7 +14,8 @@ import './assets/css/common.css'
 //kindeditor编辑器
 import '../static/kindeditor/themes/default/default.css'
 import '../static/kindeditor/themes/simple/simple.css'
-import '../static/kindeditor/kindeditor-all-min.js'
+import '../static/kindeditor/kindeditor-all.js'
+// import '../static/kindeditor/kindeditor-all-min.js'
 import '../static/kindeditor/lang/zh-CN.js'
 
 // 是否可以通过点击 modal 关闭 Dialog

@@ -79,14 +79,16 @@ const otherConfig = {
         type: String
     },
     themesPath: {
-        type: String
+        type: String,
+        default: "/static/kindeditor/themes/"
     },
     pluginsPath: {
         type: String,
         default: "/static/kindeditor/plugins/"
     },
     langPath: {
-        type: String
+        type: String,
+        default: "/static/kindeditor/lang/"
     },
     minChangeSize: {
         type: Number,
@@ -98,7 +100,7 @@ const otherConfig = {
     },
     newlineTag: {
         type: String,
-        default: "br"//设置回车换行标签，可设置”p”、”br”。
+        default: "p"//设置回车换行标签，可设置”p”、”br”。
     },
     pasteType: {
         type: Number,
@@ -133,7 +135,8 @@ const otherConfig = {
     },
     cssData: {
         type: String,
-        default: "body {font-family: \"Helvetica Neue\",Helvetica,Arial,Tahoma,'Microsoft Yahei','PingFang SC','Hiragino Sans GB','WenQuanYi Micro Hei',sans-serif; font-size:14px;padding:8px;}"
+        default: "body {font-family: \"Helvetica Neue\",Helvetica,Arial,Tahoma,'Microsoft Yahei','PingFang SC','Hiragino Sans GB','WenQuanYi Micro Hei',sans-serif; font-size: 13px; padding: 8px;}"
+        // default: "body {font-family: \"Helvetica Neue\",Helvetica,Arial,Tahoma,'Microsoft Yahei','PingFang SC','Hiragino Sans GB','WenQuanYi Micro Hei',sans-serif; font-size: 13px; padding: 8px;}"
     },
     bodyClass: {
         type: String,
@@ -175,7 +178,7 @@ const otherConfig = {
     },
     allowImageUpload: {
         type: Boolean,
-        default: true
+        default: false
     },
     allowFlashUpload: {
         type: Boolean,

@@ -29,7 +29,7 @@
         },
         watch: {
             content(val) {
-                this.editor && val !== this.outContent && this.editor.html(val)
+                this.editor && val !== this.outContent && this.editor.html(val);
             },
             outContent(val) {
                 // this.$emit('update:content', val);
@@ -37,7 +37,6 @@
             }
         },
         mounted() {
-            let _span = '<span style="width:auto;color:#888888;padding:8px 8px 8px 0;background-color:transparent;position:absolute;top:0;z-index:10;resize:none;font-size:14px;pointer-events:none;display:block;">可以在编辑器直接粘贴图片。</span>';
             let _this = this;
             _this.editor = KindEditor.create('#' + this.id, {
                 width: _this.width,
@@ -76,38 +75,21 @@
                 colorTable: _this.colorTable,
                 afterCreate: _this.afterCreate,
                 afterChange: function () {
-                    // _this.afterChange;
-                    let _html = this.html();
-                    if (_html.indexOf(_span) < 0) {
-                        _this.outContent = this.html()
+                    _this.outContent = this.html();
+                    if (!this.isEmpty()) {
+                        this.edit.keplaceholder.css('display', 'none');
                     }
                 },
                 afterTab: _this.afterTab,
                 afterFocus: function () {//编辑器聚焦(focus)时执行的回调函数。
-                    // this.edit.iframe[0].contentDocument.firstChild.lastChild.style.display = "none";
-                    let _html = this.html();
-                    if (_html.indexOf(_span) > -1) {
-                        this.html(null)
-                    }
-                    let _kecontainer = this.srcElement[0].parentElement.getElementsByClassName("ke-container")[0];
-                    if (_kecontainer) {
-                        _kecontainer.classList.add("ke-container-focus")
-                    }
+                    this.edit.keplaceholder.css('display', 'none');
+                    this.edit.srcElement.parent().first().addClass('ke-container-focus');
                 },
                 afterBlur: function () {//编辑器失去焦点(blur)时执行的回调函数。
-                    // let _html = this.html();
-                    // if (_html !== '') {
-                    //     this.edit.iframe[0].contentDocument.firstChild.lastChild.style.display = "none";
-                    // } else {
-                    //     this.edit.iframe[0].contentDocument.firstChild.lastChild.style.display = "block";
-                    // }
                     if (this.isEmpty()) {
-                        this.html(_span);
+                        this.edit.keplaceholder.css('display', 'block');
                     }
-                    let _kecontainer = this.srcElement[0].parentElement.getElementsByClassName("ke-container")[0];
-                    if (_kecontainer) {
-                        _kecontainer.classList.remove("ke-container-focus")
-                    }
+                    this.edit.srcElement.parent().first().removeClass('ke-container-focus');
                 },
                 afterUpload: _this.afterUpload,
                 uploadJson: _this.uploadJson,
@@ -130,11 +112,7 @@
                 autoHeightMode: _this.autoHeightMode,
                 fixToolBar: _this.fixToolBar,
             });
-
-            // let span = '<span class="kindeditor-ph" style="width:auto;color:rgb(136,136,136);padding:8px 8px 8px 8px;background-color:transparent;position:absolute;top:0;z-index:10;resize:none;font-size:14px;pointer-events:none;display:block;">可以在编辑器直接粘贴图片。</span>';
-            // KindEditor(span).appendTo(_this.editor.edit.iframe[0].contentDocument.firstChild)
-            _this.editor.html(_span);
-        }
+        },
     }
 </script>
 
