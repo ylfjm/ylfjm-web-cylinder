@@ -4,6 +4,8 @@ import qs from 'qs'
 import router from '@/router'
 
 const config = {
+    // baseURL: process.env.NODE_ENV==='production' ? process.env.BASE_API : "/api",
+    baseURL: process.env.BASE_API,
     timeout: 50000
 }
 const service = axios.create(config)

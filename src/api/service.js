@@ -1,6 +1,7 @@
 import api from './api'
 
-const baseUrl = 'http://localhost:9999';
+// const baseUrl = 'http://localhost:9999';
+const baseUrl = '';
 const Service = {
     //登录
     userLogin: data => api.axiosPost(baseUrl + '/api/login', null, data),
@@ -42,6 +43,7 @@ const Service = {
 
     getProjectList: data => api.axiosGet(baseUrl + '/api/project/' + data.pageNum + '/' + data.pageSize, null, data),
     addProject: data => api.axiosPost(baseUrl + '/api/project', data, null),
+    updateProject: data => api.axiosPut(baseUrl + '/api/project', data, null),
     deleteProject: data => api.axiosDelete(baseUrl + '/api/project/' + data.id, null, null),
 
     getTaskList: data => api.axiosGet(baseUrl + '/api/task/' + data.pageNum + '/' + data.pageSize, null, data),

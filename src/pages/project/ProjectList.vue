@@ -235,6 +235,7 @@
                 let res;
                 this.dialogSubmitLoading = true;
                 if (this.actionType === 'create') {
+                    formData.id = null;
                     res = await this.$service.addProject(formData);
                 } else if (this.actionType === 'update') {
                     res = await this.$service.updateProject(formData);

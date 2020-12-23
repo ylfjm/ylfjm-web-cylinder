@@ -163,6 +163,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let data = {
+                            id: this.form.id,
                             name: this.form.name.trim(),
                             code: this.form.code.trim(),
                             begin: moment(this.form.dateRange[0]).format('YYYY-MM-DD'),
