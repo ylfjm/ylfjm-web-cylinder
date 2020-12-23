@@ -23,8 +23,8 @@
         data() {
             return {
                 form: {
-                    userName: 'zhangbo',
-                    password: '123456'
+                    userName: '',
+                    password: ''
                 },
                 loginLoading: false,
                 rules: {
@@ -61,13 +61,13 @@
                             this.$store.commit('setMenuList', menus);
                             localStorage.setItem('admin', JSON.stringify(admin));
                             localStorage.setItem('menuList', JSON.stringify(menus));
-                            menus.map(item => {
-                                if (item.url && item.url === '/project-index.html') {
-                                    localStorage.setItem('activeMenuId', item.id);
-                                    localStorage.removeItem('activeSubMenuId');
-                                }
-                            });
-                            this.$router.push('/project-index.html')
+                            // menus.map(item => {
+                            //     if (item.url && item.url === '/daily-list.html') {
+                            //         localStorage.setItem('activeMenuId', item.id);
+                            //         localStorage.removeItem('activeSubMenuId');
+                            //     }
+                            // });
+                            this.$router.push('/index.html')
                         } else {
                             this.$notify.error({
                                 title: '提示',

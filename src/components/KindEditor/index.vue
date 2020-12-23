@@ -88,6 +88,7 @@
                 afterBlur: function () {//编辑器失去焦点(blur)时执行的回调函数。
                     if (this.isEmpty()) {
                         this.edit.keplaceholder.css('display', 'block');
+                        this.html(null);
                     }
                     this.edit.srcElement.parent().first().removeClass('ke-container-focus');
                 },
