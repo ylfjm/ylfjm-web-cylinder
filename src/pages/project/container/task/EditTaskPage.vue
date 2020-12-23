@@ -84,7 +84,7 @@
                             <el-form-item label="产品设计" style="margin-bottom: 5px;">
                                 <el-select v-model="form.pdDesigner" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
-                                               v-show="item.postCode === 'po'">
+                                               v-show="item.postCode.indexOf('po') > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
@@ -108,7 +108,7 @@
                             <el-form-item label="UI设计" style="margin-bottom: 5px;">
                                 <el-select v-model="form.uiDesigner" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
-                                               v-show="item.postCode === 'ui'">
+                                               v-show="item.postCode.indexOf('ui') > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
@@ -132,7 +132,7 @@
                             <el-form-item label="前端开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.webDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
-                                               v-show="['web','dev'].indexOf(item.postCode) > -1">
+                                               v-show="item.postCode.indexOf('web') > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
@@ -156,7 +156,7 @@
                             <el-form-item label="安卓开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.androidDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
-                                               v-show="item.postCode === 'android'">
+                                               v-show="item.postCode.indexOf('android') > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
@@ -180,7 +180,7 @@
                             <el-form-item label="苹果开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.iosDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
-                                               v-show="item.postCode === 'ios'">
+                                               v-show="item.postCode.indexOf('ios') > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
@@ -204,7 +204,7 @@
                             <el-form-item label="后端开发" style="margin-bottom: 5px;">
                                 <el-select v-model="form.serverDeveloper" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
-                                               v-show="item.postCode === 'dev'">
+                                               v-show="item.postCode.indexOf('dev') > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
@@ -228,7 +228,7 @@
                             <el-form-item label="测试" style="margin-bottom: 5px;">
                                 <el-select v-model="form.tester" clearable placeholder="请选择" style="width: 100%;">
                                     <el-option v-for="item in adminList" :key="item.id" :label="item.realName" :value="item.userName"
-                                               v-show="item.postCode === 'test'">
+                                               v-show="item.postCode.indexOf('test') > -1">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
