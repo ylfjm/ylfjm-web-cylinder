@@ -167,7 +167,8 @@ const otherConfig = {
         type: Function
     },
     uploadJson: {
-        type: String
+        type: String,
+        default: process.env.BASE_API + '/api/upload'
     },
     fileManagerJson: {
         type: String
@@ -178,7 +179,7 @@ const otherConfig = {
     },
     allowImageUpload: {
         type: Boolean,
-        default: false
+        default: true
     },
     allowFlashUpload: {
         type: Boolean,

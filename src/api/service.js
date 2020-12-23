@@ -63,6 +63,8 @@ const Service = {
     getDailyList: data => api.axiosGet(baseUrl + '/api/daily/' + data.pageNum + '/' + data.pageSize, null, data),
     addDaily: data => api.axiosPost(baseUrl + '/api/daily', data, null),
 
+    uploadFile: data => api.axiosPost('/api/upload', data, null),
+
 };
 
 export default Service

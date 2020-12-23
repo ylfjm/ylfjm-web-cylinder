@@ -73,7 +73,93 @@
                 cssData: _this.cssData,
                 bodyClass: _this.bodyClass,
                 colorTable: _this.colorTable,
-                afterCreate: _this.afterCreate,
+                // afterCreate: _this.afterCreate,
+                afterCreate: function () {
+                    let _edit = this;
+                    KindEditor(this.edit.doc.body).bind('paste', function (e) {
+                        //处理IE11,Chrome粘贴图片上传
+                        function doPasteImg() {
+                            let file = null;
+                            if (window.clipboardData) {//ie
+                                if (window.clipboardData.files && window.clipboardData.files.length) {//IE11
+                                    file = window.clipboardData.files[0];
+                                } else if (!window.clipboardData.getData("text") && !window.clipboardData.getData("url")) {
+                                    alert("不能粘贴文件或图片,请使用IE11或者Chrome浏览器,或使用上传功能");
+                                    return true;
+                                }
+                            } else {
+                                if (e.event.clipboardData.items) {//chrome
+                                    for (let i = 0; i < e.event.clipboardData.items.length; i++) {
+                                        if (e.event.clipboardData.items[i].kind === "file") {
+                                            file = e.event.clipboardData.items[i];
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (file == null) {
+                                    if (!e.event.clipboardData.getData("url") && !e.event.clipboardData.getData("text")) {
+                                        alert("不能粘贴文件或图片,请使用IE11或者Chrome浏览器,或使用上传功能");
+                                        return true;
+                                    }
+                                }
+                            }
+                            if (file) {
+                                if (!KindEditor.undef(self.allowImageUpload, true)) {
+                                    alert("编辑器禁止上传图片,请与有关人员联系!");
+                                    return true;
+                                }
+                                //获取File Blob
+                                let blb;
+                                if (file.getAsFile) {//Chrome
+                                    blb = file.getAsFile();
+                                    if (blb.size === 0) {
+                                        alert("不能获取剪切板中的" + (file.type.indexOf("image/") === 0 ? "图像" : "文件")
+                                            + "\n如果是从OutLook中复制的,请换其他程序,如Word");
+                                        return true;
+                                    }
+                                    sendfile(blb, file.type);
+                                } else {
+                                    let fr = new FileReader();
+                                    if (fr.readAsArrayBuffer) {//ie
+                                        fr.onloadend = function (evt) {
+                                            blb = evt.target.result;
+                                            sendfile(blb, file.type);
+                                        };
+                                        fr.readAsArrayBuffer(file);
+                                    }
+                                }
+                                return true;
+                            }
+                        }
+
+                        async function sendfile(b, t) {
+                            let formData = new FormData();
+                            // let isImg = t.indexOf("image/") === 0;
+                            //formData.append('imgFile', file,"untitled." + t.split('/')[1]);
+                            //formData.append('imgFile', b);
+                            let myBlob = new Blob([b], {"type": t});
+                            formData.append('imgFile', myBlob, "untitled." + t.split('/')[1]);
+                            //formData.append('imgFile', b);
+                            // formData.append('dir', isImg ? 'image' : 'file');
+                            const res = await _this.$service.uploadFile(formData);
+                            if (res.code === 20000) {
+                                console.log(res.data)
+                                let imgTag = '<img src="' + res.data + '" border="0"/>';
+                                _edit.insertHtml(imgTag);
+                            } else {
+                                _this.$message({
+                                    message: '上传失败',
+                                    type: 'error',
+                                    duration: 2000
+                                });
+                            }
+                        }
+
+                        if (doPasteImg()) {
+                            e.stop();
+                        }
+                    });
+                },
                 afterChange: function () {
                     _this.outContent = this.html();
                     if (!this.isEmpty()) {
