@@ -21,6 +21,9 @@ const commonUtil = {
     },
     //获取两个日期之间的工作日天数
     countWorkDays: function (start, end) {
+        if (end.getTime() - start.getTime() < 0) {
+            return 0;
+        }
         const days = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1;
         let d = start;
         let weeks = 0;

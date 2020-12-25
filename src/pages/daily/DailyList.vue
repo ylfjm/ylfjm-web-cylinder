@@ -25,7 +25,7 @@
                 ></el-table-column>
                 <el-table-column
                         prop="projectName"
-                        width="400"
+                        width="500"
                         show-overflow-tooltip
                         label="项目名称"
                 ></el-table-column>
@@ -43,6 +43,22 @@
                         width="150"
                         label="创建日期"
                 ></el-table-column>
+                <el-table-column
+                        align="center"
+                        fixed="right"
+                        width="80"
+                        label="操作"
+                >
+                    <template slot-scope="scope">
+                        <el-row type="flex" justify="center">
+                            <el-tooltip content="删除" placement="bottom-start">
+                                <a @click="deleteDaily(scope.row.id)" class="action-a-btn">
+                                    <img src="@/assets/images/delete-22.png">
+                                </a>
+                            </el-tooltip>
+                        </el-row>
+                    </template>
+                </el-table-column>
             </el-table>
             <div class="pagination_box">
                 <el-pagination
@@ -142,6 +158,33 @@
                 } else {
                     this.error = res.message || true;
                 }
+            },
+            //删除
+            deleteDaily(id) {
+                this.$confirm('您选择了1条数据，是否确认删除?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    lockScroll: false
+                }).then(async () => {
+                    const res = await this.$service.deleteDaily({
+                        id: id
+                    });
+                    if (res.code === 20000) {
+                        this.$notify({
+                            title: '提示',
+                            type: 'success',
+                            message: '删除成功',
+                        });
+                        this.searchCommon()
+                    } else {
+                        this.$notify.error({
+                            title: '提示',
+                            message: res.message ? res.message : '删除失败',
+                        })
+                    }
+                }).catch(() => {
+                });
             },
         },
         created() {

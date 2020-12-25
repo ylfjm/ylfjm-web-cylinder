@@ -60,7 +60,7 @@
                                         style="width: 210px;">
                                 </el-input-number>
                             </el-form-item>
-                            <el-form-item label="截止日期" prop="deadline">
+                            <!--<el-form-item label="截止日期" prop="deadline">
                                 <el-date-picker
                                         v-model="form.deadline"
                                         type="date"
@@ -68,7 +68,7 @@
                                         style="width: 210px;"
                                         placeholder="选择日期">
                                 </el-date-picker>
-                            </el-form-item>
+                            </el-form-item>-->
                             <el-divider class="black-divider--horizontal" direction="horizontal"></el-divider>
                             <el-form-item label="产品设计">
                                 <el-select v-model="form.pdDesigner" clearable placeholder="请选择" style="width: 100%;">
@@ -141,7 +141,7 @@
                     projectId: '',
                     pri: '',
                     type: '',
-                    deadline: '',
+                    // deadline: '',
                     richText: null,
                     pdDesigner: null,
                     uiDesigner: null,
@@ -155,7 +155,7 @@
                     projectId: [{required: true, message: '请选择任务所属项目', trigger: 'blur'}],
                     type: [{required: true, message: '请选择任务类型', trigger: 'blur'}],
                     pri: [{required: true, message: '请选择任务优先级', trigger: 'blur'}],
-                    deadline: [{required: true, message: '请选择任务截止日期', trigger: 'blur'}],
+                    // deadline: [{required: true, message: '请选择任务截止日期', trigger: 'blur'}],
                     name: [{required: true, message: '请填写任务名称', trigger: 'blur'}],
                 },
                 projectList: [],
@@ -169,6 +169,7 @@
                 ],
                 typeOptions: [
                     {label: "产品", value: "design"},
+                    {label: "UI", value: "ui"},
                     {label: "开发", value: "develop"},
                     {label: "测试", value: "test"},
                     {label: "其它", value: "other"},
@@ -194,7 +195,7 @@
             },
             async addTask() {
                 this.createLoading = true;
-                this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
+                // this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
                 // this.form.pdDesigner = this.form.pdDesigner && this.form.pdDesigner.length > 0 ? this.form.pdDesigner.join(",") : null;
                 // this.form.uiDesigner = this.form.uiDesigner && this.form.uiDesigner.length > 0 ? this.form.uiDesigner.join(",") : null;
                 // this.form.webDeveloper = this.form.webDeveloper && this.form.webDeveloper.length > 0 ? this.form.webDeveloper.join(",") : null;
@@ -252,7 +253,7 @@
                 this.form.projectId = task.projectId;
                 this.form.pri = task.pri;
                 this.form.type = task.type;
-                this.form.deadline = task.deadline;
+                // this.form.deadline = task.deadline;
                 this.form.richText = task.richText;
                 this.form.pdDesigner = task.pdDesigner;
                 this.form.uiDesigner = task.uiDesigner;

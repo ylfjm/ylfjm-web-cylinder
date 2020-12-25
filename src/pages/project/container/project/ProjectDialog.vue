@@ -5,9 +5,6 @@
                 <el-form-item label="项目名称" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="项目代号" prop="code">
-                    <el-input v-model="form.code"></el-input>
-                </el-form-item>
                 <el-form-item label="起止日期" prop="dateRange">
                     <!--<el-date-picker
                             v-model="form.begin"
@@ -84,7 +81,6 @@
                 title: '',
                 form: {
                     name: '',
-                    code: '',
                     begin: '',
                     end: '',
                     dateRange: [],
@@ -94,7 +90,6 @@
                 },
                 rules: {
                     name: [{required: true, message: '请填写项目名称', trigger: 'blur'}],
-                    code: [{required: true, message: '请填写项目代号', trigger: 'blur'}],
                     dateRange: [{validator: dateValidator, trigger: 'blur'}],
                 },
                 pickerOptions: {
@@ -165,7 +160,6 @@
                         let data = {
                             id: this.form.id,
                             name: this.form.name.trim(),
-                            code: this.form.code.trim(),
                             begin: moment(this.form.dateRange[0]).format('YYYY-MM-DD'),
                             end: moment(this.form.dateRange[1]).format('YYYY-MM-DD'),
                             days: this.form.days,
@@ -189,7 +183,6 @@
                         this.title = '修改项目';
                     } else {
                         this.form.name = '';
-                        this.form.code = '';
                         this.form.begin = '';
                         this.form.end = '';
                         this.form.dateRange = [];

@@ -62,6 +62,7 @@ const Service = {
     getDailyShowList: data => api.axiosGet(baseUrl + '/api/daily/show/' + data.pageNum + '/' + data.pageSize, null, data),
     getDailyList: data => api.axiosGet(baseUrl + '/api/daily/' + data.pageNum + '/' + data.pageSize, null, data),
     addDaily: data => api.axiosPost(baseUrl + '/api/daily', data, null),
+    deleteDaily: data => api.axiosDelete(baseUrl + '/api/daily/' + data.id, null, null),
 
     uploadFile: data => api.axiosPost('/api/upload', data, null),
 

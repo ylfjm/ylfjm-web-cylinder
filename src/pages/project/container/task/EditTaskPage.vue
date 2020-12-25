@@ -72,13 +72,14 @@
                                 </el-input-number>
                             </el-form-item>
                             <el-form-item label="截止日期" prop="deadline" style="margin-bottom: 10px;">
-                                <el-date-picker
+                                <!--<el-date-picker
                                         v-model="form.deadline"
                                         type="date"
                                         :clearable="false"
                                         style="width: 200px;"
                                         placeholder="选择日期">
-                                </el-date-picker>
+                                </el-date-picker>-->
+                                <el-input v-model="form.deadline" :disabled="true"></el-input>
                             </el-form-item>
                             <el-divider direction="horizontal"></el-divider>
                             <el-form-item label="产品设计" style="margin-bottom: 5px;">
@@ -345,7 +346,7 @@
                     projectId: [{required: true, message: '请选择任务所属项目', trigger: 'blur'}],
                     type: [{required: true, message: '请选择任务类型', trigger: 'blur'}],
                     pri: [{required: true, message: '请选择任务优先级', trigger: 'blur'}],
-                    deadline: [{required: true, message: '请选择任务截止日期', trigger: 'blur'}],
+                    // deadline: [{required: true, message: '请选择任务截止日期', trigger: 'blur'}],
                 },
                 projectList: [],
                 adminList: [],
@@ -357,6 +358,7 @@
                 ],
                 typeOptions: [
                     {label: "产品", value: "design"},
+                    {label: "UI", value: "ui"},
                     {label: "开发", value: "develop"},
                     {label: "测试", value: "test"},
                     {label: "其它", value: "other"},
@@ -380,7 +382,7 @@
             },
             async updateTask() {
                 this.updateLoading = true;
-                this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
+                // this.form.deadline = moment(this.form.deadline).format('YYYY-MM-DD');
                 this.form.pdEstimateDate = this.form.pdEstimateDate ? moment(this.form.pdEstimateDate).format('YYYY-MM-DD') : null;
                 this.form.pdFinishedDate = this.form.pdFinishedDate ? moment(this.form.pdFinishedDate).format('YYYY-MM-DD') : null;
                 this.form.uiEstimateDate = this.form.uiEstimateDate ? moment(this.form.uiEstimateDate).format('YYYY-MM-DD') : null;
@@ -439,7 +441,8 @@
                     if (res.code === 20000) {
                         this.form = {
                             ...res.data,
-                            deadline: moment(res.data.deadline),
+                            // deadline: moment(res.data.deadline),
+                            deadline: moment(res.data.deadline).format('YYYY-MM-DD'),
                         }
                     }
                     //获取任务备注列表

@@ -55,7 +55,7 @@ const router = new VueRouter({
             name: 'index.html',
             component: Home,
             meta: {
-                title: '主页'
+                title: '欢迎'
             }
         },
         //系统管理
