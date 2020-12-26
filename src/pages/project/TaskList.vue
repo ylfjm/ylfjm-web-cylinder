@@ -1,5 +1,19 @@
 <template>
     <div class="container">
+        <div style="position: relative;">
+            <div class="projectBar">
+                <el-dropdown trigger="click" placement="bottom-start" @command="handleCommand">
+                    <span class="el-dropdown-link">
+                        {{projectName}}<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <template v-for="item in projectList">
+                            <el-dropdown-item :command="item.id">{{item.name}}</el-dropdown-item>
+                        </template>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
+        </div>
         <div class="search_box">
             <a @click="onSearch('all')" :class="formSearch.searchType === 'all' ? 'link-btn link-btn-active' : 'link-btn'">所有</a>
             <a @click="onSearch('notClosed')" :class="formSearch.searchType === 'notClosed' ? 'link-btn link-btn-active' : 'link-btn'">未关闭</a>
@@ -607,6 +621,9 @@
                 pages: 0,
                 tableList: [],
                 adminList: [],
+                projectList: [],
+                projectId: '',
+                projectName: '',
                 searchLoading: false,
 
                 currentPostCode: localStorage.getItem('currentPostCode'),
@@ -619,6 +636,16 @@
             }
         },
         methods: {
+            handleCommand(command) {
+                for (let item of this.projectList) {
+                    if (item.id === command) {
+                        this.projectId = item.id;
+                        this.projectName = item.name;
+                        this.searchCommon();
+                        return;
+                    }
+                }
+            },
             onSearch(searchType) {
                 this.formSearch.pageNum = 1;
                 this.formSearch.searchType = searchType;
@@ -637,6 +664,7 @@
             async searchCommon() {
                 let searchParam = {
                     searchType: this.formSearch.searchType,
+                    projectId: this.projectId,
                     pageNum: this.formSearch.pageNum,
                     pageSize: this.formSearch.pageSize,
                     idSortBy: this.formSearch.idSortBy,
@@ -995,11 +1023,25 @@
                 if (res.code === 20000) {
                     this.adminList = res.data.result || [];
                 }
-                this.searchCommon();
+            },
+            async getProjectList() {
+                const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
+                if (res.code === 20000) {
+                    this.projectList = res.data.result || [];
+                }
             },
         },
-        created() {
+        async created() {
+            const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
+            if (res.code === 20000) {
+                this.projectList = res.data.result || [];
+                if (this.projectList && this.projectList.length > 0) {
+                    this.projectId = this.projectList[0].id;
+                    this.projectName = this.projectList[0].name;
+                }
+            }
             this.getAdminList();
+            this.searchCommon();
         },
         mounted() {
         },
@@ -1010,5 +1052,50 @@
     }
 </script>
 <style scoped>
+    /deep/ .el-dropdown {
+        cursor: pointer;
+        font-size: 14px;
+        padding: 5px 10px;
+        vertical-align: middle;
+        height: 30px;
+    }
 
+    .projectBar {
+        position: absolute;
+        display: inline-block;
+        width: auto;
+        /*height: 34px;*/
+        z-index: 10;
+        top: -62px;
+        margin-right: 10px;
+        padding: 1px;
+        border: 1px solid #cbd0db;
+        border-right: 0;
+    }
+
+    .projectBar:before {
+        position: absolute;
+        top: -1px;
+        right: -8px;
+        display: block;
+        width: 0;
+        height: 0;
+        content: ' ';
+        border-color: transparent transparent transparent #cbd0db;
+        border-style: solid;
+        border-width: 17px 0 17px 8px;
+    }
+
+    .projectBar:after {
+        position: absolute;
+        top: -1px;
+        right: -7px;
+        display: block;
+        width: 0;
+        height: 0;
+        content: ' ';
+        border-color: transparent transparent transparent #fff;
+        border-style: solid;
+        border-width: 17px 0 17px 8px;
+    }
 </style>

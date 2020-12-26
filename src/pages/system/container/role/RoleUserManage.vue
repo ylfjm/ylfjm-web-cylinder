@@ -1,7 +1,10 @@
 <template>
     <div class="container">
+        <div style="margin-bottom: 10px; font-size: 16px;">
+            角色::{{roleName}}
+        </div>
         <div class="container-border">
-            <div class="dp-table">
+            <div class="dp-table" style="font-weight: bold;">
                 <div class="dp-table-cell text-center" style="width: 10%;">
                     <div>部门</div>
                 </div>
@@ -57,6 +60,7 @@
             },
             async initData() {
                 this.roleId = this.$route.query.roleId;
+                this.roleName = this.$route.query.roleName;
                 if (this.roleId) {
                     const res = await this.$service.getDepartmentAdminList({roleId: this.roleId});
                     if (res.code === 20000) {

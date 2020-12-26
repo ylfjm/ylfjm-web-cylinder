@@ -260,21 +260,24 @@
                     this.$router.push({
                         name: 'role-user.html',
                         query: {
-                            roleId: data.id
+                            roleId: data.id,
+                            roleName: data.name
                         }
                     })
                 } else if (page === 'menu') {
                     this.$router.push({
                         name: 'role-menu.html',
                         query: {
-                            roleId: data.id
+                            roleId: data.id,
+                            roleName: data.name
                         }
                     })
                 } else if (page === 'permission') {
                     this.$router.push({
                         name: 'role-permission.html',
                         query: {
-                            roleId: data.id
+                            roleId: data.id,
+                            roleName: data.name
                         }
                     })
                 }
