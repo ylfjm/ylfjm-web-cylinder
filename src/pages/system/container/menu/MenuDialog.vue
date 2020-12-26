@@ -77,8 +77,7 @@
                     this.title = '新增菜单';
                     if (this.updateObj && this.updateObj.id) {
                         this.form = this.updateObj;
-                        console.log(this.form.pid)
-                        if (this.form.pid && this.form.pid === 0) {
+                        if (this.form.pid === 0) {
                             this.form.pid = '';
                         }
                         this.title = '修改菜单';

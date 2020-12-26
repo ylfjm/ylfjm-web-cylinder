@@ -36,7 +36,7 @@
                             <div class="dp-table-cell text-left" style="width: 90%; padding-left: 30px;">
                                 <el-checkbox-group v-model="checkedBox" @change="handleChecked">
                                     <el-checkbox v-for="perm in subMenu.permissions" :label="perm.id" :key="perm.id" :checked="perm.have"
-                                                 style="width: 110px;">
+                                                 style="width: 200px;">
                                         {{perm.name}}
                                     </el-checkbox>
                                 </el-checkbox-group>
