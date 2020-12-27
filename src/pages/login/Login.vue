@@ -1,12 +1,15 @@
 <template>
     <div class="login-main">
-        <el-form :model="form" :rules="rules" ref="form" class="login-form">
+        <el-form :model="form" class="login-form">
             <div class="title">系统登录</div>
-            <el-form-item prop="userName">
+            <el-form-item>
                 <el-input type="text" v-model="form.userName" placeholder="请输入账号"></el-input>
             </el-form-item>
-            <el-form-item prop="password">
+            <el-form-item style="margin-bottom: 8px;">
                 <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <el-form-item style="margin-bottom: 5px; text-align: right;">
+                <el-checkbox v-model="rememberPassword" @change="handleChecked">记住密码</el-checkbox>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" class="login-button" :loading="loginLoading" @click="loginSubmit">登 录</el-button>
@@ -23,67 +26,77 @@
         data() {
             return {
                 form: {
-                    userName: '',
-                    password: ''
+                    userName: localStorage.getItem('remember_userName'),
+                    password: localStorage.getItem('remember_password')
                 },
+                rememberPassword: JSON.parse(localStorage.getItem('remember_password_checked')),
                 loginLoading: false,
-                rules: {
-                    userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-                    password: [{required: true, message: '请输入密码', trigger: 'blur'}]
-                }
+                // rules: {
+                //     userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+                //     password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+                // }
             }
         },
         methods: {
-            loginSubmit() {
-                this.$refs['form'].validate(async valid => {
-                    if (valid) {
-                        // const loading = this.$loading({
-                        //     lock: true,
-                        //     text: '努力加载中...',
-                        //     spinner: 'el-icon-loading',
-                        //     background: 'rgba(0, 0, 0, 0.4)',
-                        // });
-                        this.loginLoading = true;
-                        const res = await this.$service.userLogin({
-                            userName: this.form.userName.trim(),
-                            password: CryptoJS.MD5(this.form.password.trim()).toString()
-                        });
-                        if (res.code === 20000) {
-                            let admin = res.data;
-                            let menus = admin.menus.map(item => {
-                                return Object.assign({}, item, {
-                                    childUrls: item.subMenus ? item.subMenus.map(c => {
-                                        return c.url
-                                    }) : []
-                                })
-                            });
-                            this.$store.commit('setAdmin', admin);
-                            this.$store.commit('setMenuList', menus);
-                            localStorage.setItem('admin', JSON.stringify(admin));
-                            localStorage.setItem('menuList', JSON.stringify(menus));
-                            // menus.map(item => {
-                            //     if (item.url && item.url === '/daily-list.html') {
-                            //         localStorage.setItem('activeMenuId', item.id);
-                            //         localStorage.removeItem('activeSubMenuId');
-                            //     }
-                            // });
-                            this.$router.push('/index.html')
-                        } else {
-                            this.$notify.error({
-                                title: '提示',
-                                message: res.message ? res.message : '登录失败',
-                            })
-                        }
-                        // loading.close()
-                        this.loginLoading = false;
+            handleChecked(value) {
+                localStorage.setItem('remember_password_checked', value);
+            },
+            async loginSubmit() {
+                if (this.form.userName.trim() === '') {
+                    this.$message({
+                        message: '请输入用户名',
+                        type: 'warning',
+                        duration: 1000
+                    });
+                    return false;
+                }
+                if (this.form.password.trim() === '') {
+                    this.$message({
+                        message: '请输入密码',
+                        type: 'warning',
+                        duration: 1000
+                    });
+                    return false;
+                }
+                this.loginLoading = true;
+                const res = await this.$service.userLogin({
+                    userName: this.form.userName.trim(),
+                    password: CryptoJS.MD5(this.form.password.trim()).toString()
+                });
+                if (res.code === 20000) {
+                    let admin = res.data;
+                    let menus = admin.menus.map(item => {
+                        return Object.assign({}, item, {
+                            childUrls: item.subMenus ? item.subMenus.map(c => {
+                                return c.url
+                            }) : []
+                        })
+                    });
+                    this.$store.commit('setAdmin', admin);
+                    this.$store.commit('setMenuList', menus);
+                    localStorage.setItem('admin', JSON.stringify(admin));
+                    localStorage.setItem('menuList', JSON.stringify(menus));
+                    if (this.rememberPassword) {
+                        localStorage.setItem('remember_userName', this.form.userName.trim());
+                        localStorage.setItem('remember_password', this.form.password.trim());
                     } else {
-                        this.$notify.error({
-                            title: '提示',
-                            message: '登录失败',
-                        });
-                        return false
+                        localStorage.removeItem('remember_userName');
+                        localStorage.removeItem('remember_password');
                     }
-                })
+                    // menus.map(item => {
+                    //     if (item.url && item.url === '/daily-list.html') {
+                    //         localStorage.setItem('activeMenuId', item.id);
+                    //         localStorage.removeItem('activeSubMenuId');
+                    //     }
+                    // });
+                    this.$router.push('/index.html')
+                } else {
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '登录失败',
+                    })
+                }
+                this.loginLoading = false;
             },
             enterKey(event) {
                 const componentName = this.$options.name;

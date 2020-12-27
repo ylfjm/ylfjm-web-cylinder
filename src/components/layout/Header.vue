@@ -180,6 +180,11 @@
                 if (res.code === 20000) {
                     this.postList = res.data || [];
                     this.switchCommand(this.admin.postCode.split(',')[0]);
+                } else {
+                    this.$notify.error({
+                        title: '提示',
+                        message: res.message ? res.message : '搜索失败',
+                    })
                 }
             },
         },
