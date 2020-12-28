@@ -622,8 +622,8 @@
                 tableList: [],
                 adminList: [],
                 projectList: [],
-                projectId: '',
-                projectName: '',
+                projectId: localStorage.getItem('remember_task_project_id') ? Number(localStorage.getItem('remember_task_project_id')) : null,
+                projectName: localStorage.getItem('remember_task_project_name'),
                 searchLoading: false,
 
                 currentPostCode: localStorage.getItem('currentPostCode'),
@@ -641,6 +641,8 @@
                     if (item.id === command) {
                         this.projectId = item.id;
                         this.projectName = item.name;
+                        localStorage.setItem('remember_task_project_id', this.projectId);
+                        localStorage.setItem('remember_task_project_name', this.projectName);
                         this.searchCommon();
                         return;
                     }
@@ -1035,9 +1037,16 @@
             const res = await this.$service.getProjectList({status: 'doing', pageNum: 1, pageSize: 10000});
             if (res.code === 20000) {
                 this.projectList = res.data.result || [];
-                if (this.projectList && this.projectList.length > 0) {
-                    this.projectId = this.projectList[0].id;
-                    this.projectName = this.projectList[0].name;
+                let rememberProjectId = localStorage.getItem('remember_task_project_id');
+                let rememberProjectName = localStorage.getItem('remember_task_project_name');
+                console.log('111---' + rememberProjectId+'---222---'+rememberProjectName);
+                if (rememberProjectId == null || rememberProjectId === '') {
+                    if (this.projectList && this.projectList.length > 0) {
+                        this.projectId = this.projectList[0].id;
+                        this.projectName = this.projectList[0].name;
+                        localStorage.setItem('remember_task_project_id', this.projectId);
+                        localStorage.setItem('remember_task_project_name', this.projectName);
+                    }
                 }
             }
             this.getAdminList();
