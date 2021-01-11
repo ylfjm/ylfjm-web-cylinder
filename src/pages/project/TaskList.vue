@@ -567,7 +567,7 @@
         data() {
             return {
                 formSearch: {
-                    searchType: 'notClosed',
+                    searchType: localStorage.getItem('remember_task_searchType'),
                     pageNum: 1,
                     pageSize: 15,
                     idSortBy: null,
@@ -651,7 +651,8 @@
             onSearch(searchType) {
                 this.formSearch.pageNum = 1;
                 this.formSearch.searchType = searchType;
-                this.searchCommon()
+                localStorage.setItem('remember_task_searchType', searchType);
+                this.searchCommon();
             },
             //分页
             handleCurrentChange(pageNum) {
@@ -1039,7 +1040,7 @@
                 this.projectList = res.data.result || [];
                 let rememberProjectId = localStorage.getItem('remember_task_project_id');
                 let rememberProjectName = localStorage.getItem('remember_task_project_name');
-                console.log('111---' + rememberProjectId+'---222---'+rememberProjectName);
+                // console.log('111---' + rememberProjectId+'---222---'+rememberProjectName);
                 if (rememberProjectId == null || rememberProjectId === '') {
                     if (this.projectList && this.projectList.length > 0) {
                         this.projectId = this.projectList[0].id;
