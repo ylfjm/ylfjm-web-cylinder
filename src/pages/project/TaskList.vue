@@ -567,9 +567,9 @@
         data() {
             return {
                 formSearch: {
-                    searchType: localStorage.getItem('remember_task_searchType'),
-                    pageNum: 1,
-                    pageSize: 15,
+                    searchType: localStorage.getItem('remember_task_searchType') ? localStorage.getItem('remember_task_searchType') : 'notClosed',
+                    pageNum: localStorage.getItem('remember_task_pageNum') ? localStorage.getItem('remember_task_pageNum') : 1,
+                    pageSize: localStorage.getItem('remember_task_pageSize') ? localStorage.getItem('remember_task_pageSize') : 15,
                     idSortBy: null,
                     priSortBy: null,
                     statusSortBy: null,
@@ -651,17 +651,21 @@
             onSearch(searchType) {
                 this.formSearch.pageNum = 1;
                 this.formSearch.searchType = searchType;
-                localStorage.setItem('remember_task_searchType', searchType);
+                localStorage.setItem('remember_task_pageNum', this.formSearch.pageNum);
+                localStorage.setItem('remember_task_searchType', this.formSearch.searchType);
                 this.searchCommon();
             },
             //分页
             handleCurrentChange(pageNum) {
                 this.formSearch.pageNum = pageNum;
+                localStorage.setItem('remember_task_pageNum', this.formSearch.pageNum);
                 this.searchCommon()
             },
             handleSizeChange(pageSize) {
                 this.formSearch.pageNum = 1;
                 this.formSearch.pageSize = pageSize;
+                localStorage.setItem('remember_task_pageNum', this.formSearch.pageNum);
+                localStorage.setItem('remember_task_pageSize', this.formSearch.pageSize);
                 this.searchCommon()
             },
             async searchCommon() {
@@ -697,6 +701,8 @@
                 if (res.code === 20000) {
                     this.formSearch.pageNum = res.data.pageNum;
                     this.formSearch.pageSize = res.data.pageSize;
+                    localStorage.setItem('remember_task_pageNum', this.formSearch.pageNum);
+                    localStorage.setItem('remember_task_pageSize', this.formSearch.pageSize);
                     this.total = res.data.total;
                     this.pages = res.data.pages;
                     this.tableList = res.data.result || [];
@@ -1050,7 +1056,11 @@
                     }
                 }
             }
-            this.getAdminList();
+            // this.getAdminList();
+            const res1 = await this.$service.getAdminList({pageNum: 1, pageSize: 10000});
+            if (res1.code === 20000) {
+                this.adminList = res1.data.result || [];
+            }
             this.searchCommon();
         },
         mounted() {

@@ -2,7 +2,7 @@
     <header id="header">
         <div id="mainHeader">
             <div class="container">
-                <h1 id="headerName">软件研发管理系统</h1>
+                <h1 id="headerName">瓦刀</h1>
                 <nav id="menuBar">
                     <ul>
                         <template v-for="menu in menuList">
