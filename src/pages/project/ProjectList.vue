@@ -68,7 +68,8 @@
                         label="进度"
                 >
                     <template slot-scope="scope">
-                        <el-progress :stroke-width="8" :percentage="scope.row.percentage" :color="scope.row.percentage === 100 ? '#67C23A' : '#409EFF'"></el-progress>
+                        <el-progress :stroke-width="8" :percentage="scope.row.percentage"
+                                     :color="scope.row.percentage === 100 ? '#67C23A' : '#409EFF'"></el-progress>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -189,7 +190,13 @@
                         if (item.begin) {
                             item.begin = moment(item.begin).format('YYYY-MM-DD');
                         }
-                        item.restDays = commonUtil.countWorkDays(new Date(moment(moment().format('YYYY-MM-DD')).format('YYYY-MM-DD HH:mm:ss')), new Date(moment(item.end).format('YYYY-MM-DD HH:mm:ss')));
+                        let tempDate1 = new Date(item.begin);
+                        let tempDate2 = new Date();
+                        let startDate = tempDate2 < tempDate1 ? tempDate1 : tempDate2;
+                        if (tempDate2 < tempDate1) {
+                            startDate = tempDate1;
+                        }
+                        item.restDays = commonUtil.countWorkDays(new Date(moment(moment(startDate).format('YYYY-MM-DD')).format('YYYY-MM-DD HH:mm:ss')), new Date(moment(item.end).format('YYYY-MM-DD HH:mm:ss')));
                         item.percentage = Math.round((item.days - item.restDays) / item.days * 100);
                     })
                 } else {

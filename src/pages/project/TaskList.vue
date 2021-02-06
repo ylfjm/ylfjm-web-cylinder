@@ -19,6 +19,7 @@
             <a @click="onSearch('notClosed')" :class="formSearch.searchType === 'notClosed' ? 'link-btn link-btn-active' : 'link-btn'">未关闭</a>
             <a @click="onSearch('assignMe')" :class="formSearch.searchType === 'assignMe' ? 'link-btn link-btn-active' : 'link-btn'">我参与的</a>
             <a @click="onSearch('doing')" :class="formSearch.searchType === 'doing' ? 'link-btn link-btn-active' : 'link-btn'">进行中</a>
+            <a @click="onSearch('devDone')" :class="formSearch.searchType === 'devDone' ? 'link-btn link-btn-active' : 'link-btn'">开发完成</a>
             <a @click="onSearch('done')" :class="formSearch.searchType === 'done' ? 'link-btn link-btn-active' : 'link-btn'">已完成</a>
             <a @click="onSearch('cancel')" :class="formSearch.searchType === 'cancel' ? 'link-btn link-btn-active' : 'link-btn'">已取消</a>
             <a @click="onSearch('closed')" :class="formSearch.searchType === 'closed' ? 'link-btn link-btn-active' : 'link-btn'">已关闭</a>
@@ -148,6 +149,7 @@
                 >
                     <template slot-scope="scope">
                         <div v-if="scope.row.status === 'doing'" style="color: #ff5d5d;">进行中</div>
+                        <div v-if="scope.row.status === 'devDone'" style="color: #00AA55;">开发完成</div>
                         <div v-if="scope.row.status === 'done'" style="color: #00AA55;">已完成</div>
                         <div v-if="scope.row.status === 'cancel'" style="color: #AAAAAA;">已取消</div>
                         <div v-if="scope.row.status === 'closed'" style="color: #AAAAAA;">已关闭</div>
