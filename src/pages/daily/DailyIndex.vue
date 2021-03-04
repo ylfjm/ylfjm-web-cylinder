@@ -2,22 +2,23 @@
     <div class="container">
         <div class="panel">
             <div class="panel-body">
-                <el-timeline>
-                    <template v-for="item in tableList">
-                        <el-timeline-item :timestamp="item.date" placement="top" size="large" type="primary">
-                            <el-card>
-                                <div v-for="(p, i) in item.projectList">
-                                    <div class="daily-project-name">{{getNumber1(i) + p.name}}</div>
-                                    <div class="daily-project-body">
-                                        <div v-for="(c, j) in p.contentList">
-                                            <div class="daily-content">{{getNumber2(j) + c.content + getPostName(c.postCode) + '；'}}</div>
-                                        </div>
+                <template v-for="(item, idx) in tableList">
+                    <div style="position:relative;padding-left:180px;margin-top:20px;">
+                        <div :class="idx === 0 ? 'dynamic-date border-blue' : 'dynamic-date border-eee'">
+                            {{item.date}}
+                        </div>
+                        <div :class="idx === 0 ? 'border-blue' : 'border-eee'" style="padding: 15px 30px;">
+                            <div v-for="(p, i) in item.projectList">
+                                <div class="daily-project-name">{{getNumber1(i) + p.name}}</div>
+                                <div class="daily-project-body">
+                                    <div v-for="(c, j) in p.contentList">
+                                        <div class="daily-content">{{getNumber2(j) + c.content + getPostName(c.postCode) + '；'}}</div>
                                     </div>
                                 </div>
-                            </el-card>
-                        </el-timeline-item>
-                    </template>
-                </el-timeline>
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
         <div class="pagination_box">
@@ -131,16 +132,48 @@
     }
 
     .daily-project-body {
-        margin: 10px 30px 20px 30px;
+        margin: 10px 30px 10px 30px;
     }
 
     .daily-content {
         font-size: 15px;
     }
 
-    /deep/ .el-timeline-item__timestamp {
-        font-size: 18px;
-        padding-top: 2px;
-        color: #409EFF;
+    .dynamic-date {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 150px;
+        font-size: 16px;
+        border: 2px solid #00a9fc;
+        border-radius: 4px;
+        padding-left: 30px;
+        height: 58px;
+        line-height: 54px;
+    }
+
+    .dynamic-date:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        right: -32px;
+        top: 26px;
+        height: 2px;
+        width: 30px;
+        background-color: #eee;
+    }
+
+    .border-blue {
+        border: 2px solid #00a9fc;
+        border-radius: 4px;
+    }
+
+    .border-blue:before {
+        background-color: #00a9fc;
+    }
+
+    .border-eee {
+        border: 2px solid #eee;
+        border-radius: 4px;
     }
 </style>
