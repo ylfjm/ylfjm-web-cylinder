@@ -27,7 +27,7 @@ ElementUI.Dialog.props.lockScroll.default = false;
 // 分页默认
 ElementUI.Pagination.props.layout.default = "total, sizes, prev, pager, next";
 ElementUI.Pagination.props.pageSizes.default = function () {
-    return [2, 15, 20, 30, 50, 100];
+    return [5, 15, 20, 30, 50, 100];
 };
 
 ElementUI.Tooltip.props.enterable.default = false;
