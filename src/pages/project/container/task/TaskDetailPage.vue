@@ -286,6 +286,7 @@
                             message: '删除成功',
                             duration: 2000
                         });
+                        this.$router.push('/task-list.html')
                     } else {
                         this.$notify.error({
                             title: '提示',
